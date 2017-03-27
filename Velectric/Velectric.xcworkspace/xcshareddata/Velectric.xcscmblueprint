@@ -1,0 +1,25 @@
+{
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "ba14b9b0-c4d4-45af-a2c7-47ee5c60d57f++3501",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "ba14b9b0-c4d4-45af-a2c7-47ee5c60d57f++3501" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "ba14b9b0-c4d4-45af-a2c7-47ee5c60d57f++3501" : 9223372036854775807
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "35BF1B66-D238-4119-BE06-03F1450D1F14",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "ba14b9b0-c4d4-45af-a2c7-47ee5c60d57f++3501" : "Velectric\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Velectric",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Velectric.xcworkspace",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "svn:\/\/192.168.1.5",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "ba14b9b0-c4d4-45af-a2c7-47ee5c60d57f++3501"
+    }
+  ]
+}

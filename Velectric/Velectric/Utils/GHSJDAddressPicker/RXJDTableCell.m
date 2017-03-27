@@ -1,0 +1,100 @@
+//
+//  RXJDTableCell.m
+//  RXExtenstion
+//
+//  Created by srx on 16/8/8.
+//  Copyright © 2016年 https://github.com/srxboys. All rights reserved.
+//
+
+#define V_S_W  [[UIScreen mainScreen] bounds].size.width
+#define Fit_Width [UIScreen mainScreen].bounds.size.width/375
+
+#import "RXJDTableCell.h"
+#import "RXHexColor.h"
+#define UIColorHexStr(_color) [RXHexColor colorWithHexString:_color]
+
+@interface RXJDTableCell ()
+{
+    UILabel     * _titleLabel;
+    UIImageView * _selectImgView;
+    CGFloat       _imgWidth;
+    CGFloat       _imgHeight;
+    CGFloat       _imgTop;
+    UIView      *_separateLine;
+}
+@end
+
+@implementation RXJDTableCell
+
+- (void)awakeFromNib {
+    [super awakeFromNib];
+    // Initialization code
+    [self configUI];
+}
+
+- (void)configUI {
+    [self ifViewAlloc];
+    
+    _titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, self.bounds.size.width, cellHeight)];
+    _titleLabel.text = @"";
+    _titleLabel.font = [UIFont systemFontOfSize:14];
+    _titleLabel.textColor = UIColorHexStr(@"333333");
+    [self.contentView addSubview:_titleLabel];
+    
+    _imgWidth = 12;
+    _imgHeight = 12;
+    _imgTop = (cellHeight - _imgHeight)/2.0;
+    _selectImgView = [[UIImageView alloc] initWithFrame:CGRectMake(0, _imgTop, _imgWidth, _imgHeight)];
+    _selectImgView.image = [UIImage imageNamed:@"selected"];
+    _selectImgView.hidden = YES;
+    [self.contentView addSubview:_selectImgView];
+    
+    _separateLine = [[UIView alloc] initWithFrame:CGRectMake(0, 30, V_S_W, 0.5)];
+    _separateLine.backgroundColor = [UIColor lightGrayColor];
+    [self.contentView addSubview:_separateLine];
+    
+    self.selectionStyle = UITableViewCellSelectionStyleNone;
+}
+
+- (void)ifViewAlloc {
+    if(_titleLabel) {
+        [_titleLabel removeFromSuperview];
+        _titleLabel = nil;
+    }
+    
+    if(_selectImgView) {
+        [_selectImgView removeFromSuperview];
+        _selectImgView = nil;
+    }
+}
+
+
+- (void)setSelected:(BOOL)selected animated:(BOOL)animated {
+//    [super setSelected:selected animated:animated];
+
+}
+
+- (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier {
+    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
+    if(self) {
+        [self configUI];
+    }
+    return self;
+}
+
+- (void)setCellTitle:(NSString *)title isSelected:(BOOL)isSelected {
+    if(isSelected) {
+        _titleLabel.textColor = UIColorHexStr(@"ef0000");
+        _titleLabel.text = title;
+
+        _selectImgView.frame = CGRectMake(V_S_W - 40, _imgTop, _imgWidth, _imgHeight);
+        _selectImgView.hidden = NO;
+    }
+    else {
+        _titleLabel.textColor = UIColorHexStr(@"333333");
+        _titleLabel.text = title;
+        _selectImgView.hidden = YES;
+    }
+}
+
+@end

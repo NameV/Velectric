@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2659" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell" id="KGk-i7-Jjw" customClass="ForgetPassCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="UserPic" translatesAutoresizingMaskIntoConstraints="NO" id="tbN-2z-djh">
+                        <rect key="frame" x="11" y="8" width="20" height="24"/>
+                    </imageView>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="uc7-82-lUQ">
+                        <rect key="frame" x="45" y="5" width="267" height="30"/>
+                        <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="uc7-82-lUQ" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="5" id="IJk-JE-dkZ"/>
+                    <constraint firstItem="uc7-82-lUQ" firstAttribute="leading" secondItem="tbN-2z-djh" secondAttribute="trailing" constant="14" id="NpG-b2-06Q"/>
+                    <constraint firstItem="tbN-2z-djh" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="11" id="XvH-oE-hjG"/>
+                    <constraint firstAttribute="bottom" secondItem="uc7-82-lUQ" secondAttribute="bottom" constant="8" id="ikw-NT-TMa"/>
+                    <constraint firstAttribute="trailing" secondItem="uc7-82-lUQ" secondAttribute="trailing" constant="8" id="n2z-hx-jLP"/>
+                    <constraint firstItem="tbN-2z-djh" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="topMargin" id="xME-Iy-zWU"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="headImage" destination="tbN-2z-djh" id="PeN-5a-o5J"/>
+                <outlet property="numberField" destination="uc7-82-lUQ" id="8EY-95-0eB"/>
+            </connections>
+            <point key="canvasLocation" x="51" y="-40"/>
+        </tableViewCell>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cell2" id="GG7-xm-4o5" customClass="ForgetPassCell">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="GG7-xm-4o5" id="iL7-k3-lbn">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="UserPic" translatesAutoresizingMaskIntoConstraints="NO" id="WJ0-NU-pAN">
+                        <rect key="frame" x="11" y="8" width="20" height="24"/>
+                    </imageView>
+                    <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="wlv-2M-clz">
+                        <rect key="frame" x="45" y="5" width="267" height="30"/>
+                        <color key="textColor" red="0.59999999999999998" green="0.59999999999999998" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                        <textInputTraits key="textInputTraits"/>
+                    </textField>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="O3B-Di-730">
+                        <rect key="frame" x="218" y="6" width="92" height="31"/>
+                        <state key="normal" title="获取验证码" backgroundImage="LoginjuXingPic">
+                            <color key="titleColor" cocoaTouchSystemColor="darkTextColor"/>
+                        </state>
+                        <connections>
+                            <action selector="getBtnToch:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="hPj-sL-8GG"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="WJ0-NU-pAN" firstAttribute="leading" secondItem="iL7-k3-lbn" secondAttribute="leading" constant="11" id="2pe-9Y-pZV"/>
+                    <constraint firstAttribute="bottom" secondItem="O3B-Di-730" secondAttribute="bottom" constant="6" id="40n-zr-zT5"/>
+                    <constraint firstAttribute="trailing" secondItem="O3B-Di-730" secondAttribute="trailing" constant="10" id="LyJ-gp-3Rr"/>
+                    <constraint firstAttribute="bottom" secondItem="wlv-2M-clz" secondAttribute="bottom" constant="8" id="bNJ-c5-Har"/>
+                    <constraint firstAttribute="bottomMargin" secondItem="WJ0-NU-pAN" secondAttribute="bottom" constant="3" id="bcB-Uu-vKm"/>
+                    <constraint firstItem="wlv-2M-clz" firstAttribute="leading" secondItem="WJ0-NU-pAN" secondAttribute="trailing" constant="14" id="mIl-iD-wpf"/>
+                    <constraint firstItem="wlv-2M-clz" firstAttribute="top" secondItem="iL7-k3-lbn" secondAttribute="top" constant="5" id="pke-Ua-tWL"/>
+                    <constraint firstAttribute="trailing" secondItem="wlv-2M-clz" secondAttribute="trailing" constant="8" id="pqB-w9-ukM"/>
+                    <constraint firstItem="O3B-Di-730" firstAttribute="top" secondItem="iL7-k3-lbn" secondAttribute="top" constant="6" id="uro-qs-U8T"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="getBtncode" destination="O3B-Di-730" id="9uf-IJ-Lcy"/>
+                <outlet property="headImage" destination="WJ0-NU-pAN" id="YoP-J4-DUg"/>
+                <outlet property="numberField" destination="wlv-2M-clz" id="CQL-ng-TIk"/>
+            </connections>
+            <point key="canvasLocation" x="51" y="-40"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="LoginjuXingPic" width="85" height="30"/>
+        <image name="UserPic" width="20" height="24"/>
+    </resources>
+</document>

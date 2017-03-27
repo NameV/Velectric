@@ -1,0 +1,399 @@
+//
+//  HSearchView.m
+//  Velectric
+//
+//  Created by hongzhou on 2016/12/16.
+//  Copyright © 2016年 hongzhou. All rights reserved.
+//
+
+#import "HSearchView.h"
+#import "HsearchModel.h"
+#import "CommodityTableViewController.h"
+#import "FactoryViewController.h"
+#import "BrandsModel.h"
+@implementation HSearchView{
+    BOOL _noResult;
+}
+
+- (id)initWithFrame:(CGRect)frame{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self creatUIsearchView:(self)];
+    }
+    return self;
+}
+
+-(void)reloadTableviewFieldText:(NSString *)fieldText{
+//    if (self.isSearch) {
+//        self.tableView.hidden=YES;
+//        self.tableView1.hidden =NO;
+//    }else{
+//        self.tableView.hidden=NO;
+//        self.tableView1.hidden =YES;
+//    }
+//    self.tableView.hidden=YES;
+//    self.tableView1.hidden =NO;
+    
+    _searchStr = fieldText;
+    [self searchNetWorking:fieldText];
+}
+#pragma mark 搜索的网络请求
+-(void)searchNetWorking:(NSString *)searchStr
+{
+    
+    NSString *urlString = [NSString stringWithFormat:@"%@?searchWord=%@",GetSuggestURL,searchStr];
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    
+    [SYNetworkingManager GetOrPostNoBodyWithHttpType:1 WithURLString:urlString parameters:nil success:^(NSDictionary *responseObject) {
+        ELog(@"成功");
+        [self.dataArray removeAllObjects];//清除老的数据
+        NSArray * arraydic =(NSArray *)responseObject;
+        for (NSDictionary *dic in arraydic) {
+            HsearchModel * model = [[HsearchModel alloc]init];
+            [model setValuesForKeysWithDictionary:dic];
+            [self.dataArray addObject:model];
+        }
+        if (self.dataArray.count==0) {
+//            self.nilView.hidden = NO;
+            _noResult = YES;
+            [self searchRecommendedRequestWithText:searchStr];
+        }else{
+//            self.nilView.hidden = YES;
+            _noResult = NO;
+        }
+        self.tableView1.frame= CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        [self.tableView1 reloadData];
+    } failure:^(NSError *error) {
+        ELog(@"失败");
+        [VJDProgressHUD showTextHUD:@"网络连接异常，请重试"];
+    }];
+    
+}
+
+//搜索无结果推荐列表 请求
+- (void)searchRecommendedRequestWithText:(NSString *)text {
+
+    NSString *urlString = @"";
+    urlString = [NSString stringWithFormat:@"%@?keyWords=%@&&pageSize=%@",SearchRecommendedUrl,text,@6];
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [SYNetworkingManager GetOrPostWithHttpType:1
+                                 WithURLString:urlString
+                                    parameters:nil
+                                       success:^(NSDictionary *responseObject) {
+                                           
+                                           [self.dataArray removeAllObjects];//清除老的数据
+                                           
+                                               NSArray * arraydic = responseObject[@"result"];
+                                               for (NSDictionary *dic in arraydic) {
+                                                   HsearchModel * model = [[HsearchModel alloc]init];
+                                                   model.productName = dic[@"productName_ik"];
+                                                   model.productId = dic[@"id"];
+                                                   [self.dataArray addObject:model];
+                                                   self.tableView1.frame= CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+                                                   [self.tableView1 reloadData];
+                                               }
+                                           
+                                           
+                                       } failure:^(NSError *error) {
+                                           NSLog(@"%@",error);
+                                       }];
+}
+
+-(void)creatUIsearchView:(UIView *)view
+{
+    self.dataArray = [NSMutableArray array];
+    /*
+    UIView * headerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 85)];
+    self.headerView = headerView;
+    headerView.backgroundColor = [UIColor whiteColor];
+    UIImageView * imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 0, 15, 15)];
+    UILabel * hotLable =[[UILabel alloc]initWithFrame:CGRectMake(30, 0, 40, 15)];
+    //积分、商城、活动
+    MineTopCollectionView *topCollectionV = [MineTopCollectionView collectionView];
+    topCollectionV.mtDelegate = self;
+    [headerView addSubview:topCollectionV];
+    [topCollectionV mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.equalTo(headerView).offset(5);
+        make.top.equalTo(headerView).offset(18);
+        make.height.offset(50);
+    }];
+    hotLable.text = @"热搜";
+    [headerView addSubview:hotLable];
+    imageView.image = [UIImage imageNamed:@"HoT"];
+    [headerView addSubview:imageView];
+    
+    UIView * aView = [[UIView alloc]initWithFrame:CGRectMake(0, 75, SCREEN_WIDTH, 20)];
+    aView.backgroundColor = RGBColor(241, 241, 241);
+    [headerView addSubview:aView];
+    
+    
+    UITableView * tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 10, SCREEN_WIDTH, SCREEN_HEIGHT) style:UITableViewStyleGrouped];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    self.tableView = tableView;
+    self.tableView.tableHeaderView = headerView;
+//    [self addSubview:tableView];
+    */
+    UITableView * tableView1 = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0) style:UITableViewStylePlain];
+    tableView1.delegate = self;
+    tableView1.dataSource = self;
+    self.tableView1 = tableView1;
+    [self addSubview:tableView1];
+    self.tableView1.hidden =NO;
+    self.backgroundColor = [UIColor whiteColor];
+    
+    UIView * nilView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 60)];
+    [self addSubview:nilView];
+    nilView.backgroundColor = RGBColor(247, 247, 247);
+    self.nilView = nilView;
+    self.nilView.hidden = YES;
+    UIImageView * imageNoPic = [[UIImageView alloc]initWithFrame:CGRectMake(nilView.width*0.5-50, nilView.height*0.5-10, 20, 20)];
+    imageNoPic.image = [UIImage imageNamed:@"wupipeijieguoicon"];
+    [nilView addSubview:imageNoPic];
+    [nilView bringSubviewToFront:tableView1];
+    UILabel * alable = [[UILabel alloc]initWithFrame:CGRectMake(imageNoPic.origin.x+25,nilView.height*0.5-10 , 80, 20)];
+    [nilView addSubview:alable];
+    alable.textColor = COLOR_F2B602;
+    alable.text = @"无匹配结果";
+    alable.font = [UIFont systemFontOfSize:15];
+}
+
+-(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    
+    return self.dataArray.count;
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    /*if (tableView==self.tableView1) {
+        return 1;
+    }else{
+        return 2;
+    }*/
+    return 1;
+}
+
+-(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    HsearchModel * model = _dataArray[indexPath.row];
+    static NSString * identifier = @"ID";
+    publicCell * cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    if (!cell) {
+        cell = [[[NSBundle mainBundle]loadNibNamed:@"publicCell" owner:self options:nil]lastObject];
+    }
+    /*
+    UILabel * numberLable = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-120, 0, 70, 40)];
+    numberLable.font = [UIFont systemFontOfSize:12];
+    numberLable.textColor = [UIColor grayColor];
+    [cell.contentView addSubview:numberLable];
+    numberLable.text = @"";
+    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+    UILabel * searchtextLable = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH-120, 44)];
+    searchtextLable.font = [UIFont systemFontOfSize:13];
+    searchtextLable.text =@"";
+    [cell.contentView addSubview:searchtextLable];
+    cell.textLabel.frame = CGRectMake(0, 0, SCREEN_WIDTH-60, 44);
+    */
+    
+    if (tableView==self.tableView1) {
+        
+        if (_noResult == YES) {
+            NSString * labText = [NSString stringWithFormat:@"商品中%@",model.productName];
+            cell.searchLable.text = labText;
+            cell.categoryLble.text = [NSString stringWithFormat:@"约1个商品"];
+            return cell;
+        }
+        
+        cell.textLabel.font = [UIFont systemFontOfSize:12];
+        if (![@""isEqualToString:model.categoryId]) {
+            NSString * labText = [NSString stringWithFormat:@"%@",model.categoryTreePath];
+            NSMutableAttributedString * attributedString1= [[NSMutableAttributedString alloc]initWithString:labText];
+            [attributedString1 addAttribute:NSForegroundColorAttributeName value:RGBColor(242, 182, 42) range:[labText rangeOfString:self.searchStr]];
+            cell.searchLable.attributedText =attributedString1;
+            cell.categoryLble.text = [NSString stringWithFormat:@"分类 约%ld个商品",model.count];
+            
+        }else if (![@""isEqualToString:model.brandName]){
+            NSString * labText = [NSString stringWithFormat:@"品牌中搜索%@",model.brandName];
+            NSMutableAttributedString * attributedString1= [[NSMutableAttributedString alloc]initWithString:labText];
+            [attributedString1 addAttribute:NSForegroundColorAttributeName value:RGBColor(242, 182, 42) range:[labText rangeOfString:self.searchStr]];
+             cell.searchLable.attributedText =attributedString1;
+            cell.categoryLble.text = [NSString stringWithFormat:@"约%ld个商品",model.count];
+
+        }else if (![@""isEqualToString:model.productName]){
+            NSString * labText = [NSString stringWithFormat:@"商品中%@",model.productName];
+            NSMutableAttributedString * attributedString1= [[NSMutableAttributedString alloc]initWithString:labText];
+            [attributedString1 addAttribute:NSForegroundColorAttributeName value:RGBColor(242, 182, 42) range:[labText rangeOfString:self.searchStr]];
+             cell.searchLable.attributedText =attributedString1;
+            cell.categoryLble.text = [NSString stringWithFormat:@"约%ld个商品",model.count];
+
+        }else if (![@""isEqualToString:model.manufacturerName]){
+            NSString * labText = [NSString stringWithFormat:@"厂商中搜索%@",model.manufacturerName];
+            NSMutableAttributedString * attributedString1= [[NSMutableAttributedString alloc]initWithString:labText];
+            [attributedString1 addAttribute:NSForegroundColorAttributeName value:RGBColor(242, 182, 42) range:[labText rangeOfString:self.searchStr]];
+             cell.searchLable.attributedText =attributedString1;
+            cell.categoryLble.text = [NSString stringWithFormat:@"约%ld个商品",model.count];
+
+        }
+        
+
+    }else{
+        cell.textLabel.text=@"搜索";
+    }
+    return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section {
+    if (_noResult) {
+        return 100;
+    }else{
+        return 0.000001;
+    }
+}
+
+-(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+    if (tableView==self.tableView1) {
+        
+        if (_noResult == YES) {
+            UIView * nilView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
+            [self addSubview:nilView];
+            nilView.backgroundColor = RGBColor(247, 247, 247);
+            UIImageView * imageNoPic = [[UIImageView alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-20)/2-30, 20, 20, 20)];
+            imageNoPic.image = [UIImage imageNamed:@"wupipeijieguoicon"];
+            [nilView addSubview:imageNoPic];
+            
+            UILabel * alable = [[UILabel alloc]initWithFrame:CGRectMake(imageNoPic.origin.x+25,20 , 80, 20)];
+            [nilView addSubview:alable];
+            alable.textColor = COLOR_F2B602;
+            alable.text = @"无匹配结果";
+            alable.font = [UIFont systemFontOfSize:15];
+            
+            UIView *textView = [[UIView alloc]initWithFrame:CGRectMake(0, 60, SCREEN_WIDTH, 40)];
+            textView.backgroundColor = [UIColor whiteColor];
+            [nilView addSubview:textView];
+            
+            UILabel *messageLabel = [UILabel labelShortWithColor:V_ORANGE_COLOR font:15];
+            messageLabel.frame = CGRectMake(20, 10, SCREEN_WIDTH, 20);
+            
+            messageLabel.text = @"您要找的是不是";
+            [textView addSubview:messageLabel];
+            
+            return nilView;
+        }else{
+            return nil;
+        }
+        
+    }else{
+        UIView * headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
+        headView.backgroundColor = [UIColor whiteColor];
+        UIImageView * imageView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 25, 25)];
+        UILabel * aLable = [[UILabel alloc]initWithFrame:CGRectMake(40, 10, 100, 25)];
+        aLable.font = [UIFont systemFontOfSize:20];
+        [headView addSubview:aLable];
+        [headView addSubview:imageView];
+        if (section==0 ) {
+            imageView.image = [UIImage imageNamed:@"sousuolishi"];
+            aLable.text= @"历史搜索";
+        }else if (section==1){
+            imageView.image = [UIImage imageNamed:@"zuji"];
+            aLable.text= @"历史足迹";
+            
+        }
+        return headView;
+    }
+    
+}
+-(UIView*)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section
+{
+    if (self.tableView1==tableView) {
+        UIView * view = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT, SCREEN_WIDTH, 100)];
+        view.backgroundColor = [UIColor whiteColor];
+        return view;
+    }else {
+        UIView * headView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 30)];
+        headView.backgroundColor = [UIColor whiteColor];
+        
+        UIButton * deleBtn = [[UIButton alloc]initWithFrame:CGRectMake(130, 20, 100, 30)];
+        [deleBtn setBackgroundImage:[UIImage imageNamed:@"qingkonglishi"] forState:UIControlStateNormal];
+        
+        UIView * aView = [[UIView alloc]initWithFrame:CGRectMake(0, 70, SCREEN_WIDTH, 20)];
+        aView.backgroundColor = RGBColor(241, 241, 241);
+        [headView addSubview:deleBtn];
+        [headView addSubview:aView];
+
+        if (section==0 ) {
+            return headView;
+            }
+    }
+    return nil;
+}
+
+-(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    HsearchModel * model = _dataArray[indexPath.row];
+    if (self.delegate&&[self.delegate respondsToSelector:@selector(pushNextViewController:)]) {
+        [self.delegate pushNextViewController:model];
+    }
+    [self endEditing:YES];
+
+    /*
+    HsearchModel * model = _dataArray[indexPath.row];
+    [self endEditing:YES];
+    if (![@""isEqualToString:model.categoryId]) {//分类
+        CommodityTableViewController * commitTableiew = [[CommodityTableViewController alloc]init];
+        NSString * categoryId = [NSString stringWithFormat:@"%@",model.categoryId];
+        commitTableiew.categoryIds = @[categoryId];
+        commitTableiew.categoryName = @"";
+        [self.nav pushViewController:commitTableiew animated:YES];
+        
+        
+    }else if (![@""isEqualToString:model.brandName]){//品牌
+        FactoryViewController * factory = [[FactoryViewController alloc]init];
+        BrandsModel * brandModel = [[BrandsModel alloc]init];
+        brandModel.Id =model.brandId;
+        brandModel.name =model.brandName;
+        factory.type = @"1";
+        factory.brandsModel = brandModel;
+        [self.nav pushViewController:factory animated:YES];
+        
+    }else if (![@""isEqualToString:model.manufacturerName]){//商品
+        CommodityTableViewController * commitTableiew = [[CommodityTableViewController alloc]init];
+        [self.nav pushViewController:commitTableiew animated:YES];
+        
+    }else if (![@""isEqualToString:model.productName]){//厂商
+        FactoryViewController * factory = [[FactoryViewController alloc]init];
+        BrandsModel * brandModel = [[BrandsModel alloc]init];
+        brandModel.Id =model.manufacturerId;
+        brandModel.name =model.manufacturerName;
+        factory.brandsModel = brandModel;
+        factory.type = @"2";
+        [self.nav pushViewController:factory animated:YES];
+    }
+    
+    */
+}
+
+//-(CGFloat )tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    if (tableView==self.tableView1) {
+//        return 0;
+//    }
+//    self.tableView.tableHeaderView.frame=CGRectMake(0, 0, SCREEN_WIDTH, 85);
+//    return 40;
+//}
+-(CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
+{
+    if (self.tableView1==tableView) {
+        return 10;
+    }
+    return 80;
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 40;
+}
+
+
+
+@end

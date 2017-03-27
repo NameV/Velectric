@@ -1,0 +1,158 @@
+//
+//  Prefix-V-JIDIAN.pch
+//  Velectric
+//
+//  Created by QQ on 2016/11/18.
+//  Copyright © 2016年 LiuXiaoQin. All rights reserved.
+//
+
+#ifndef Prefix_V_JIDIAN_pch
+#define Prefix_V_JIDIAN_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+
+
+#define IOS8_OR_LATER __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_8_0
+
+#define IOS9_OR_LATER __IPHONE_OS_VERSION_MAX_ALLOWED >= __IPHONE_9_0
+
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+//常用工具
+#import "Header.h"
+#import "UrlDefine.h"
+#import "FontDefine.h"
+#import "ColorDefine.h"
+#import "AFNetworking.h"
+#import "SYNetworkingManager.h"
+#import "BaseTableView.h"
+#import "UIScrollView+VJDRefresh.h"
+#import "NSString+Category.h"
+#import "UIView+BY.h"
+#import "NSDate+BY.h"
+#import "VJDProgressHUD.h"
+#import "UMMobClick/MobClick.h"
+#import "YYModel.h"
+#import "MMPopupView.h"
+#import "Macro.h"
+
+//常用界面
+#import "BaseViewController.h"
+#import "LoginViewController.h"
+#import "loginViewFirst.h"
+#import "Masonry.h"
+#import "loginViewTwo.h"
+#import "ForgetPassController.h"
+#import "memberMeansController.h"
+#import "KGModal.h"
+#import "VelectricTabbarController.h"
+#import "PPNumberButton.h"
+#import "VJDUserManager.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "NinaPagerView.h"
+
+//分类
+#import "UILabel+USLabel.h"
+#import "UIColor+BSKit.h"
+#import "UILabel+VFont.h"
+#import "NSString+BSKit.h"
+#import "UIButton+ImageTitleSpacing.h"
+#import "NSDate+VDate.h"
+#import "NSArray+VArray.h"
+#import "NSMutableArray+VMutableArray.h"
+#import "NSDictionary+VDictionary.h"
+
+
+#define VJDWeakSelf                  typeof(self) __weak weakSelf = self
+
+//颜色
+#define RGBColor(r,g,b) [UIColor colorWithRed:r/255.0f green:g/255.0f blue:b/255.0f alpha:1]
+
+#define Fit_Width [UIScreen mainScreen].bounds.size.width/375
+#define Fit_Height [UIScreen mainScreen].bounds.size.height/667
+#define SCREEN_WIDTH ([[UIScreen mainScreen] bounds].size.width)
+#define SCREEN_HEIGHT ([[UIScreen mainScreen] bounds].size.height)
+
+//是否为iOS7
+#define iOS7 ([[UIDevice currentDevice].systemVersion doubleValue] >= 7.0 && [[UIDevice currentDevice].systemVersion doubleValue] <= 8.0)
+//是否为iOS8及以上系统
+#define iOS8 ([[UIDevice currentDevice].systemVersion doubleValue] >= 8.0)
+
+#define DOCUMENT_PATH [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject]
+#define ADDRESS_FILE_URL [DOCUMENT_PATH stringByAppendingFormat:@"/Address/%@/AddressData",GET_USER_INFO.loginName]
+
+//tab 观察者
+#define SCProductBuyCountDidChangeNotification          @"SCProductBuyCountDidChange"
+
+////订单状态值
+//typedef enum {
+//    OrderStatus_All             = 0,    //全部订单
+//    OrderStatus_WaitPay         = 1,    //待付款
+//    OrderStatus_WaitExecuse     = 2,    //待受理
+//    OrderStatus_WaitReceive     = 3,    //待收货
+//    OrderStatus_Finish          = 5,    //已关闭
+//    OrderStatus_Cancel          = 6,    //已取消
+//}OrderStatus;
+
+/*安卓状态对应
+ //    0:表示所有
+ public static final int STATE_ALL=0;
+ //    1：表示代付款(1)
+ public static final int STATE_UNPAID =1;
+ //    2：表示待受理(2)
+ public static final int STATE_UNACCEPTED =2;
+ //    3：表示待收货(4,6,9)
+ public static final int STATE_UNGOT =3;
+ //    4：表示已完成(7),已完成和已取消的时间间隔不到1s,不做区分，直接为已关闭
+ public static final int STATE_GOT =4;
+ //    5：表示已取消(10)
+ public static final int STATE_CANCELLED =5;
+ //    6：表示已关闭(11)
+ public static final int STATE_CLOSED=6;
+ */
+
+//订单状态值--yulei
+typedef enum {
+    OrderStatus_All             = 0,    //全部订单
+    OrderStatus_WaitPay         = 1,    //待付款
+    OrderStatus_WaitExecuse     = 2,    //待受理
+    OrderStatus_WaitReceive     = 3,    //待收货
+    OrderStatus_Finish          = 5,    //已关闭
+    OrderStatus_Cancel          = 6,    //已取消
+    OrderStatus_Unusual         = 7,    //异常订单
+}OrderStatus;
+
+//筛选进入方式
+typedef enum {
+    ScreeningViewEnterType1,           //首页>热门分类>筛选>有分类>二三级展示               选择分类后，请求三级分类品牌spu,请求sku
+    ScreeningViewEnterType2,           //首页>热卖商品>查看更多>筛选>有分类>一二三级展示      选择分类后，请求三级分类品牌spu,请求sku
+    ScreeningViewEnterType3,           //首页>品牌点击>筛选>有分类>第三级展示               不显示品牌
+    ScreeningViewEnterType4,           //搜索列表>关键字>有分类>一二三级展示                选择分类后，请求三级分类品牌spu,请求sku
+    ScreeningViewEnterType5,           //搜索列表>二级分类>有分类>第三级展示                请求二级分类品牌spu,请求sku
+    ScreeningViewEnterType6,           //搜索列表>三级分类>无分类                         请求三级分类品牌spu,请求sku
+    ScreeningViewEnterType7,           //搜索列表>品牌点击>筛选>有分类>第三级展示            不显示品牌
+    ScreeningViewEnterType8,           //搜索列表>厂商点击>筛选>有分类>第三级展示            不显示品牌
+    ScreeningViewEnterType9,           //分类>二级分类>有分类>第三级展示                   请求二级分类品牌spu,请求sku
+    ScreeningViewEnterType10,          //分类>三级分类>无分类                            请求三级分类品牌spu,请求sku
+}ScreeningViewEnterType;
+
+//订单状态-显示文字
+static NSString * const Order_All              = @"全部订单";
+static NSString * const Order_WaitPay          = @"待付款";
+static NSString * const Order_WaitExecuse      = @"待受理";
+static NSString * const Order_WaitReceive      = @"待收货";
+static NSString * const Order_Finish           = @"已关闭";
+static NSString * const Order_Cancel           = @"已取消";
+static NSString * const Order_Unusual          = @"异常订单";//yulei
+
+//输出日志
+#ifdef DEBUG
+
+#define ELog(...) printf("function:%s line:%d content:%s\n\n",__FUNCTION__, __LINE__, [[NSString stringWithFormat:__VA_ARGS__] UTF8String]);
+
+#else
+#define ELog(...)
+#endif
+
+#endif /* Prefix_V_JIDIAN_pch */

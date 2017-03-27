@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2659" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="ID" rowHeight="58" id="RgK-Xf-fpM" customClass="publicCell">
+            <rect key="frame" x="0.0" y="0.0" width="375" height="44"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RgK-Xf-fpM" id="9EL-Cf-RyE">
+                <rect key="frame" x="0.0" y="0.0" width="375" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="五金够不够" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Exg-9O-KdJ">
+                        <rect key="frame" x="8" y="0.0" width="267" height="43"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <nil key="textColor"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Ep-Pc-zsu">
+                        <rect key="frame" x="275" y="0.0" width="95" height="43"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                        <color key="textColor" red="0.40000000000000002" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="Exg-9O-KdJ" firstAttribute="top" secondItem="9EL-Cf-RyE" secondAttribute="top" id="Rgn-pj-zgo"/>
+                    <constraint firstAttribute="bottom" secondItem="4Ep-Pc-zsu" secondAttribute="bottom" id="URx-Dt-k8f"/>
+                    <constraint firstAttribute="bottom" secondItem="Exg-9O-KdJ" secondAttribute="bottom" id="bGt-E7-1MD"/>
+                    <constraint firstItem="Exg-9O-KdJ" firstAttribute="leading" secondItem="9EL-Cf-RyE" secondAttribute="leading" constant="8" id="hXQ-Nk-lvo"/>
+                    <constraint firstAttribute="trailing" secondItem="Exg-9O-KdJ" secondAttribute="trailing" constant="100" id="pOQ-pU-CSR"/>
+                    <constraint firstAttribute="trailing" secondItem="4Ep-Pc-zsu" secondAttribute="trailing" constant="5" id="pyt-uE-rrS"/>
+                    <constraint firstItem="4Ep-Pc-zsu" firstAttribute="top" secondItem="9EL-Cf-RyE" secondAttribute="top" id="va0-wN-sF0"/>
+                    <constraint firstItem="4Ep-Pc-zsu" firstAttribute="leading" secondItem="Exg-9O-KdJ" secondAttribute="trailing" id="wx5-PB-RjO"/>
+                </constraints>
+            </tableViewCellContentView>
+            <connections>
+                <outlet property="categoryLble" destination="4Ep-Pc-zsu" id="muU-Cz-5jE"/>
+                <outlet property="searchLable" destination="Exg-9O-KdJ" id="DnY-fm-znc"/>
+            </connections>
+            <point key="canvasLocation" x="27.5" y="51"/>
+        </tableViewCell>
+    </objects>
+</document>

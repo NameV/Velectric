@@ -1,0 +1,566 @@
+//
+//  CommodityTableViewController.m
+//  Velectric
+//
+//  Created by QQ on 2016/11/29.
+//  Copyright © 2016年 LiuXiaoQin. All rights reserved.
+//
+
+#import "CommodityTableViewController.h"
+#import "PPiFlatSegmentedControl.h"
+#import "CommodityModel.h"
+#import "CommodityTableViewCell.h"
+#import "DetailsViewController.h"
+#import "HSearchView.h"
+#import "ScreenView.h"
+#import <SDWebImage/UIImageView+WebCache.h>
+#import "SearchViewController.h"
+#import "MJRefresh.h"
+#import "SkuPropertyModel.h"
+
+
+#import "VJDToolbarView.h"          //工具栏
+#import "ScreeningView.h"           //筛选view
+
+@interface CommodityTableViewController ()<UITableViewDelegate,UITableViewDataSource,UITextFieldDelegate,ScreenViewDelegate>
+{
+    UITableView *_tableView;
+    NSMutableArray *_commodity;
+    NSMutableArray * dataArray; // tableView 的数据源
+}
+@property (nonatomic, strong)UITextField * searchField;
+@property (nonatomic, strong)HSearchView * SV;
+@property (nonatomic, strong) UIBarButtonItem * rightBotton;
+@property (nonatomic, strong)UIView * searchBar;
+@property (nonatomic, strong)ScreenView * listView;
+@property (nonatomic, strong)UIView * bgView;
+@property (nonatomic, assign)NSInteger pageNum;//分页页数
+@property (nonatomic, strong)ScreeningView * saiXuanView;//筛选的VIew
+@end
+
+@implementation CommodityTableViewController {
+    NSInteger _totalPage;//总页数
+}
+
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.view.backgroundColor = [UIColor whiteColor];
+    //请求的页码
+    self.pageNum = 1;
+    //初始化数据
+  //  [self initDataPageNum:1];
+    //初始化视图
+    [self initView];
+    //设置导航栏
+    [self setupNavigationItem];
+    //初始化数组
+    self.optionIds = [NSArray array];
+    [_tableView headerBeginRefreshing];
+    //创建筛选的View
+    ScreeningView * saiXuanView = [[ScreeningView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    self.saiXuanView = saiXuanView;
+    self.saiXuanView.enterType = self.enterType;
+    self.saiXuanView.categoryId = self.saiXuanCategoryId;
+    [saiXuanView enterType:self.enterType];
+
+}
+- (void)viewWillAppear:(BOOL)animated
+{
+   
+    [super viewWillAppear:animated];
+    [MobClick beginLogPageView:@"商品列表"];
+}
+
+- (void)initView{
+    VJDToolbarView * toolbar = [[VJDToolbarView alloc]initWithFrame:CGRectMake(0,0, self.view.frame.size.width, 40)];
+    toolbar.isChangeStatus = YES;
+    toolbar.itemsList = @[@{@"text":@"默认"},
+                          @{@"text":@"价格",@"icon":@"orderbyno"},
+                          @{@"text":@"销量"},
+                          @{@"text":@"筛选",@"icon":@"shuaixuan"}
+                          ];
+    [self.view addSubview:toolbar];
+    toolbar.toolbarViewBlock = ^(NSInteger clickInxex,NSInteger orderby){
+        if (clickInxex == 0) {
+            self.sort = @"";
+         //   [self initDataPageNum:1];
+            [_tableView headerBeginRefreshing];
+        }else if (clickInxex == 1){
+            self.sort = @"minProductPrice";
+            if (toolbar.orderByType ==OrderBy_Up) {//升序
+                self.sortDirection =@"asc";
+               // [self initDataPageNum:1];
+                [_tableView headerBeginRefreshing];
+            }if ((toolbar.orderByType==OrderBy_Down)) {//降序
+                self.sortDirection =@"desc";
+              //  [self initDataPageNum:1];
+                [_tableView headerBeginRefreshing];
+            }
+        }else if (clickInxex == 2){
+         
+
+        }else if (clickInxex == 3){
+            
+            [self.view.window addSubview:self.saiXuanView];
+            [UIView animateWithDuration:0.3 animations:^{
+                self.saiXuanView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+            }];
+            self.saiXuanView.screeningBlcok =^(NSMutableArray * brandsList,NSMutableArray * properyList,NSString * lowPrice,NSString * highPrice){
+                NSString * idStr =nil;
+                for (BrandsModel * idModel in brandsList) {
+                    if (idStr) {
+                        idStr = [NSString stringWithFormat:@"%@&brandNames=%@",idStr,idModel.brandName];
+                    }else{
+                        idStr = [NSString stringWithFormat:@"%@", idModel.brandName];
+                    }
+                }
+                
+                NSString * skuId =nil;
+                for ( PropertyModel* idModel in properyList) {
+                    if (skuId) {
+                        skuId = [NSString stringWithFormat:@"%@&optionIds=%@",idModel.properyId,skuId];
+                    }else{
+                        skuId =idModel.properyId;
+                    }
+                }
+                self.properyId = skuId;
+                self.brandNameStr = idStr;
+                self.minPrice = lowPrice;
+                self.maxPrice = highPrice;
+                [self initDataPageNum:1];
+            };
+        }
+    };
+    
+    //创建一个分组样式的UITableView
+    _tableView=[[UITableView alloc]initWithFrame:CGRectMake(0, 40, SCREEN_WIDTH, SCREEN_HEIGHT-65) style:UITableViewStylePlain];
+    //设置数据源，注意必须实现对应的UITableViewDataSource协议
+    _tableView.dataSource=self;
+    //设置代理
+    _tableView.delegate=self;
+    _tableView.separatorColor = [UIColor clearColor];
+  //  _tableView.rowHeight = 120;
+    [_tableView headerBeginRefreshing];
+    [_tableView footerBeginRefreshing];
+    [_tableView addFooterWithTarget:self action:@selector(footerLoading)];
+    [_tableView addHeaderWithTarget:self action:@selector(initDataPageNum:)];
+    
+    _tableView.backgroundColor=RGBColor(240, 243, 245);
+    [self.view addSubview:_tableView];
+}
+
+- (void)setupNavigationItem {
+    
+    UIView * searchBar = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH-60, 30)];
+    self.searchBar = searchBar;
+    UIImageView * searchImage = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"search"]];
+    searchImage.frame = CGRectMake(0, 0, 20, 20);
+    searchBar.backgroundColor = [UIColor whiteColor];
+    searchBar.layer.cornerRadius = 5;
+    UITextField * searchField = [[UITextField alloc]initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH-60, 30)];
+    self.navigationItem.leftBarButtonItem = self.rightBotton;
+    [searchBar addSubview:searchField];
+    searchField.leftView = searchImage;
+    searchField.leftViewMode=UITextFieldViewModeAlways;
+    searchField.delegate = self;
+    [searchField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
+    
+    self.searchField = searchField;
+    searchField.placeholder = @"快速查找商品";
+    self.navigationItem.titleView =searchBar;
+    
+    HSearchView * SV = [[HSearchView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    self.SV = SV;
+    [self.view addSubview:SV];
+    [self.view bringSubviewToFront:SV];
+    self.SV.hidden = YES;
+}
+
+#pragma uitextField 的代理
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField{
+
+    SearchViewController * search = [[SearchViewController alloc]init];
+    [self.navigationController pushViewController:search animated:YES];
+    return NO;
+}
+
+-(void)footerLoading
+{
+    //当前页等于总页数， 结束刷新
+    if (self.pageNum == _totalPage) {
+        [VJDProgressHUD showTextHUD:@"没有更多了"];
+        return;
+    }
+    
+    self.pageNum = self.pageNum +1;
+    [self initDataPageNum:self.pageNum];
+}
+
+#pragma mark 加载数据
+-(void)initDataPageNum:(NSInteger )pageNum{
+    
+    if (!self.goodsName) {
+        self.goodsName = @"";
+    }
+    if (!self.brandId) {
+        self.brandId = @"";
+    }if (!self.manufacturerName) {
+        self.manufacturerName = @"";
+    }if (!self.categoryName) {
+        self.categoryName = @"";
+    }if (!self.sort) {
+        self.sort = @"";
+    }if (!self.sortDirection) {
+        self.sortDirection = @"";
+    }if (!self.manufacturerId) {
+        self.manufacturerId = @"";
+    }if (!self.brandNames) {
+        self.brandNames = @[@""];
+    }if (!self.keyWords) {
+        self.keyWords = @"";
+    }
+    
+    NSString * categoryStr = nil;
+    for (NSString * str  in self.categoryIds) {
+        if (categoryStr) {
+            categoryStr = [NSString stringWithFormat:@"%@&&%@",categoryStr,str];
+        }else{
+            categoryStr = str;
+        }
+    }
+    if (!self.categoryIdList) {
+        self.categoryIdList =@"";
+    }
+    if (!categoryStr) {
+        categoryStr = @"";
+    }
+    if (!self.minPrice) {
+        self.minPrice = @"";
+    }
+    if (!self.maxPrice) {
+        self.maxPrice = @"";
+    }
+    if (!self.brandIds) {
+        self.brandIds=@"";
+    }
+    if (!self.properyId) {
+        self.properyId=@"";
+    }
+        
+    if (_enterType==ScreeningViewEnterType2) {//热卖商品进入时的网络请求
+        [self netWorkEnterType2];
+    }
+
+    NSString * requestUrl = nil;
+    if ([@"1" isEqualToString:_fromType]) {
+        categoryStr = self.categoryIdList;
+        if (self.brandNameStr) {
+            requestUrl= [NSString stringWithFormat:@"%@?categoryIds=%@&pageNum=%ld&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@&optionIds=%@&brandNames=%@",GetSearchProductPaginationResultURL,categoryStr,(long)self.pageNum
+                         ,self.keyWords,self.minPrice,self.maxPrice,self.properyId,self.brandNameStr];
+            
+        }else{
+            requestUrl= [NSString stringWithFormat:@"%@?categoryIds=%@&pageNum=%ld&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@",GetSearchProductPaginationResultURL,categoryStr,(long)self.pageNum
+                         ,self.keyWords,self.minPrice,self.maxPrice];
+        }
+        requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [SYNetworkingManager GetOrPostNoBodyWithHttpType:1 WithURLString:requestUrl parameters:nil success:^(NSDictionary *responseObject) {
+            
+            //总分页数
+            NSString *totalPageString = responseObject[@"totalPage"];
+            _totalPage = [totalPageString integerValue];
+            
+            NSMutableArray * mutableArr = [NSMutableArray array];
+            if (self.pageNum ==1) {
+                dataArray = responseObject[@"result"];
+            }else{
+                mutableArr = [NSMutableArray arrayWithArray:dataArray];
+                dataArray = responseObject[@"result"];
+                for (NSDictionary * dic in dataArray) {
+                    [mutableArr addObject:dic];
+                }
+                if (dataArray.count<20) {
+                    [_tableView.mj_footer endRefreshingWithNoMoreData];
+                }
+                dataArray = mutableArr;
+            }
+            
+            [_tableView headerEndRefreshing];
+            [_tableView footerEndRefreshing];
+            [VJDProgressHUD dismissHUD];
+            [_tableView reloadData];
+        } failure:^(NSError *error) {
+           // [VJDProgressHUD showTextHUD:@"数据请求错误，请稍后重试"];
+            [_tableView headerEndRefreshing];
+            [_tableView footerEndRefreshing];
+        }];
+        return;
+    }else if ([@"2" isEqualToString:_fromType]) {
+        categoryStr = self.categoryIdList;
+        
+        if (self.brandNameStr) {
+            requestUrl= [NSString stringWithFormat:@"%@?pageNum=1&pageSize=20&keyWords=%@&optionIds=%@&brandNames=%@&minPrice=%@&maxPrice=%@",GetSearchProductPaginationResultURL,self.keyWords,self.properyId,self.brandNameStr,self.minPrice,self.maxPrice];
+
+        }else{
+            requestUrl= [NSString stringWithFormat:@"%@?pageNum=1&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@",GetSearchProductPaginationResultURL,self.keyWords,self.minPrice, self.maxPrice];
+
+        }
+        
+        requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [SYNetworkingManager GetOrPostNoBodyWithHttpType:1 WithURLString:requestUrl parameters:nil success:^(NSDictionary *responseObject) {
+            
+            //总分页数
+            NSString *totalPageString = responseObject[@"totalPage"];
+            _totalPage = [totalPageString integerValue];
+            
+            NSMutableArray * mutableArr = [NSMutableArray array];
+            if (self.pageNum ==1) {
+                dataArray = responseObject[@"result"];
+            }else{
+                mutableArr = [NSMutableArray arrayWithArray:dataArray];
+                dataArray = responseObject[@"result"];
+                for (NSDictionary * dic in dataArray) {
+                    [mutableArr addObject:dic];
+                }
+                if (dataArray.count<20) {
+                    [_tableView.mj_footer endRefreshingWithNoMoreData];
+                }
+                dataArray = mutableArr;
+            }
+            [_tableView headerEndRefreshing];
+            [_tableView footerEndRefreshing];
+            [VJDProgressHUD dismissHUD];
+            [_tableView reloadData];
+        } failure:^(NSError *error) {
+            [VJDProgressHUD showTextHUD:@"数据请求错误，请稍后重试"];
+            [_tableView headerEndRefreshing];
+            [_tableView footerEndRefreshing];
+            
+        }];
+        return;
+    }else if ([@"3" isEqualToString:_fromType]) {
+     //   [VJDProgressHUD showProgressHUD:@"加载中..."];
+        categoryStr = self.categoryIdList;
+        if (self.brandNameStr) {
+            requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&categoryIds=%@&sort=%@&sortDirection=%@&minPrice=%@&maxPrice=%@&optionIds=%@&brandNames=%@",GetSearchProductPaginationResultURL,self.pageNum,self.categoryIds[0],self.sort,self.sortDirection,self.minPrice,self.maxPrice,self.properyId,self.brandNameStr];
+        }else{
+            requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&categoryIds=%@&sort=%@&sortDirection=%@&minPrice=%@&maxPrice=%@",GetSearchProductPaginationResultURL,self.pageNum,self.categoryIds[0],self.sort,self.sortDirection,self.minPrice,self.maxPrice];
+            
+        }
+        
+        requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+        [SYNetworkingManager GetOrPostNoBodyWithHttpType:1 WithURLString:requestUrl parameters:nil success:^(NSDictionary *responseObject) {
+            
+            //总分页数
+            NSString *totalPageString = responseObject[@"totalPage"];
+            _totalPage = [totalPageString integerValue];
+            
+            NSMutableArray * mutableArr = [NSMutableArray array];
+            if (self.pageNum ==1) {
+                dataArray = responseObject[@"result"];
+            }else{
+                mutableArr = [NSMutableArray arrayWithArray:dataArray];
+                dataArray = responseObject[@"result"];
+                for (NSDictionary * dic in dataArray) {
+                    [mutableArr addObject:dic];
+                }
+                if (dataArray.count<20) {
+                    [_tableView.mj_footer endRefreshingWithNoMoreData];
+                }
+                dataArray = mutableArr;
+            }
+
+            [_tableView headerEndRefreshing];
+            [_tableView footerEndRefreshing];
+            [VJDProgressHUD dismissHUD];
+            [_tableView reloadData];
+        } failure:^(NSError *error) {
+            [VJDProgressHUD showTextHUD:@"数据请求错误，请稍后重试"];
+            [_tableView headerEndRefreshing];
+            [_tableView footerEndRefreshing];
+            
+        }];
+        return;
+    }else{
+        requestUrl =GetSearchProductPaginationResultURL;
+    }
+
+    
+    if (self.brandNameStr) {
+        requestUrl= [NSString stringWithFormat:@"%@?categoryIds=%@&pageNum=%ld&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@&optionIds=%@&brandNames=%@",GetSearchProductPaginationResultURL,categoryStr,(long)self.pageNum
+                     ,self.keyWords,self.minPrice,self.maxPrice,self.properyId,self.brandNameStr];
+    }else{
+        requestUrl= [NSString stringWithFormat:@"%@?categoryIds=%@&pageNum=%ld&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@&optionIds=%@",GetSearchProductPaginationResultURL,categoryStr,(long)self.pageNum
+                     ,self.keyWords,self.minPrice,self.maxPrice,self.properyId];
+    }
+    requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [SYNetworkingManager GetOrPostNoBodyWithHttpType:2 WithURLString:requestUrl parameters:nil success:^(NSDictionary *responseObject) {
+        
+        //总分页数
+        NSString *totalPageString = responseObject[@"totalPage"];
+        _totalPage = [totalPageString integerValue];
+        
+        NSMutableArray * mutableArr = [NSMutableArray array];
+        if (self.pageNum ==1) {
+            dataArray = responseObject[@"result"];
+        }else{
+            mutableArr = [NSMutableArray arrayWithArray:dataArray];
+            dataArray = responseObject[@"result"];
+            for (NSDictionary * dic in dataArray) {
+                [mutableArr addObject:dic];
+            }
+            if (dataArray.count<20) {
+                [_tableView.mj_footer endRefreshingWithNoMoreData];
+            }
+            dataArray = mutableArr;
+        }
+        
+        [_tableView headerEndRefreshing];
+        [_tableView footerEndRefreshing];
+        [VJDProgressHUD dismissHUD];
+        [_tableView reloadData];
+    } failure:^(NSError *error) {
+        [_tableView headerEndRefreshing];
+        [_tableView footerEndRefreshing];
+    }];
+    
+}
+
+#pragma mark 热卖商品进来的网络请求
+-(void)netWorkEnterType2
+{
+    NSString * requestUrl = nil;
+    if (self.brandNameStr) {
+        requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&sort=%@&sortDirection=%@&optionIds=%@&brandNames=%@",GetSearchProductPaginationResultURL,self.pageNum,self.sort,self.sortDirection,self.properyId,self.brandNameStr];
+    }else{
+         requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&sort=%@&sortDirection=%@&optionIds=%@",GetSearchProductPaginationResultURL,self.pageNum,self.sort,self.sortDirection,self.properyId];
+    }
+    
+    requestUrl = [requestUrl stringByAppendingFormat:@"%@",_categoryIdList];
+    requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [SYNetworkingManager GetOrPostNoBodyWithHttpType:1 WithURLString:requestUrl parameters:nil success:^(NSDictionary *responseObject) {
+        NSMutableArray * mutableArr = [NSMutableArray array];
+        if (self.pageNum ==1) {
+            dataArray = responseObject[@"result"];
+        }else{
+            mutableArr = [NSMutableArray arrayWithArray:dataArray];
+            dataArray = responseObject[@"result"];
+            for (NSDictionary * dic in dataArray) {
+                [mutableArr addObject:dic];
+            }
+            if (dataArray.count<20) {
+                [_tableView.mj_footer endRefreshingWithNoMoreData];
+            }
+            dataArray = mutableArr;
+        }
+        [_tableView headerEndRefreshing];
+        [_tableView footerEndRefreshing];
+        [VJDProgressHUD dismissHUD];
+        [_tableView reloadData];
+    } failure:^(NSError *error) {
+        [VJDProgressHUD showTextHUD:@"数据请求错误，请稍后重试"];
+        [_tableView headerEndRefreshing];
+        [_tableView footerEndRefreshing];
+        
+    }];
+}
+#pragma ScreenViewDelegate 的代理方法
+
+-(void)backRootViewController
+{
+    [self.bgView removeFromSuperview];
+}
+-(void)sendAndBack
+{
+    [self.bgView removeFromSuperview];
+}
+#pragma mark 返回的组数
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+#pragma mark 返回每组行数
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    return _commodity.count;
+    return dataArray.count;
+}
+
+#pragma mark返回每行的单元格
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    static NSString *cellIdentifier=@"Cell";
+    CommodityTableViewCell * cell=[tableView dequeueReusableCellWithIdentifier:cellIdentifier];
+    if(cell==nil){
+        cell=[[NSBundle mainBundle] loadNibNamed:@"CommodityTableViewCell" owner:self options:nil][0];
+    }
+    
+    /*
+    NSDictionary * dic = dataArray[indexPath.row];
+    cell.commodityName.text = dic[@"name"];
+    CGFloat minPrice = [dic[@"minPrice"] floatValue];
+    cell.commodityPrice.text = [NSString stringWithFormat:@"￥%.2f",minPrice];
+    cell.payNumLable.text = [NSString stringWithFormat:@"月销量：%@个",dic[@"count"]];
+    NSString * str = [NSString stringWithFormat:@"%@%@",RequestApiPictureURL_Test,dic[@"pictureUrl"]];
+    NSURL* url = [NSURL URLWithString:str];
+    [cell.commodityImg sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder"]];
+     //[NSURL URLWithString:[NSString stringWithFormat:@"%@,%@",RequestApiPictureURL_Test,dic[@"pictureUrl"]]]];
+     */
+    NSMutableDictionary * dic = [dataArray[indexPath.row] mutableCopy];
+    cell.commodityName.text = dic[@"productName_ik"];
+    CGFloat minPrice = [dic[@"price"] floatValue];
+    cell.commodityPrice.text = [NSString stringWithFormat:@"￥%.2f",minPrice];
+    
+    int num = (arc4random() % 10000);
+    cell.payNumLable.text = [NSString stringWithFormat:@"月销量：%d个",num];
+    NSString * str = [NSString stringWithFormat:@"%@%@",V_Base_ImageURL,dic[@"defaultGoodsPictureUrl"]];
+    NSURL* url = [NSURL URLWithString:str];
+    [cell.commodityImg sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    
+    return cell;
+}
+
+#pragma mark - UITableViewDelegate代理方法
+
+#pragma mark 每行点击事件
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+//    NSLog(@"cell selected at index path %i", (int)indexPath.row);
+//    [tableView deselectRowAtIndexPath:indexPath animated:YES];
+    DetailsViewController * detailsTVC = [[DetailsViewController alloc]init];
+    NSDictionary * dic = dataArray[indexPath.row];
+    detailsTVC.name =dic[@"name"];
+    detailsTVC.iD = dic[@"id"];//14593 此ID 用于多个规格型号的调试
+    detailsTVC.type = @"2";
+    [self.navigationController pushViewController:detailsTVC animated:YES];
+    
+}
+-(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 120;
+}
+
+
+- (void)backClick{
+    [self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (void)textFieldDidChange:(id)sender
+{
+    UITextField * field = (UITextField *)sender;
+    if (field.text.length) {
+        self.SV.hidden =NO;
+        self.SV.isSearch =YES;
+    //    [self.SV reloadTableview];
+    }else{
+        self.SV.isSearch = NO;
+     //   [self.SV reloadTableview];
+    }
+}
+
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    // Dispose of any resources that can be recreated.
+}
+
+
+@end
