@@ -1,7 +1,7 @@
 10
 
 dir
-1399
+1400
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/AppClasses/Category/CategoryHome/Model
 svn://yanghongzhou@192.168.1.6
 
@@ -25,40 +25,6 @@ yanghongzhou
 
 
 f8e417dc-ff0f-4c5c-8625-6b0fab15d564
-
-DetailsMode.h
-file
-
-
-
-
-2017-03-27T06:06:50.000000Z
-bb84cbb0a3a96084ecc7c05455ec0cd6
-2017-02-15T06:50:55.798318Z
-1083
-yanghongzhou
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-856
 
 CommodityModel.m
 file
@@ -93,6 +59,40 @@ yanghongzhou
 
 
 1047
+
+DetailsMode.h
+file
+
+
+
+
+2017-03-27T06:06:50.000000Z
+bb84cbb0a3a96084ecc7c05455ec0cd6
+2017-02-15T06:50:55.798318Z
+1083
+yanghongzhou
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+856
 
 SCCategoryDetail.m
 file

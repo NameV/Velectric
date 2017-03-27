@@ -12,7 +12,9 @@
 @interface UILabel (VFont)
 
 @end
-
+/**
+ *  button 自适应字体
+ */
 @interface UIButton (VFont)
 
 @end

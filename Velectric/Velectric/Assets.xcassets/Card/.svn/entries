@@ -1,7 +1,7 @@
 10
 
 dir
-1399
+1400
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/Assets.xcassets/Card
 svn://yanghongzhou@192.168.1.6
 
@@ -26,16 +26,16 @@ yanghongzhou
 
 f8e417dc-ff0f-4c5c-8625-6b0fab15d564
 
-tu.imageset
-dir
-
 ppBG.imageset
 dir
 
-shanchu.imageset
+tu.imageset
 dir
 
 quguangguang.imageset
+dir
+
+shanchu.imageset
 dir
 
 jianQian.imageset
@@ -93,10 +93,10 @@ yanghongzhou
 
 62
 
-kongShen.imageset
+jiaQian.imageset
 dir
 
-jiaQian.imageset
+kongShen.imageset
 dir
 
 tishiceng.imageset
