@@ -86,8 +86,9 @@
                                                NSArray * arraydic = responseObject[@"result"];
                                                for (NSDictionary *dic in arraydic) {
                                                    HsearchModel * model = [[HsearchModel alloc]init];
+                                                   model.name = dic[@"productName"];
                                                    model.productName = dic[@"productName_ik"];
-                                                   model.productId = dic[@"id"];
+                                                   model.goodsId = dic[@"id"];
                                                    [self.dataArray addObject:model];
                                                    self.tableView1.frame= CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
                                                    [self.tableView1 reloadData];
@@ -199,8 +200,10 @@
     if (tableView==self.tableView1) {
         
         if (_noResult == YES) {
-            NSString * labText = [NSString stringWithFormat:@"商品中%@",model.productName];
-            cell.searchLable.text = labText;
+            NSString * labText = [NSString stringWithFormat:@"商品中%@",model.name];
+            NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[labText dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+
+            cell.searchLable.attributedText = attributedString;
             cell.categoryLble.text = [NSString stringWithFormat:@"约1个商品"];
             return cell;
         }

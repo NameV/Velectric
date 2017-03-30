@@ -58,4 +58,6 @@
 @property (nonatomic, copy)NSString * brandIds; //筛选的商品id
 @property (nonatomic, copy)NSString * brandNameStr;//筛选时的名称
 
+/* 搜索无结果时，搜索的关键字要显示为红色 */
+@property (nonatomic, assign) BOOL noResult;
 @end

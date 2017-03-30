@@ -89,5 +89,9 @@
  */
 + (NSString *)addWithBigNums:(NSString *)num1 num2:(NSString *)num2;
 
+/**
+ *  截取某段字符串
+ */
+- (NSString *)subStringFrom:(NSString *)startString to:(NSString *)endString;
 
 @end

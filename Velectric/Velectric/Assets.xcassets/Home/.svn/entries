@@ -1,7 +1,7 @@
 10
 
 dir
-1401
+1416
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/Assets.xcassets/Home
 svn://yanghongzhou@192.168.1.6
 
@@ -29,19 +29,19 @@ f8e417dc-ff0f-4c5c-8625-6b0fab15d564
 biaoqian.imageset
 dir
 
-haocai.imageset
+toutiao.imageset
 dir
 
-toutiao.imageset
+haocai.imageset
 dir
 
 zhou.imageset
 dir
 
-huiyuanfuwu.imageset
+remenfenlie.imageset
 dir
 
-remenfenlie.imageset
+huiyuanfuwu.imageset
 dir
 
 gou.imageset
@@ -50,19 +50,19 @@ dir
 wujin.imageset
 dir
 
-laobao.imageset
+sousuo.imageset
 dir
 
 remai.imageset
 dir
 
-sousuo.imageset
-dir
-
-jidian.imageset
+laobao.imageset
 dir
 
 zhengji.imageset
+dir
+
+jidian.imageset
 dir
 
 huidaodingbu.imageset

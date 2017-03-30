@@ -101,6 +101,25 @@
         for (CartListModel * listModel in dataArray) {
             childRoonInt =childRoonInt+ listModel.cartList.count;
         }
+        //*************循环出没有选中的model***************
+        
+        NSMutableArray * productListArr1 = [NSMutableArray arrayWithArray:dataArray];
+        for (int i=0; i<productListArr1.count; i++) {//循环出要传的model
+            CartListModel * cartListModel = productListArr1[i];
+            for (int j = 0; j < cartListModel.cartList.count; j++) {
+                CartModel * cartModel = cartListModel.cartList[j];
+                if (!cartModel.selected) {
+                    [cartListModel.cartList removeObject:cartModel];
+                    j--;
+                    if (cartListModel.cartList.count==0) {
+                        [productListArr1 removeObject:cartListModel];
+                    }
+                }
+            }
+        }
+        dataArray = productListArr1;
+        //*********************************************
+        
         //0.05*SCREEN_HEIGHT*dataArray.count+0.22*SCREEN_HEIGHT*childRoonInt
         [_tableView reloadData];
         [_tableView headerEndRefreshing];
@@ -328,14 +347,24 @@
     NSMutableArray * productListArr1 = [NSMutableArray arrayWithArray:dataArray];
     for (int i=0; i<productListArr1.count; i++) {//循环出要传的model
         CartListModel * cartListModel = productListArr1[i];
-        for (CartModel * cartModel in cartListModel.cartList){
+        for (int j = 0; j < cartListModel.cartList.count; j++) {
+            CartModel * cartModel = cartListModel.cartList[j];
             if (!cartModel.selected) {
                 [cartListModel.cartList removeObject:cartModel];
+                j--;
                 if (cartListModel.cartList.count==0) {
                     [productListArr1 removeObject:cartListModel];
                 }
             }
         }
+//        for (CartModel * cartModel in cartListModel.cartList){
+//            if (!cartModel.selected) {
+//                [cartListModel.cartList removeObject:cartModel];
+//                if (cartListModel.cartList.count==0) {
+//                    [productListArr1 removeObject:cartListModel];
+//                }
+//            }
+//        }
     }
     
     

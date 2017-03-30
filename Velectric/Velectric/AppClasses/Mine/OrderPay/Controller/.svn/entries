@@ -1,14 +1,14 @@
 10
 
 dir
-1401
+1416
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/AppClasses/Mine/OrderPay/Controller
 svn://yanghongzhou@192.168.1.6
 
 
 
-2017-03-23T09:04:58.321090Z
-1378
+2017-03-30T04:28:40.223604Z
+1412
 yanghongzhou
 
 
@@ -266,7 +266,7 @@ yanghongzhou
 
 AddBankCardVC.h
 file
-1404
+
 
 
 
@@ -402,7 +402,7 @@ yanghongzhou
 
 AddBankCardVC.m
 file
-1407
+
 
 
 
@@ -474,10 +474,10 @@ file
 
 
 
-2017-03-27T06:06:50.000000Z
-58ad2a9147dabc520ffcf9a302d18fdf
-2017-03-22T08:55:11.035444Z
-1372
+2017-03-30T04:18:37.000000Z
+07864434abd240d6f0e01943f74b7b1e
+2017-03-30T04:28:40.223604Z
+1412
 yanghongzhou
 
 
@@ -500,7 +500,7 @@ yanghongzhou
 
 
 
-28085
+28252
 
 QuickPayVC.h
 file
@@ -572,7 +572,7 @@ yanghongzhou
 
 QuickPayVC.m
 file
-1404
+
 
 
 

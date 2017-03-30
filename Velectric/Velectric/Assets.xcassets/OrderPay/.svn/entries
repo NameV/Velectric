@@ -1,7 +1,7 @@
 10
 
 dir
-1401
+1416
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/Assets.xcassets/OrderPay
 svn://yanghongzhou@192.168.1.6
 
@@ -32,40 +32,37 @@ dir
 chakanwuliushang.imageset
 dir
 
-xiaoyuan.imageset
+lijizhifu.imageset
 dir
 
-lijizhifu.imageset
+xiaoyuan.imageset
 dir
 
 xian.imageset
 dir
 
-weixin.imageset
-dir
-
 yinlian.imageset
 dir
 
-xiaolian.imageset
+weixin.imageset
 dir
 
 tijiaodingdan.imageset
 dir
 
-jixugouwu.imageset
+xiaolian.imageset
 dir
 
 youjiantou.imageset
 dir
 
-wangguan.imageset
+jixugouwu.imageset
 dir
 
 zhifubao.imageset
 dir
 
-zuobiao.imageset
+wangguan.imageset
 dir
 
 Contents.json
@@ -101,6 +98,9 @@ yanghongzhou
 
 
 62
+
+zuobiao.imageset
+dir
 
 tianjiacard.imageset
 dir

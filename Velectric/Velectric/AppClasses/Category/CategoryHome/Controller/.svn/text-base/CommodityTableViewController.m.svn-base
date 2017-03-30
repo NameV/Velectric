@@ -270,6 +270,7 @@
             requestUrl= [NSString stringWithFormat:@"%@?categoryIds=%@&pageNum=%ld&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@",GetSearchProductPaginationResultURL,categoryStr,(long)self.pageNum
                          ,self.keyWords,self.minPrice,self.maxPrice];
         }
+        requestUrl = [NSString stringWithFormat:@"%@&subsiteId=1",requestUrl];
         requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [SYNetworkingManager GetOrPostNoBodyWithHttpType:1 WithURLString:requestUrl parameters:nil success:^(NSDictionary *responseObject) {
             
@@ -312,7 +313,7 @@
             requestUrl= [NSString stringWithFormat:@"%@?pageNum=1&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@",GetSearchProductPaginationResultURL,self.keyWords,self.minPrice, self.maxPrice];
 
         }
-        
+        requestUrl = [NSString stringWithFormat:@"%@&subsiteId=1",requestUrl];
         requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [SYNetworkingManager GetOrPostNoBodyWithHttpType:1 WithURLString:requestUrl parameters:nil success:^(NSDictionary *responseObject) {
             
@@ -359,7 +360,7 @@
             requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&categoryIds=%@&sort=%@&sortDirection=%@&minPrice=%@&maxPrice=%@",GetSearchProductPaginationResultURL,self.pageNum,self.categoryIds[0],self.sort,self.sortDirection,self.minPrice,self.maxPrice];
             
         }
-        
+        requestUrl = [NSString stringWithFormat:@"%@&subsiteId=1",requestUrl];
         requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
         [SYNetworkingManager GetOrPostNoBodyWithHttpType:1 WithURLString:requestUrl parameters:nil success:^(NSDictionary *responseObject) {
             
@@ -405,6 +406,7 @@
         requestUrl= [NSString stringWithFormat:@"%@?categoryIds=%@&pageNum=%ld&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@&optionIds=%@",GetSearchProductPaginationResultURL,categoryStr,(long)self.pageNum
                      ,self.keyWords,self.minPrice,self.maxPrice,self.properyId];
     }
+    requestUrl = [NSString stringWithFormat:@"%@&subsiteId=1",requestUrl];
     requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [SYNetworkingManager GetOrPostNoBodyWithHttpType:2 WithURLString:requestUrl parameters:nil success:^(NSDictionary *responseObject) {
         
@@ -442,7 +444,7 @@
 - (void)searchRecommendedRequest {
     
     NSString *urlString = @"";
-    urlString = [NSString stringWithFormat:@"%@?keyWords=%@",SearchRecommendedUrl,_keyWords];
+    urlString = [NSString stringWithFormat:@"%@?keyWords=%@&subsiteId=1",SearchRecommendedUrl,_keyWords];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [SYNetworkingManager GetOrPostWithHttpType:1
                                  WithURLString:urlString
@@ -450,7 +452,7 @@
                                        success:^(NSDictionary *responseObject) {
                                            
                                            dataArray = [responseObject[@"result"] mutableCopy];
-                                           
+                                           self.noResult = YES;
                                            
                                            NSString *str;
                                            NSMutableAttributedString *mutStr ;
@@ -513,7 +515,7 @@
     }else{
          requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&sort=%@&sortDirection=%@&optionIds=%@",GetSearchProductPaginationResultURL,self.pageNum,self.sort,self.sortDirection,self.properyId];
     }
-    
+    requestUrl = [NSString stringWithFormat:@"%@&subsiteId=1",requestUrl];
     requestUrl = [requestUrl stringByAppendingFormat:@"%@",_categoryIdList];
     requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [SYNetworkingManager GetOrPostNoBodyWithHttpType:1 WithURLString:requestUrl parameters:nil success:^(NSDictionary *responseObject) {
@@ -572,18 +574,15 @@
         cell=[[NSBundle mainBundle] loadNibNamed:@"CommodityTableViewCell" owner:self options:nil][0];
     }
     
-    /*
-    NSDictionary * dic = dataArray[indexPath.row];
-    cell.commodityName.text = dic[@"name"];
-    CGFloat minPrice = [dic[@"minPrice"] floatValue];
-    cell.commodityPrice.text = [NSString stringWithFormat:@"￥%.2f",minPrice];
-    cell.payNumLable.text = [NSString stringWithFormat:@"月销量：%@个",dic[@"count"]];
-    NSString * str = [NSString stringWithFormat:@"%@%@",RequestApiPictureURL_Test,dic[@"pictureUrl"]];
-    NSURL* url = [NSURL URLWithString:str];
-    [cell.commodityImg sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder"]];
-     //[NSURL URLWithString:[NSString stringWithFormat:@"%@,%@",RequestApiPictureURL_Test,dic[@"pictureUrl"]]]];
-     */
     NSMutableDictionary * dic = [dataArray[indexPath.row] mutableCopy];
+//    NSString *string = dic[@"productName_ik"] ;
+//    NSMutableAttributedString *arrString = [[NSMutableAttributedString alloc]initWithString:dic[@"productName_ik"]];
+//    if (self.noResult == YES) {
+//        NSString *keyString = [dic[@"productName"] subStringFrom:@">" to:@"<"];
+//        NSRange range = [string rangeOfString:keyString];
+//        [arrString addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:range];
+//    }
+//    cell.commodityName.attributedText = arrString;
     cell.commodityName.text = dic[@"productName_ik"];
     CGFloat minPrice = [dic[@"price"] floatValue];
     cell.commodityPrice.text = [NSString stringWithFormat:@"￥%.2f",minPrice];

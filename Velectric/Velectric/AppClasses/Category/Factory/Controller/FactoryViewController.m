@@ -370,7 +370,7 @@
                      ,self.minPrice,self.maxPrice,self.sort,self.sortDirection];
     }
     requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-    
+    requestUrl = [NSString stringWithFormat:@"%@&subsiteId=1",requestUrl];
    // NSString * brandNameStr = self.brandsList[0];
     NSString * pageNumStr = [NSString stringWithFormat:@"%d",self.pageNum];
     NSDictionary * parameters = @{
@@ -426,7 +426,8 @@
                                   @"sortDirection":self.sortDirection,//升序asc 降序 desc
                                   @"searchWithinResult":@"",
                                   @"loginName":@"",
-                                  @"optionIds":@""//sku 属性
+                                  @"optionIds":@"",//sku 属性
+                                  @"subsiteId"  :   @"1"
                                   };
     [SYNetworkingManager GetOrPostNoBodyWithHttpType:1 WithURLString:GetSearchProductPaginationResultURL parameters:parameters success:^(NSDictionary *responseObject) {
         [_tableView headerEndRefreshing];

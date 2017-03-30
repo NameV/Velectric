@@ -418,14 +418,24 @@
     NSMutableArray * productListArr1 = [NSMutableArray arrayWithArray:dataArray];
     for (int i=0; i<productListArr1.count; i++) {//循环出要传的model
         CartListModel * cartListModel = productListArr1[i];
-        for (CartModel * cartModel in cartListModel.cartList){
+        for (int j = 0; j < cartListModel.cartList.count; j++) {
+            CartModel * cartModel = cartListModel.cartList[j];
             if (!cartModel.selected) {
                 [cartListModel.cartList removeObject:cartModel];
+                j--;
                 if (cartListModel.cartList.count==0) {
                     [productListArr1 removeObject:cartListModel];
                 }
             }
         }
+//        for (CartModel * cartModel in cartListModel.cartList){
+//            if (!cartModel.selected) {
+//                [cartListModel.cartList removeObject:cartModel];
+//                if (cartListModel.cartList.count==0) {
+//                    [productListArr1 removeObject:cartListModel];
+//                }
+//            }
+//        }
     }
     
     orderVC.productList = productListArr1;//传值
@@ -541,7 +551,7 @@
         make.height.equalTo(@30);
         make.width.equalTo(@100);
     }];
-       [cell.cartimageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",RequestApiPictureURL_Test,cartModel.picUrl]] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+       [cell.cartimageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",V_Base_ImageURL,cartModel.picUrl]] placeholderImage:[UIImage imageNamed:@"placeholder"]];
        cell.infoLable.text =cartModel.goodsName;
     cell.cartimageView.userInteractionEnabled = YES;
     cell.moneyLable.text =[NSString stringWithFormat:@"¥ %@",cartModel.excutePrice

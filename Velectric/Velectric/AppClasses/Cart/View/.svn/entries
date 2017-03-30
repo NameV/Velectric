@@ -1,7 +1,7 @@
 10
 
 dir
-1401
+1416
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/AppClasses/Cart/View
 svn://yanghongzhou@192.168.1.6
 
@@ -164,14 +164,14 @@ yanghongzhou
 
 CartCell.xib
 file
+1417
 
 
 
-
-2017-03-27T06:06:50.000000Z
-2963d3a30f12d86e8136a18dd9e97315
-2017-02-15T06:50:55.798318Z
-1083
+2017-03-30T06:32:33.000000Z
+cbe75ebafca016ecdbb6d1a9b3de22c7
+2017-03-30T08:06:10.023093Z
+1417
 yanghongzhou
 
 
@@ -194,7 +194,7 @@ yanghongzhou
 
 
 
-9519
+9779
 
 CartnilView.h
 file

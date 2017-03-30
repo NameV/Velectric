@@ -261,15 +261,17 @@
     
     //滚动的图片
     NSInteger productCount = 0;
+    NSInteger count = 0;
     for (int i=0; i<_productList.count; i++) {
         CartListModel * listModel = [_productList objectAtIndex:i];
+        
         for (int j=0; j<listModel.cartList.count; j++) {
             CartModel * cart = [listModel.cartList objectAtIndex:j];
-            
-                UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(75 * productCount + 5, 5, 70, 70)];
-                [imageView sd_setImageWithURL:[NSURL URLWithString:cart.picUrl] placeholderImage:[UIImage imageNamed:@"placeholder"]];
-                [imageScrollView addSubview:imageView];
-                productCount = productCount + cart.quantity;
+            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(75 * count + 5, 5, 70, 70)];
+            [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",V_Base_ImageURL,cart.picUrl]] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+            [imageScrollView addSubview:imageView];
+            productCount = productCount + cart.quantity;
+            count++;
         }
     }
     imageScrollView.contentSize = CGSizeMake(80 * productCount, 80);
@@ -421,15 +423,17 @@
         [self.imageScrollView removeAllSubviews];
         //滚动的图片
         NSInteger productCount = 0;
+        NSInteger count = 0;
         for (int i=0; i<_productList.count; i++) {
             CartListModel * listModel = [_productList objectAtIndex:i];
+            
             for (int j=0; j<listModel.cartList.count; j++) {
                 CartModel * cart = [listModel.cartList objectAtIndex:j];
-                
-                UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(75 * productCount + 5, 5, 70, 70)];
-                [imageView sd_setImageWithURL:[NSURL URLWithString:cart.picUrl] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+                UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(75 * count + 5, 5, 70, 70)];
+                [imageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",V_Base_ImageURL,cart.picUrl]] placeholderImage:[UIImage imageNamed:@"placeholder"]];
                 [weakSelf.imageScrollView addSubview:imageView];
                 productCount = productCount + cart.quantity;
+                count ++;
             }
         }
         weakSelf.imageScrollView.contentSize = CGSizeMake(80 * productCount, 80);
