@@ -500,6 +500,7 @@
         self.tanView.hidden =YES;
     }else{
         self.isSelcted =YES;
+        [self.view bringSubviewToFront:self.tanView];
         self.tanView.hidden =NO;
     }
 }
@@ -728,7 +729,8 @@
     NSString *picturUrl ;
     NSArray *array = dataDic[@"pictureUrl"];
     if (array.count > 0) {
-        picturUrl = [array firstObject];
+        NSDictionary *dic = [array firstObject];
+        picturUrl = dic[@"goodsPictureUrl"];
     }else {
         picturUrl = @"";
     }

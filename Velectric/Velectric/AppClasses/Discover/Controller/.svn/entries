@@ -1,7 +1,7 @@
 10
 
 dir
-1400
+1401
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/AppClasses/Discover/Controller
 svn://yanghongzhou@192.168.1.6
 
@@ -62,14 +62,14 @@ yanghongzhou
 
 VBatchShopViewController.h
 file
+1407
 
 
 
-
-2017-03-27T06:06:51.000000Z
-ac4d88bbb04ec7517a51d1a025782436
-2017-02-27T07:31:24.333131Z
-1157
+2017-03-28T08:33:13.000000Z
+d91e6e89197b0d09ff8399fa471c75f1
+2017-03-29T01:57:45.041272Z
+1407
 yanghongzhou
 
 
@@ -92,7 +92,7 @@ yanghongzhou
 
 
 
-434
+587
 
 DiscoverViewController.m
 file
@@ -198,14 +198,14 @@ yanghongzhou
 
 VBatchShopViewController.m
 file
+1407
 
 
 
-
-2017-03-27T06:06:51.000000Z
-de1565989375cd2c53043a98df27aa16
-2017-03-17T09:15:05.212009Z
-1349
+2017-03-28T08:38:10.000000Z
+ea805d99fe616f8338ca5807b6a0bcb3
+2017-03-29T01:57:45.041272Z
+1407
 yanghongzhou
 
 
@@ -228,18 +228,18 @@ yanghongzhou
 
 
 
-8845
+9319
 
 VBatchListViewController.m
 file
+1407
 
 
 
-
-2017-03-27T06:06:51.000000Z
-b4167d70673d87bed78cf9b8171cc687
-2017-03-06T03:20:15.058261Z
-1266
+2017-03-28T08:38:10.000000Z
+55ad0b240e98fd1e454631dcad7b84e1
+2017-03-29T01:57:45.041272Z
+1407
 yanghongzhou
 
 
@@ -262,7 +262,7 @@ yanghongzhou
 
 
 
-10319
+11080
 
 DiscoverViewController.xib
 file
@@ -300,14 +300,14 @@ yanghongzhou
 
 VDiscoverViewController.m
 file
+1407
 
 
 
-
-2017-03-27T06:06:51.000000Z
-ce70d7b1c9d7a985da79ad29c2bb961b
-2017-03-21T09:35:05.175951Z
-1355
+2017-03-28T08:40:06.000000Z
+f06905559ccaece77d87a185a3e580b4
+2017-03-29T01:57:45.041272Z
+1407
 yanghongzhou
 
 
@@ -330,5 +330,5 @@ yanghongzhou
 
 
 
-4197
+4223
 

@@ -327,6 +327,8 @@
     [attrString addAttribute:NSForegroundColorAttributeName value:COLOR_F2B602 range:[info rangeOfString:count]];
     [attrString addAttribute:NSForegroundColorAttributeName value:COLOR_F44336 range:[info rangeOfString:money]];
     _infoLab.attributedText = attrString;
+    
+    [self timeCountdown];//倒计时
 }
 
 #pragma mark - 时间倒计时
@@ -346,6 +348,13 @@
     NSInteger hour = (aTimer/3600);
     NSInteger minute = (aTimer - hour*3600)/60;
     NSInteger second = aTimer - hour*3600 - minute*60;
+    
+    //如果时分秒某一个为零，则不显示时间和时钟图片
+    if (hour < 0 || minute < 0 || second < 0) {
+        _timingLab.hidden = YES;
+        _watchImage.hidden = YES;
+        return;
+    }
     NSString * timing = [NSString stringWithFormat:@"%02ld:%02ld:%02ld", hour, minute,second];
     _timingLab.text = timing;
     if (hour == 0 && minute == 0 && second == 0) {

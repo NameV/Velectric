@@ -1,7 +1,7 @@
 10
 
 dir
-1400
+1401
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/Assets.xcassets/Mine
 svn://yanghongzhou@192.168.1.6
 
@@ -32,25 +32,28 @@ dir
 mineOrder.imageset
 dir
 
-address.imageset
+edit.imageset
 dir
 
-edit.imageset
+address.imageset
 dir
 
 addressedit.imageset
 dir
 
-vjdlogo.imageset
+twoCode.imageset
 dir
 
-twoCode.imageset
+vjdlogo.imageset
 dir
 
 notAddress.imageset
 dir
 
 叹号.imageset
+dir
+
+addressdelete.imageset
 dir
 
 Contents.json
@@ -87,16 +90,13 @@ yanghongzhou
 
 62
 
-addressdelete.imageset
-dir
-
 newPassword.imageset
 dir
 
-setting.imageset
+vjdPhone.imageset
 dir
 
-vjdPhone.imageset
+setting.imageset
 dir
 
 vjdCode.imageset

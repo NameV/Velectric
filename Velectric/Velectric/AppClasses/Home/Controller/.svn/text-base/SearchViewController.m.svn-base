@@ -178,17 +178,30 @@
                                                    
                                                }else if (![@""isEqualToString:model.productName] && model.productName){//商品
                                                    
-                                                   DetailsViewController *  detail = [[DetailsViewController alloc]init];
-                                                   detail.iD = [NSString stringWithFormat:@"%@",model.productId];
-                                                   detail.name = model.productName;
-                                                   [self.navigationController pushViewController:detail animated:YES];
+                                                   if (model.count > 1) {
+//                                                        CommodityTableViewController * commitTableiew = [[CommodityTableViewController alloc]init];
+//                                                        NSString * categoryId = [NSString stringWithFormat:@"%@",model.productId];
+//                                                        commitTableiew.categoryIds = @[categoryId];
+//                                                        commitTableiew.categoryName = model.productName;
+//                                                        [self.navigationController pushViewController:commitTableiew animated:YES];
+                                                       CommodityTableViewController * commodi = [[CommodityTableViewController alloc]init];
+                                                       commodi.saiXuanCategoryId =1;
+                                                       commodi.keyWords = self.searchField.text;
+                                                       commodi.enterType = ScreeningViewEnterType4;//进入方式
+                                                       
+                                                       commodi.fromType = @"2";
+                                                       [self.navigationController pushViewController:commodi animated:YES];
+                                                       
+                                                   }else{
+                                                       DetailsViewController *  detail = [[DetailsViewController alloc]init];
+                                                       detail.iD = [NSString stringWithFormat:@"%@",model.goodsId];
+                                                       detail.name = model.productName;
+                                                       [self.navigationController pushViewController:detail animated:YES];
+                                                   }
                                                    
-                                                   //        CommodityTableViewController * commitTableiew = [[CommodityTableViewController alloc]init];
-                                                   //        NSString * categoryId = [NSString stringWithFormat:@"%@",model.productId];
-                                                   //        commitTableiew.categoryIds = @[categoryId];
-                                                   //        commitTableiew.categoryName = model.productName;
-                                                   //        [self.navigationController pushViewController:commitTableiew animated:YES];
-                                                   //
+                                                   
+                                                   
+                                                   
                                                    
                                                    /*
                                                     FactoryViewController * factory = [[FactoryViewController alloc]init];
@@ -349,7 +362,7 @@
 - (void)pushDetailControllerWithModel:(VScanHistoryModel *)model {
     DetailsViewController *detailVC = [[DetailsViewController alloc]init];
     detailVC.name = model.name;
-    detailVC.iD = [NSString stringWithFormat:@"%@",model.productId];
+    detailVC.iD = [NSString stringWithFormat:@"%@",model.ident];
     detailVC.type = @"";
     [self.navigationController pushViewController:detailVC animated:YES];
 }

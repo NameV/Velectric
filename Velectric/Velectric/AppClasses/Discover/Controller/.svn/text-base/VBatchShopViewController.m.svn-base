@@ -101,7 +101,13 @@ static NSInteger maxTextNum = 200;
                                            
                                            if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
                                                [VJDProgressHUD showSuccessHUD:nil];
-                                               [self.navigationController popViewControllerAnimated:YES];
+                                               if (self.enterType == 1) {
+                                                   VBatchListViewController *listVC = [[VBatchListViewController alloc]init];
+                                                   [self.navigationController pushViewController:listVC animated:YES];
+                                               }else{
+                                                   [self.navigationController popViewControllerAnimated:YES];
+                                               }
+                                               
                                            }else{
                                                [VJDProgressHUD showTextHUD:responseObject[@"msg"]];
                                            }

@@ -8,7 +8,7 @@
 
 #import "VBaseWebVC.h"
 #import <WebKit/WebKit.h>
-#import "VBatchListViewController.h"
+#import "OrderListVC.h"
 
 @interface VBaseWebVC ()<WKNavigationDelegate>
 
@@ -19,6 +19,16 @@
 
 @implementation VBaseWebVC{
     NSString *_urlString;
+    NSString *_title;
+}
+
+- (instancetype)initWithUrlString:(NSString *)urlString title:(NSString *)title{
+    self = [super init];
+    if (self) {
+        _title = title;
+        _urlString = urlString;
+    }
+    return self;
 }
 
 - (instancetype)initWithUrlString:(NSString *)urlString {
@@ -51,6 +61,8 @@
 
 - (void)webViewConfig {
     
+    self.navTitle = _title;
+    
     WKWebView *webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:_urlString]]];
     [self.view addSubview:webView];
@@ -61,6 +73,23 @@
 // 页面开始加载时调用
 - (void)webView:(WKWebView *)webView didStartProvisionalNavigation:(WKNavigation *)navigation {
     [VJDProgressHUD showProgressHUD:nil];
+    
+    //首页
+    if ([webView.URL.absoluteString containsString:@"index/index.html"] ) {
+        self.tabBarController.selectedIndex = 0;
+        
+        dispatch_queue_t queue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+        dispatch_async(queue, ^{
+            [self.navigationController popToRootViewControllerAnimated:NO];
+        });
+    }
+    
+    //订单中心
+    if ([webView.URL.absoluteString containsString:@"orderCenter/orderCenter.html"] ) {
+        OrderListVC * vc = [[OrderListVC alloc]init];
+        [self.navigationController pushViewController:vc animated:YES];
+    }
+    
 }
 // 当内容开始返回时调用
 - (void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
@@ -69,14 +98,6 @@
 - (void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
     [VJDProgressHUD showSuccessHUD:nil];
     
-    if ([webView canGoBack]) {
-        self.navigationItem.leftBarButtonItem = self.leftItem;
-        if ([webView.URL.absoluteString containsString:@"title="]) {
-            self.navTitle = [webView.URL.absoluteString componentsSeparatedByString:@"title="][1];
-        }
-    }else{
-        self.navigationItem.leftBarButtonItem = nil;
-    }
     
 }
 // 页面加载失败时调用

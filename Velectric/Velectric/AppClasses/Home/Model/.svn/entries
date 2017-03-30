@@ -1,7 +1,7 @@
 10
 
 dir
-1400
+1401
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/AppClasses/Home/Model
 svn://yanghongzhou@192.168.1.6
 
@@ -130,14 +130,14 @@ liuxiaoqin
 
 HsearchModel.h
 file
+1411
 
 
 
-
-2017-03-27T06:06:50.000000Z
-720d0aa9b7c30833b4877cf8260c8b2f
-2017-03-08T07:24:08.802229Z
-1304
+2017-03-29T09:21:07.000000Z
+7de17165ecc1514036d860a1c40e96b3
+2017-03-29T09:25:38.333854Z
+1411
 yanghongzhou
 
 
@@ -160,7 +160,7 @@ yanghongzhou
 
 
 
-1250
+1334
 
 BrandsModel.m
 file
@@ -334,14 +334,14 @@ yanghongzhou
 
 HomeHotGoodsModel.m
 file
+1404
 
 
 
-
-2017-03-27T06:06:50.000000Z
-5155d57831a6c435b8b77e9f4507e90c
-2017-02-15T06:50:55.798318Z
-1083
+2017-03-28T06:54:58.000000Z
+571b72f8c1ead9b4d6f7cb192affca4b
+2017-03-28T08:24:43.149724Z
+1404
 yanghongzhou
 
 

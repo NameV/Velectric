@@ -1,7 +1,7 @@
 10
 
 dir
-1400
+1401
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/AppClasses/Category/CategoryHome/View
 svn://yanghongzhou@192.168.1.6
 
@@ -978,40 +978,6 @@ has-props
 
 2701
 
-DetailsBtnView.h
-file
-
-
-
-
-2017-03-27T06:06:51.000000Z
-5ecb216134400ceb1953bfad30caee76
-2017-02-20T07:41:08.539215Z
-1103
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-922
-
 MultilevelCollectionViewCell.xib
 file
 
@@ -1045,6 +1011,40 @@ has-props
 
 
 4241
+
+DetailsBtnView.h
+file
+
+
+
+
+2017-03-27T06:06:51.000000Z
+5ecb216134400ceb1953bfad30caee76
+2017-02-20T07:41:08.539215Z
+1103
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+922
 
 MultilevelTableViewCell.h
 file

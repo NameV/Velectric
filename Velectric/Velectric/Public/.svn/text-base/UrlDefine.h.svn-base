@@ -10,7 +10,7 @@
 #define UrlDefine_h
 
 // base url（1:测试环境；2:仿真环境 3:本地 4:正式环境）
-#define NetEnvironment  4
+#define NetEnvironment  2
 /************* 本地环境 *************/
 //测试
 #define RequestApiBaseURL_Locatal          @"http://192.168.1.124:8080/vjd-wts"
@@ -381,6 +381,14 @@
  */
 #define GetToPayPATH         @"payment/toPay"
 #define GetToPayURL          CreateRequestApiShopCarUrl(GetToPayPATH)
+
+/**
+ *  网关支付跳转的H5
+ */
+#define GetPaySuccessH5PATH         @"/views/my/order/paySuccess.html"
+#define GetPaySuccessH5URL          CreateH5Url(GetPaySuccessH5PATH)
+
+
 
 /**
  *  微信支付 获取code

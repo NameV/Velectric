@@ -10,6 +10,7 @@
 #import "QuickPayCell.h"
 #import "BankInfoModel.h"
 #import "ChooseBankVC.h"
+#import "AddBankCardVC.h"
 
 
 #define PayUrl @"http://192.168.1.8:8089/views/my/order/binding_bankcard.html?mergePaymentId="
@@ -19,6 +20,9 @@
 @property (strong,nonatomic) BaseTableView * tableView;
 
 @property (strong,nonatomic) UIWebView * webView;
+
+/* 总价格 */
+@property (nonatomic, copy) NSString *totalAmount;
 
 @end
 
@@ -157,6 +161,7 @@
                 BankInfoModel * model = [[BankInfoModel alloc]init];
                 [model setValuesForKeysWithDictionary:dic];
                 [weakSelf.tableView.dataArray addObject:model];
+                _totalAmount = responseObject[@"totalAmount"];
             }
             if (bankList.count) {
                 [weakSelf.tableView reloadData];
@@ -207,6 +212,11 @@
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     BankInfoModel * model = [_tableView.dataArray objectAtIndex:indexPath.row];
+    AddBankCardVC *VC = [[AddBankCardVC alloc]init];
+    VC.bankModel = model;
+    VC.totalAmount = _totalAmount;
+    VC.mergePaymentId = _mergePaymentId;
+    [self.navigationController pushViewController:VC animated:YES];
 }
 
 #pragma mark - 添加快捷支付

@@ -1,14 +1,14 @@
 10
 
 dir
-1400
+1401
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric
 svn://yanghongzhou@192.168.1.6
 
 
 
-2017-03-24T10:19:03.460472Z
-1397
+2017-03-27T07:33:27.664603Z
+1401
 yanghongzhou
 
 
@@ -105,14 +105,14 @@ yanghongzhou
 
 Info.plist
 file
+1411
 
 
 
-
-2017-03-27T06:06:54.000000Z
-41f37b64e75adb11ccd818bf0c972f36
-2017-03-24T10:19:03.460472Z
-1397
+2017-03-29T06:25:21.000000Z
+6a00d3d7be51fbf6d8790c271c6a5ff6
+2017-03-29T09:25:38.333854Z
+1411
 yanghongzhou
 
 
@@ -135,7 +135,7 @@ yanghongzhou
 
 
 
-2719
+2713
 
 AppDelegate.m
 file

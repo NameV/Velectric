@@ -1,7 +1,7 @@
 10
 
 dir
-1400
+1401
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/AppClasses/Category/CategoryHome/Controller
 svn://yanghongzhou@192.168.1.6
 
@@ -28,14 +28,14 @@ f8e417dc-ff0f-4c5c-8625-6b0fab15d564
 
 DetailsViewController.m
 file
+1410
 
 
 
-
-2017-03-27T06:06:50.000000Z
-674c79e4088834be58923f4938fd2103
-2017-03-24T04:23:16.008611Z
-1389
+2017-03-29T02:42:21.000000Z
+80c54db56531329254632a349131ca65
+2017-03-29T06:19:06.979220Z
+1410
 yanghongzhou
 has-props
 
@@ -58,7 +58,7 @@ has-props
 
 
 
-54082
+54189
 
 RightMenuTableViewController.h
 file
@@ -232,14 +232,14 @@ yanghongzhou
 
 CommodityTableViewController.m
 file
+1411
 
 
 
-
-2017-03-27T06:06:50.000000Z
-95017cf4d1d5a843913068f6eb145118
-2017-03-23T08:31:19.159132Z
-1377
+2017-03-29T08:57:25.000000Z
+6ae56152128ce92c410f10ffab8ede87
+2017-03-29T09:25:38.333854Z
+1411
 yanghongzhou
 
 
@@ -262,7 +262,7 @@ yanghongzhou
 
 
 
-22815
+28173
 
 CategoryViewController.m
 file

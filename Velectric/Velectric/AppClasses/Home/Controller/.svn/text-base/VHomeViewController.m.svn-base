@@ -735,7 +735,7 @@ static CGFloat originX = 10;
     [button setTitle:title forState:UIControlStateNormal];
     [button setTitleColor:COLOR_3E3A39 forState:UIControlStateNormal];
     button.titleEdgeInsets = UIEdgeInsetsMake(button.imageView.bottom + 4, (button.width - width)/2 - image2.size.width, 0, 0);
-    [button addTarget:self action:@selector(hotCategoryBtnClick:) forControlEvents:UIControlEventTouchUpInside];
+//    [button addTarget:self action:@selector(hotCategoryBtnClick:) forControlEvents:UIControlEventTouchUpInside];
     [_memberServiceView addSubview:button];
     
     _memberServiceView.frame = CGRectMake(0, _originY, SCREEN_WIDTH, button.bottom);

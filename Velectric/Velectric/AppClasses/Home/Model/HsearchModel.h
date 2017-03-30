@@ -9,8 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface HsearchModel : NSObject
-//商品ID
+//商品ID 这个应该是品牌id
 @property (strong,nonatomic) NSNumber *brandId;
+
+//商品ID
+@property (strong,nonatomic) NSNumber *goodsId;
 
 //商品名称
 @property (copy,nonatomic) NSString * brandName;

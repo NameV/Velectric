@@ -7,6 +7,7 @@
 //
 
 #import "AddBankCardVC.h"
+#import "VBaseWebVC.h"
 
 @interface AddBankCardVC ()
 
@@ -15,7 +16,10 @@
 
 @end
 
-@implementation AddBankCardVC
+@implementation AddBankCardVC{
+    NSString *_orderId;
+    NSString *_dateTime;
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -31,7 +35,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.navTitle = @"绑定银行卡并支付";
+    self.navTitle = @"快捷支付";
 
     //创建UI
     [self creatUI];
@@ -107,13 +111,77 @@
 #pragma mark - 获取验证码
 -(void)getCodeAction
 {
+    NSDictionary *paramDic = @{
+                               @"loginName" : GET_USER_INFO.loginName   ,
+                               @"amount"   :   _totalAmount ,
+                               @"bindId"   :   _bankModel.bindId ,
+                               @"paymentModeId"    :  [NSString stringWithFormat:@"2"]
+                               };
     
+    [VJDProgressHUD showProgressHUD:nil];
+    [SYNetworkingManager GetOrPostWithHttpType:2
+                                 WithURLString:GetSendMsgKJURL
+                                    parameters:paramDic
+                                       success:^(NSDictionary *responseObject) {
+                                           
+                                           if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
+                                               [VJDProgressHUD showSuccessHUD:nil];
+                                               _orderId = responseObject[@"orderId"];
+                                               _dateTime = responseObject[@"dateTime"];
+                                           }else{
+                                               [VJDProgressHUD showTextHUD:responseObject[@"msg"]];
+                                           }
+                                       } failure:^(NSError *error) {
+                                           [VJDProgressHUD showErrorHUD:INTERNET_ERROR];
+                                       }];
 }
 
 #pragma mark - 立即支付
 -(void)doPayNow
 {
+    if ([self.codeTextF.text isEmpty]) {
+        [VJDProgressHUD showTextHUD:@"请输入验证码"];
+        return;
+    }else{
+        [self goPayRequest];//立即支付
+    }
     
+}
+
+/**
+ *  立即支付网络请求
+ */
+- (void)goPayRequest {
+    NSDictionary *paramDic = @{
+                               @"loginName" : GET_USER_INFO.loginName   ,
+                               @"amount"   :   _totalAmount ? _totalAmount : @"" ,
+                               @"bindId"   :   _bankModel.bindId ? _bankModel.bindId :@"",
+                               @"paymentModeId"    :   @"2",
+                               @"verifyCode"   :   self.codeTextF.text ? self.codeTextF.text : @"",
+                               @"orderId"  :   _orderId ? _orderId : @"" ,
+                               @"dateTime" :   _dateTime ? _dateTime : @"",
+                               };
+    
+    [VJDProgressHUD showProgressHUD:nil];
+    [SYNetworkingManager GetOrPostWithHttpType:2
+                                 WithURLString:GetPaymentKJURL
+                                    parameters:paramDic
+                                       success:^(NSDictionary *responseObject) {
+                                           
+                                           if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
+                                               [VJDProgressHUD showSuccessHUD:nil];
+                                               
+                                               NSString *urlString = [NSString stringWithFormat:@"%@?mergePaymentId=%@",GetPaySuccessH5URL,_mergePaymentId];
+                                               VBaseWebVC *webVC = [[VBaseWebVC alloc]initWithUrlString:urlString title:@"快捷支付"];
+                                               [self.navigationController pushViewController:webVC animated:YES];
+                                               
+                                           }else{
+                                               [VJDProgressHUD showTextHUD:responseObject[@"msg"]];
+                                           }
+                                           
+                                       } failure:^(NSError *error) {
+                                           [VJDProgressHUD showErrorHUD:INTERNET_ERROR];
+                                       }];
 }
 
 - (void)didReceiveMemoryWarning

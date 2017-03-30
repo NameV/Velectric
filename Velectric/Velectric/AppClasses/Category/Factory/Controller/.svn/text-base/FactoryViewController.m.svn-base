@@ -362,12 +362,12 @@
     
     NSString * requestUrl = nil;
     if (self.brandNameStr||self.categoryNameStr) {
-        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&optionIds=%@&categoryName=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
-                     ,self.minPrice,self.maxPrice,self.properyId,self.categoryNameStr];
+        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&optionIds=%@&categoryName=%@&sort=%@&sortDirection=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
+                     ,self.minPrice,self.maxPrice,self.properyId,self.categoryNameStr,self.sort,self.sortDirection];
         
     }else{
-        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
-                     ,self.minPrice,self.maxPrice];
+        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&sort=%@&sortDirection=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
+                     ,self.minPrice,self.maxPrice,self.sort,self.sortDirection];
     }
     requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
@@ -554,15 +554,15 @@
             
         }else if (clickInxex == 1){
             ELog(@"升序");
-            self.sort = @"minProductPrice";
+            self.sort = @"price";
             if (toolbar.orderByType ==OrderBy_Up) {//升序
-                self.sort = @"minProductPrice";
+//                self.sort = @"minProductPrice";
                 self.sortDirection =@"asc";
                 self.pageNum = 1;
               //  [self requestSearchProductPaginationResult];
                 [_tableView headerBeginRefreshing];
             }if ((toolbar.orderByType==OrderBy_Down)) {//降序
-                self.sort =@"minProductPrice";
+//                self.sort =@"minProductPrice";
                 self.sortDirection =@"desc";
                 self.pageNum = 1;
                // [self requestSearchProductPaginationResult];
@@ -577,7 +577,9 @@
            // [self requestSearchProductPaginationResult];
            // self.pageNum = 1;
         }else if (clickInxex == 2){
-            
+            self.sort = @"salesVolume";//销量排序
+            self.sortDirection = @"";
+            [_tableView headerBeginRefreshing];
         }else if (clickInxex == 3){
             self.saiXuanView.hidden = NO;
            // self.saiXuanView.enterType = ScreeningViewEnterType3;
@@ -742,7 +744,7 @@
 //收藏商品
 - (void)collectWithBtn:(UIButton *)btn {//TODO
     NSDictionary * parameters = @{@"loginName":GET_USER_INFO.loginName,
-                                  @"name" : self.manufacturerName ? self.manufacturerName : @"",
+                                  @"name" : _brandsModel.name ? _brandsModel.name : @"",
                                   @"manufacturerId" : self.manufacturerId ? self.manufacturerId : @""
                                   };
     [VJDProgressHUD showProgressHUD:nil];

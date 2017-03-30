@@ -502,6 +502,7 @@
     if (!cell) {
         cell = [[[NSBundle mainBundle]loadNibNamed:@"CartCell" owner:self options:nil]lastObject];
     }
+    cell.infoLable.numberOfLines = 1;
     PPNumberButton * numberBtn = [PPNumberButton numberButtonWithFrame:CGRectZero];
                                   //CGRectMake(5, 0, 100, 30)];
     if ([self.rightBtn.titleLabel.text isEqualToString:@"编辑"]) {
@@ -559,7 +560,7 @@
     
     DetailsViewController * detail = [[DetailsViewController alloc]init];
     detail.name = cartModel.goodsName;
-    detail.iD =cartModel.productId;
+    detail.iD = [NSString stringWithFormat:@"%ld",(long)cartModel.goodsId];
     detail.type = @"";
     [self.navigationController pushViewController:detail animated:YES];
     

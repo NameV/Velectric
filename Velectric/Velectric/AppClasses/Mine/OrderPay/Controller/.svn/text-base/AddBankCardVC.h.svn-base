@@ -7,7 +7,14 @@
 //
 
 #import "BaseViewController.h"
+#import "BankInfoModel.h"
 
 @interface AddBankCardVC : BaseViewController
+
+@property (nonatomic, strong) BankInfoModel *bankModel;
+/* mergePaymentId */
+@property (nonatomic, copy) NSString *mergePaymentId;
+/* 总价格 */
+@property (nonatomic, copy) NSString *totalAmount;
 
 @end

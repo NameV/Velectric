@@ -36,6 +36,12 @@
 @property (nonatomic, strong)UIView * bgView;
 @property (nonatomic, assign)NSInteger pageNum;//分页页数
 @property (nonatomic, strong)ScreeningView * saiXuanView;//筛选的VIew
+@property (nonatomic, strong)VJDToolbarView * toolbar;//销量  价格
+
+
+/* 搜索无结果时的提示文字 */
+@property (nonatomic, strong) UILabel *messageLabel;
+
 @end
 
 @implementation CommodityTableViewController {
@@ -73,6 +79,7 @@
 
 - (void)initView{
     VJDToolbarView * toolbar = [[VJDToolbarView alloc]initWithFrame:CGRectMake(0,0, self.view.frame.size.width, 40)];
+    self.toolbar = toolbar;
     toolbar.isChangeStatus = YES;
     toolbar.itemsList = @[@{@"text":@"默认"},
                           @{@"text":@"价格",@"icon":@"orderbyno"},
@@ -86,7 +93,7 @@
          //   [self initDataPageNum:1];
             [_tableView headerBeginRefreshing];
         }else if (clickInxex == 1){
-            self.sort = @"minProductPrice";
+            self.sort = @"price";
             if (toolbar.orderByType ==OrderBy_Up) {//升序
                 self.sortDirection =@"asc";
                // [self initDataPageNum:1];
@@ -97,7 +104,8 @@
                 [_tableView headerBeginRefreshing];
             }
         }else if (clickInxex == 2){
-         
+            self.sort = @"salesVolume";//销量排序
+            [_tableView headerBeginRefreshing];
 
         }else if (clickInxex == 3){
             
@@ -294,7 +302,7 @@
             [_tableView footerEndRefreshing];
         }];
         return;
-    }else if ([@"2" isEqualToString:_fromType]) {
+    }else if ([@"2" isEqualToString:_fromType]) {//搜索过来的
         categoryStr = self.categoryIdList;
         
         if (self.brandNameStr) {
@@ -329,7 +337,12 @@
             [_tableView headerEndRefreshing];
             [_tableView footerEndRefreshing];
             [VJDProgressHUD dismissHUD];
-            [_tableView reloadData];
+            if (dataArray.count > 0) {
+                [_tableView reloadData];
+            }else{
+                [self searchRecommendedRequest];//搜索无结果列表推荐
+            }
+            
         } failure:^(NSError *error) {
             [VJDProgressHUD showTextHUD:@"数据请求错误，请稍后重试"];
             [_tableView headerEndRefreshing];
@@ -424,6 +437,72 @@
     }];
     
 }
+
+//搜索无结果推荐列表 请求
+- (void)searchRecommendedRequest {
+    
+    NSString *urlString = @"";
+    urlString = [NSString stringWithFormat:@"%@?keyWords=%@",SearchRecommendedUrl,_keyWords];
+    urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    [SYNetworkingManager GetOrPostWithHttpType:1
+                                 WithURLString:urlString
+                                    parameters:nil
+                                       success:^(NSDictionary *responseObject) {
+                                           
+                                           dataArray = [responseObject[@"result"] mutableCopy];
+                                           
+                                           
+                                           NSString *str;
+                                           NSMutableAttributedString *mutStr ;
+                                           if (dataArray.count > 0) {
+                                               str = [NSString stringWithFormat:@"抱歉，没有找到“%@”的搜索结果，为您推荐以下结果",_keyWords];
+                                               mutStr =[[NSMutableAttributedString alloc]initWithString:str];
+                                               
+                                               [self.view addSubview:self.messageLabel];
+                                               [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                                                   make.left.right.top.equalTo(self.view);
+                                                   make.height.mas_equalTo(50);
+                                               }];
+                                               [mutStr addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:[str rangeOfString:_keyWords]];
+                                               self.messageLabel.attributedText = mutStr;
+                                               
+                                               //toorbar 重置frame
+                                               [self.toolbar mas_makeConstraints:^(MASConstraintMaker *make) {
+                                                   make.left.right.equalTo(self.view);
+                                                   make.top.equalTo(self.messageLabel.mas_bottom);
+                                                   make.height.mas_equalTo(40);
+                                               }];
+                                               
+                                               [_tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+                                                   make.left.right.bottom.equalTo(self.view);
+                                                   make.top.equalTo(self.toolbar.mas_bottom);
+                                               }];
+
+                                           }else{
+                                               str = [NSString stringWithFormat:@"抱歉，没有找到“%@”的搜索结果",_keyWords];
+                                               mutStr =[[NSMutableAttributedString alloc]initWithString:str];
+                                               
+                                               [self.toolbar removeFromSuperview];
+                                               self.toolbar.frame = CGRectZero;
+                                               
+                                               [self.view addSubview:self.messageLabel];
+                                               [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                                                   make.left.right.top.equalTo(self.view);
+                                                   make.height.mas_equalTo(50);
+                                               }];
+                                               [mutStr addAttribute:NSForegroundColorAttributeName value:[UIColor blackColor] range:[str rangeOfString:_keyWords]];
+                                               self.messageLabel.attributedText = mutStr;
+                                           }
+                                           
+                                           
+                                           [_tableView reloadData];
+                                           
+                                           
+                                       } failure:^(NSError *error) {
+                                           
+                                       }];
+}
+
 
 #pragma mark 热卖商品进来的网络请求
 -(void)netWorkEnterType2
@@ -554,6 +633,15 @@
         self.SV.isSearch = NO;
      //   [self.SV reloadTableview];
     }
+}
+
+- (UILabel *)messageLabel {
+    if (!_messageLabel) {
+        _messageLabel = [UILabel labelLongWithColor:[UIColor redColor] font:14];
+        _messageLabel.textAlignment = NSTextAlignmentCenter;
+        _messageLabel.backgroundColor = [UIColor whiteColor];
+    }
+    return _messageLabel;
 }
 
 

@@ -70,6 +70,7 @@
     [VJDProgressHUD showProgressHUD:nil];
     if ([webView.URL.absoluteString containsString:@"http://vjd/pljh"]) {
         VBatchShopViewController *VC = [[VBatchShopViewController alloc]init];
+        VC.enterType = 1;
         [self.navigationController pushViewController:VC animated:YES];
     }
 }

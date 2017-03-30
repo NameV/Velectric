@@ -19,6 +19,7 @@
 @property (nonatomic, strong) NSMutableArray *datas;
 @property (nonatomic, strong) UIButton *batchBtn;   //批量进货
 @property (nonatomic, strong) VEmptyView *emptyView;
+@property (nonatomic, strong) UIBarButtonItem *leftItem;
 
 @end
 
@@ -39,6 +40,7 @@
 
 - (void)baseConfig {
     self.navTitle = @"批量进货";
+    self.navigationItem.leftBarButtonItem = self.leftItem;
     [self setRightBarButtonWithTitle:nil withImage:[UIImage imageNamed:@"电话"] withAction:@selector(callPhonenumber)];
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.emptyView];
@@ -204,6 +206,11 @@
     [[UIApplication sharedApplication] openURL:[NSURL URLWithString:TelePhoneNum]];//TODO
 }
 
+//返回
+- (void)didBack:(UIButton *)btn {
+    [self.navigationController popToRootViewControllerAnimated:YES];
+}
+
 #pragma mark - getter
 
 - (UITableView *)tableView {
@@ -245,6 +252,19 @@
         _emptyView.hidden = YES;
     }
     return _emptyView;
+}
+
+//左侧返回按钮
+- (UIBarButtonItem *)leftItem {
+    if (!_leftItem) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        [button setImage:[UIImage imageNamed:@"back2"] forState:UIControlStateNormal];
+        button.frame = CGRectMake(0, 0, 20, 20);
+        UIBarButtonItem *item = [[UIBarButtonItem alloc]initWithCustomView:button];
+        [button addTarget:self action:@selector(didBack:) forControlEvents:UIControlEventTouchUpInside];
+        _leftItem = item;
+    }
+    return _leftItem;
 }
 
 - (void)didReceiveMemoryWarning {

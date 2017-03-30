@@ -11,6 +11,8 @@
 
 @interface VBaseWebVC : BaseViewController
 
-- (instancetype)initWithUrlString:(NSString *)urlString ;
+- (instancetype)initWithUrlString:(NSString *)urlString title:(NSString *)title;
+
+- (instancetype)initWithUrlString:(NSString *)urlString;
 
 @end

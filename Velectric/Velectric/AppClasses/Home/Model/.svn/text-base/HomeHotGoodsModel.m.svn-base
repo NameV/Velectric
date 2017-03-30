@@ -18,10 +18,10 @@
     else if ([key isEqualToString:@"defaultTitle"]) {
         self.name = value;
     }
-    else if ([key isEqualToString:@"defaultPrice"]) {
+    else if ([key isEqualToString:@"price"]) {
         self.minPrice = [value floatValue];
     }
-    else if ([key isEqualToString:@"defaultImageUrl"]) {
+    else if ([key isEqualToString:@"defaultGoodsPictureUrl"]) {
         self.pictureUrl = value;
     }
 }
