@@ -19,6 +19,9 @@
 //图片url
 @property (strong,nonatomic) NSString * url;
 
+//图片url
+@property (strong,nonatomic) NSString * imageUrl;
+
 //价格
 @property (strong,nonatomic) NSString * price;
 

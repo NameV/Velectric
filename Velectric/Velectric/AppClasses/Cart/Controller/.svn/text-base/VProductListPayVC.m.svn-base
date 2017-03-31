@@ -20,6 +20,7 @@
 @interface VProductListPayVC ()<UITableViewDelegate,UITableViewDataSource,UIGestureRecognizerDelegate,UIActionSheetDelegate>
 {
     NSMutableArray * dataArray;//数据源
+    NSMutableArray * UnSelectedDataArray;//购物车中未选中的数据源
     NSArray * listArray;//存放basketIds  的数组
 }
 
@@ -62,6 +63,7 @@
     self.view.backgroundColor = [UIColor whiteColor];//RGBColor(247,247, 247);
     dataArray = [NSMutableArray array];
     listArray = [NSMutableArray array];
+    UnSelectedDataArray = [NSMutableArray array];
     //初始化界面
     [self initUI];
 //    //判断是否是第一次进入购物车
@@ -102,7 +104,7 @@
             childRoonInt =childRoonInt+ listModel.cartList.count;
         }
         //*************循环出没有选中的model***************
-        
+        [UnSelectedDataArray removeAllObjects];
         NSMutableArray * productListArr1 = [NSMutableArray arrayWithArray:dataArray];
         for (int i=0; i<productListArr1.count; i++) {//循环出要传的model
             CartListModel * cartListModel = productListArr1[i];
@@ -110,9 +112,14 @@
                 CartModel * cartModel = cartListModel.cartList[j];
                 if (!cartModel.selected) {
                     [cartListModel.cartList removeObject:cartModel];
+                    
+                    cartModel.basketId = cartListModel.basketId;
+                    [UnSelectedDataArray addObject:cartModel];//未选中数组增加model
+                    
                     j--;
                     if (cartListModel.cartList.count==0) {
                         [productListArr1 removeObject:cartListModel];
+                        i--;
                     }
                 }
             }
@@ -344,6 +351,62 @@
         }
     }
     
+    //**************已经删除的也要加上*******************
+    
+    for (CartModel *cartModel in UnSelectedDataArray) {
+        if (!cartModel.selected) {
+            if (!selected) {
+                selected = @"0";
+            }else{
+                selected = [NSString stringWithFormat:@"%@,0",selected];
+            }
+        }else{
+            SelectStaute =YES;
+            if (!selected) {
+                selected = @"1";
+            }else{
+                selected = [NSString stringWithFormat:@"%@,1",selected];
+            }
+        }
+        //商品数量
+        if (quantitys) {
+            quantitys = [NSString stringWithFormat:@"%@,%lu",quantitys,cartModel.quantity];
+        }else{
+            quantitys = [NSString stringWithFormat:@"%lu",cartModel.quantity];
+        }
+        
+        //商品id
+        if (goodsIdStr) {
+            goodsIdStr = [NSString stringWithFormat:@"%@,%lu",goodsIdStr,cartModel.goodsId];
+        }else{
+            goodsIdStr = [NSString stringWithFormat:@"%lu",cartModel.goodsId];
+        }
+        
+        //购物篮id
+        if (basketIds) {
+            basketIds = [NSString stringWithFormat:@"%@,%@",basketIds,cartModel.basketId];
+        }else{
+            basketIds = cartModel.basketId;
+        }
+        
+        NSArray *separateArr = [basketIds componentsSeparatedByString:@","];
+        NSMutableDictionary *dic = [NSMutableDictionary dictionary];
+        for (NSString *key in separateArr) {
+            [dic setObject:key forKey:key];
+        }
+        NSString *mutString = nil;
+        for (NSString *key in dic.allKeys) {
+            if (mutString) {
+                mutString = [NSString stringWithFormat:@"%@,%@",mutString,key];
+            }else {
+                mutString = key;
+            }
+        }
+        basketIds = mutString;
+    }
+    
+    //***********************************************
+    
     NSMutableArray * productListArr1 = [NSMutableArray arrayWithArray:dataArray];
     for (int i=0; i<productListArr1.count; i++) {//循环出要传的model
         CartListModel * cartListModel = productListArr1[i];
@@ -354,6 +417,7 @@
                 j--;
                 if (cartListModel.cartList.count==0) {
                     [productListArr1 removeObject:cartListModel];
+                    i--;
                 }
             }
         }
@@ -438,8 +502,27 @@
             childRoonInt =childRoonInt+ listModel.cartList.count;
         }
         //0.05*SCREEN_HEIGHT*dataArray.count+0.22*SCREEN_HEIGHT*childRoonInt
-        [_tableView reloadData];
         [_tableView headerEndRefreshing];
+        
+        //*************循环出没有选中的model***************
+        
+        NSMutableArray * productListArr1 = [NSMutableArray arrayWithArray:dataArray];
+        for (int i=0; i<productListArr1.count; i++) {//循环出要传的model
+            CartListModel * cartListModel = productListArr1[i];
+            for (int j = 0; j < cartListModel.cartList.count; j++) {
+                CartModel * cartModel = cartListModel.cartList[j];
+                if (!cartModel.selected) {
+                    [cartListModel.cartList removeObject:cartModel];
+                    j--;
+                    if (cartListModel.cartList.count==0) {
+                        [productListArr1 removeObject:cartListModel];
+                        i--;
+                    }
+                }
+            }
+        }
+        dataArray = productListArr1;
+        //*********************************************
         
         self.block(dataArray);
         [self.navigationController popViewControllerAnimated:YES];

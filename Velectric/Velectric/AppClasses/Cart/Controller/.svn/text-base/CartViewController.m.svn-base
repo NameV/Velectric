@@ -425,6 +425,7 @@
                 j--;
                 if (cartListModel.cartList.count==0) {
                     [productListArr1 removeObject:cartListModel];
+                    i--;
                 }
             }
         }
@@ -439,6 +440,7 @@
     }
     
     orderVC.productList = productListArr1;//传值
+    orderVC.allProductList = dataArray;
     orderVC.settlemnetType =OrderSettlement_More;//(购物车进入)
     
     [VJDProgressHUD  showProgressHUD:@"请求中..."];

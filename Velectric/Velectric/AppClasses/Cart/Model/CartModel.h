@@ -16,6 +16,9 @@
 //id
 @property (assign,nonatomic) NSInteger goodsId;
 
+//basketId---后期新加参数
+@property (strong,nonatomic) NSString * basketId;
+
 //商品名
 @property (strong,nonatomic) NSString * goodsName;
 

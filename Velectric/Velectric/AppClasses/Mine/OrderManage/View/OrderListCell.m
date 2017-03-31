@@ -290,7 +290,7 @@
         goodsCount = 1;
         UIImageView * picView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 50, 50)];
         GoodsModel * goods = [model.goodsList firstObject];
-        NSURL * url = [NSURL URLWithString:CreateRequestApiPictureUrl(goods.url)];
+        NSURL * url = [NSURL URLWithString:CreateRequestApiPictureUrl(goods.imageUrl)];
         [picView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder"]];
         [_goodsBgView addSubview:picView];
         
@@ -313,7 +313,7 @@
             GoodsModel * goods = [model.goodsList objectAtIndex:i];
             goodsCount += goods.quantity;
             UIImageView * picView = [[UIImageView alloc]initWithFrame:CGRectMake(10 + i*60, 10, 50, 50)];
-            NSURL * url = [NSURL URLWithString:CreateRequestApiPictureUrl(goods.url)];
+            NSURL * url = [NSURL URLWithString:CreateRequestApiPictureUrl(goods.imageUrl)];
             [picView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder"]];
             [_goodsBgView addSubview:picView];
         }

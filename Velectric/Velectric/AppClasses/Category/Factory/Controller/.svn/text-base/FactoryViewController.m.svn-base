@@ -308,11 +308,11 @@
     
     NSString * requestUrl = nil;
     if (self.brandNameStr) {
-        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&optionIds=%@&categoryName=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
-                     ,self.minPrice,self.maxPrice,self.properyId,self.categoryNameStr];
+        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&optionIds=%@&categoryName=%@&sort=%@&sortDirection=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
+                     ,self.minPrice,self.maxPrice,self.properyId,self.categoryNameStr,self.sort,self.sortDirection];
     }else{
-        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
-                     ,self.minPrice,self.maxPrice];
+        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&sort=%@&sortDirection=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
+                     ,self.minPrice,self.maxPrice,self.sort,self.sortDirection];
     }
     requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     

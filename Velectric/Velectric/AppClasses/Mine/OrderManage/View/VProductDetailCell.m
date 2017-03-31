@@ -73,7 +73,8 @@
 
 - (void)setModel:(VProductDetailCellModel *)model {
     _model = model;
-    [self.iconImage sd_setImageWithURL:[NSURL URLWithString:model.url] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    NSString *urlString = [NSString stringWithFormat:@"%@/%@",V_Base_ImageURL,model.imageUrl];
+    [self.iconImage sd_setImageWithURL:[NSURL URLWithString:urlString] placeholderImage:[UIImage imageNamed:@"placeholder"]];
     self.titleLabel.text = model.name;
     self.countLable.text = [NSString stringWithFormat:@"规格：%@",model.text];
     self.priceLabel.text = [NSString stringWithFormat:@"￥%@",model.dealPrice];

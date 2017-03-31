@@ -230,40 +230,6 @@ yanghongzhou
 
 289
 
-OrderPaySuccessVC.h
-file
-
-
-
-
-2017-03-27T06:06:50.000000Z
-117df603543c56342ed19b4ab89bfe6e
-2017-03-15T10:29:52.349030Z
-1341
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-555
-
 AddBankCardVC.h
 file
 
@@ -298,16 +264,16 @@ yanghongzhou
 
 448
 
-OrderSettlementVC.h
+OrderPaySuccessVC.h
 file
 
 
 
 
 2017-03-27T06:06:50.000000Z
-bd0387e630527ec650f1fe12669e9f62
-2017-02-15T06:50:55.798318Z
-1083
+117df603543c56342ed19b4ab89bfe6e
+2017-03-15T10:29:52.349030Z
+1341
 yanghongzhou
 
 
@@ -330,7 +296,41 @@ yanghongzhou
 
 
 
-841
+555
+
+OrderSettlementVC.h
+file
+1422
+
+
+
+2017-03-31T03:08:11.000000Z
+85d2409cd0b584efdabc807c950fcbc2
+2017-03-31T07:14:32.179315Z
+1422
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+974
 
 ChooseBankVC.m
 file
@@ -366,40 +366,6 @@ yanghongzhou
 
 6505
 
-OrderPaySuccessVC.m
-file
-
-
-
-
-2017-03-27T06:06:50.000000Z
-b9a9101a2a3195694bcf1c8368c63ee7
-2017-03-15T10:29:52.349030Z
-1341
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-5309
-
 AddBankCardVC.m
 file
 
@@ -433,6 +399,40 @@ yanghongzhou
 
 
 8086
+
+OrderPaySuccessVC.m
+file
+
+
+
+
+2017-03-27T06:06:50.000000Z
+b9a9101a2a3195694bcf1c8368c63ee7
+2017-03-15T10:29:52.349030Z
+1341
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5309
 
 CommitOrderVC.h
 file

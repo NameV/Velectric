@@ -56,6 +56,11 @@
 //增加搜索接口
 - (void)addSearchRecordWithText:(NSString *)text {
     
+    if ([text isEmptyString]) {
+        [VJDProgressHUD showTextHUD:@"搜索内容不能为空"];
+        return;
+    }
+    
     HsearchModel *model = [[HsearchModel alloc]init];
     model.searchText = text;
     

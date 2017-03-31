@@ -201,7 +201,14 @@
         
         if (_noResult == YES) {
             NSString * labText = [NSString stringWithFormat:@"商品中%@",model.name];
-            NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[labText dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
+            NSMutableString *mutString = [[NSMutableString alloc]initWithString:labText];
+            if ([mutString containsString:@"color='red'"]) {
+                [mutString replaceCharactersInRange:[mutString rangeOfString:@"color='red'"] withString:@"color='#f2b602'"];
+            }
+            if ([mutString containsString:@"color='red'"]) {
+                [mutString replaceCharactersInRange:[mutString rangeOfString:@"color='red'"] withString:@"color='#f2b602'"];
+            }
+            NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[mutString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
 
             cell.searchLable.attributedText = attributedString;
             cell.categoryLble.text = [NSString stringWithFormat:@"约1个商品"];

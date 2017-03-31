@@ -32,4 +32,7 @@ typedef enum{
 
 @property (strong,nonatomic) NSMutableArray <CartListModel*>* productList;
 
+//全部商品列表，下个界面删除的时候用
+@property (strong,nonatomic) NSMutableArray <CartListModel*>* allProductList;
+
 @end
