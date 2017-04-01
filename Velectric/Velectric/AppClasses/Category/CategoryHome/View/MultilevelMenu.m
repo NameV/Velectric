@@ -275,7 +275,8 @@
     NSDictionary * dic = twoData[indexPath.section];
     self.headview.label.text = dic[@"name"];
     self.headview.allBtn.tag = indexPath.section;
-    self.headview.imageView.image = [UIImage imageNamed:@"categoryPic"];
+    [self.headview.imageView sd_setImageWithURL:[NSURL URLWithString:self.picUrl] placeholderImage:[UIImage imageNamed:@"categoryPic"]];
+//    self.headview.imageView.image = [UIImage imageNamed:@"categoryPic"];
     [self.headview.allBtn addTarget:self action:@selector(allBtnTouch:) forControlEvents:UIControlEventTouchUpInside];
     return self.headview;
 }

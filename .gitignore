@@ -28,6 +28,8 @@ xcuserdata/
 *.dSYM
 
 *.DS_Store
+*.svn
+*.svn/entries
 
 # CocoaPods
 #

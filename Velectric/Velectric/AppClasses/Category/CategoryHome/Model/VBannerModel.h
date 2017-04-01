@@ -12,7 +12,7 @@
 
 @property (nonatomic, copy) NSString *bannerTiltle;
 @property (nonatomic, copy) NSString *jumpPictureUrl;   //点击图片跳转url
-@property (nonatomic, copy) NSString *pictureUrl;       //图片路径
+@property (nonatomic, copy) NSString *picUrl;       //图片路径
 @property (nonatomic, copy) NSString *reginName;
 
 @property (nonatomic, strong) NSNumber *regionId;

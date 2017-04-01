@@ -788,6 +788,85 @@
 #pragma mark - 提示删除
 -(void)doLoginOut
 {
+    NSString *goodsIdStr =nil;
+    NSString *quantitys =nil;//商品数量
+    NSString * basketIds =nil;//购物篮id
+    NSString *kSelected = nil;
+    NSString * remark =nil;
+    BOOL SelectStaute=NO;
+    NSMutableArray * productListArr = [NSMutableArray arrayWithArray:dataArray];
+    for (CartListModel * cartListModel in productListArr) {//循环获取goodsIdStr，selected
+        for (CartModel * cartModel in cartListModel.cartList) {
+            //            if (goodsIdStr) {
+            //                goodsIdStr = [NSString stringWithFormat:@"%@,%ld",goodsIdStr,(long)cartModel.goodsId];
+            //            }else{
+            //                goodsIdStr = [NSString stringWithFormat:@"%ld",(long)cartModel.goodsId];
+            //            }
+            if (!cartModel.selected) {
+                if (!kSelected) {
+                    kSelected = @"0";
+                }else{
+                    kSelected = [NSString stringWithFormat:@"%@,0",kSelected];
+                }
+            }else{
+                SelectStaute =YES;
+                if (!kSelected) {
+                    kSelected = @"1";
+                }else{
+                    kSelected = [NSString stringWithFormat:@"%@,1",kSelected];
+                }
+            }
+            //商品数量
+            if (quantitys) {
+                quantitys = [NSString stringWithFormat:@"%@,%lu",quantitys,cartModel.quantity];
+            }else{
+                quantitys = [NSString stringWithFormat:@"%lu",cartModel.quantity];
+            }
+            
+            //商品id
+            if (goodsIdStr) {
+                goodsIdStr = [NSString stringWithFormat:@"%@,%lu",goodsIdStr,cartModel.goodsId];
+            }else{
+                goodsIdStr = [NSString stringWithFormat:@"%lu",cartModel.goodsId];
+            }
+            
+            
+        }
+        //购物篮id
+        if (basketIds) {
+            basketIds = [NSString stringWithFormat:@"%@,%@",basketIds,cartListModel.basketId];
+        }else{
+            basketIds = cartListModel.basketId;
+        }
+        
+    }
+    
+    
+    
+    for (NSString * basketIdStr in listArray) {
+        
+        if (remark) {
+            remark = [NSString stringWithFormat:@"%@,1",remark];
+            
+        }else{
+            remark=@"1";
+        }
+    }
+    
+    BOOL kisSelect = NO;
+    for (CartListModel * cartListModel in productListArr) {//循环获取goodsIdStr，selected
+        for (CartModel * cartModel in cartListModel.cartList){
+            if (cartModel.selected == YES) {
+                kisSelect  = YES;
+                break;
+            };
+        }
+    }
+    
+    if (!goodsIdStr||!basketIds||!quantitys||!kisSelect||!remark) {
+        [VJDProgressHUD showTextHUD:@"您还未选择商品"];
+        return;
+    }
     UIActionSheet * actionSheet = [[UIActionSheet alloc] initWithTitle:nil
                                                               delegate:self cancelButtonTitle:@"取消"
                                                 destructiveButtonTitle:@"你确定要删除吗？"

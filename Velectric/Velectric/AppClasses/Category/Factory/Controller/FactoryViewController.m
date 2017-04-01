@@ -98,7 +98,7 @@
             NSDictionary *responsDic = (NSDictionary *)responseObject;
             if ([self.type isEqualToString:@"1"]) {//品牌
                 self.brandDetailModel.name = responsDic[@"name"];
-                self.brandDetailModel.imageUrl = [NSString stringWithFormat:@"%@/%@",RequestApiPictureURL_Test,responsDic[@"logUrl"]];
+                self.brandDetailModel.imageUrl = [NSString stringWithFormat:@"%@/%@",V_Base_ImageURL,responsDic[@"logUrl"]];
                 self.brandDetailModel.kdescription = responsDic[@"description"];
                 self.brandDetailModel.manage = responsDic[@"scop"];
             }else if ([self.type isEqualToString:@"2"]) {
@@ -106,14 +106,14 @@
                 if (array.count > 0 ) {
                     NSDictionary *valueDic = [array firstObject];
                     self.brandDetailModel.name = valueDic[@"company"];
-                    self.brandDetailModel.imageUrl = [NSString stringWithFormat:@"%@/%@",RequestApiPictureURL_Test,valueDic[@"logUrl"]];
+                    self.brandDetailModel.imageUrl = [NSString stringWithFormat:@"%@/%@",V_Base_ImageURL,valueDic[@"logUrl"]];
                     self.brandDetailModel.kdescription = valueDic[@"description"];
                     self.brandDetailModel.manage = responsDic[@"scop"];
                 }
             }
             NSURL * url =[NSURL URLWithString:self.brandDetailModel.imageUrl];
             [weakSelf.logoImage sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder"]];
-            weakSelf.zhuYingLable.text = self.brandDetailModel.kdescription;
+            weakSelf.zhuYingLable.text = self.brandDetailModel.manage;
             weakSelf.navTitle =self.brandDetailModel.name;
             [weakSelf creatPinPaiDetail];
         }
@@ -679,7 +679,7 @@
     }
     FactoryModel * factoryModel = dataArray[indexPath.row];
     cell.commodityName.text = factoryModel.name;
-    [cell.commodityImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",RequestApiPictureURL_Test,factoryModel.pictureUrl]] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    [cell.commodityImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",V_Base_ImageURL,factoryModel.pictureUrl]] placeholderImage:[UIImage imageNamed:@"placeholder"]];
     cell.commodityPrice.text = [NSString stringWithFormat:@"%.2f",factoryModel.minPrice];
     if (factoryModel.count == 0) {
         factoryModel.count = (arc4random() % 10000);

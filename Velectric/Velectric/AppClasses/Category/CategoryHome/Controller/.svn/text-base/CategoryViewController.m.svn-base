@@ -129,8 +129,10 @@
                                            if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
                                                [VJDProgressHUD showSuccessHUD:nil];
                                                self.bannerModel = [VBannerModel yy_modelWithDictionary:responseObject[@"bannerPO"]];
-                                               NSString *imageUrl = [NSString stringWithFormat:@"%@/%@",V_Base_ImageURL,self.bannerModel.pictureUrl ];
+                                               NSString *imageUrl = [NSString stringWithFormat:@"%@/%@",V_Base_ImageURL,self.bannerModel.picUrl ];
+                                               self.multileView.headview.imageView.image = nil;
                                                [self.multileView.headview.imageView sd_setImageWithURL:[NSURL URLWithString:imageUrl] placeholderImage:[UIImage imageNamed:@"categoryPic"]];
+                                               self.multileView.picUrl = imageUrl;
                                                
                                            }else{
                                                [VJDProgressHUD showTextHUD:responseObject[@"msg"]];

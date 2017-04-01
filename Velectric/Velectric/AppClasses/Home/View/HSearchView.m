@@ -37,11 +37,11 @@
     _searchStr = fieldText;
     [self searchNetWorking:fieldText];
 }
-#pragma mark 搜索的网络请求
+#pragma mark 搜索的网络请求--智能提示
 -(void)searchNetWorking:(NSString *)searchStr
 {
     
-    NSString *urlString = [NSString stringWithFormat:@"%@?searchWord=%@",GetSuggestURL,searchStr];
+    NSString *urlString = [NSString stringWithFormat:@"%@?searchWord=%@&subsiteId=1",GetSuggestURL,searchStr];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
     [SYNetworkingManager GetOrPostNoBodyWithHttpType:1 WithURLString:urlString parameters:nil success:^(NSDictionary *responseObject) {
@@ -74,7 +74,7 @@
 - (void)searchRecommendedRequestWithText:(NSString *)text {
 
     NSString *urlString = @"";
-    urlString = [NSString stringWithFormat:@"%@?keyWords=%@&&pageSize=%@",SearchRecommendedUrl,text,@6];
+    urlString = [NSString stringWithFormat:@"%@?keyWords=%@&&pageSize=%@&subsiteId=1",SearchRecommendedUrl,text,@6];
     urlString = [urlString stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     [SYNetworkingManager GetOrPostWithHttpType:1
                                  WithURLString:urlString

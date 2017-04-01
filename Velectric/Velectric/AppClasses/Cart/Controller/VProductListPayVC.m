@@ -618,7 +618,7 @@
         make.height.equalTo(@30);
         make.width.equalTo(@100);
     }];
-    [cell.cartimageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",RequestApiPictureURL_Test,cartModel.picUrl]] placeholderImage:[UIImage imageNamed:@"placeholder"]];
+    [cell.cartimageView sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",V_Base_ImageURL,cartModel.picUrl]] placeholderImage:[UIImage imageNamed:@"placeholder"]];
     cell.infoLable.text =cartModel.goodsName;
     cell.cartimageView.userInteractionEnabled = YES;
     cell.moneyLable.text =[NSString stringWithFormat:@"¥ %@",cartModel.excutePrice

@@ -22,6 +22,8 @@
 
 //二期拿出来的，因为要加banner图片，所以放在.h文件中，便于去到属性
 @property (nonatomic, strong)HeaderView * headview;
+/* banner图片url */
+@property (nonatomic, copy) NSString *picUrl;
 
 @property(strong,nonatomic,readonly) NSArray * allData;
 

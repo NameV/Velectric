@@ -255,15 +255,19 @@
 - (void)toMainBtnAction:(UIButton *)btn {
     
     
-    if (self.tabBarController.selectedIndex == 0) {
-        [self.navigationController popToRootViewControllerAnimated:NO];
-    }else{
-        dispatch_queue_t queue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-        dispatch_async(queue, ^{
-            [self.navigationController popToRootViewControllerAnimated:NO];
-        });
-    }
-    self.tabBarController.selectedIndex = 0;
+//    if (self.tabBarController.selectedIndex == 0) {
+//        [self.navigationController popToRootViewControllerAnimated:NO];
+//    }else{
+//        dispatch_queue_t queue =  dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+//        dispatch_async(queue, ^{
+//            [self.navigationController popToRootViewControllerAnimated:NO];
+//        });
+//    }
+    [self.navigationController popToRootViewControllerAnimated:NO];
+    VelectricTabbarController *mainCon = (VelectricTabbarController *)[UIApplication sharedApplication].keyWindow.rootViewController ;
+    mainCon.selectedIndex = 0;
+    
+//    self.tabBarController.selectedIndex = 0;
 }
 
 #pragma mark ------------------------- tableview delegate---------------------------

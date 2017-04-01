@@ -31,5 +31,8 @@
  *  @return 清除存入的信息
  */
 - (void)clearInfo;
+
+//获取用户信息
+- (NSDictionary *)getUserInfo;
  
 @end

@@ -26,40 +26,6 @@ yanghongzhou
 
 f8e417dc-ff0f-4c5c-8625-6b0fab15d564
 
-CommodityModel.m
-file
-
-
-
-
-2017-03-27T06:06:50.000000Z
-c0e8776f75ed8b31d8c17c3968482a0e
-2017-02-15T06:50:55.798318Z
-1083
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1047
-
 DetailsMode.h
 file
 
@@ -93,6 +59,40 @@ has-props
 
 
 856
+
+CommodityModel.m
+file
+
+
+
+
+2017-03-27T06:06:50.000000Z
+c0e8776f75ed8b31d8c17c3968482a0e
+2017-02-15T06:50:55.798318Z
+1083
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1047
 
 SCCategoryDetail.m
 file
@@ -300,14 +300,14 @@ has-props
 
 VBannerModel.h
 file
+1426
 
 
 
-
-2017-03-27T06:06:50.000000Z
-ad7b3cb42c2ba6e93532ddb4a13b1674
-2017-03-08T11:15:51.322378Z
-1316
+2017-04-01T07:22:44.000000Z
+b2398c115a4ea6681b46a8157ef464f3
+2017-04-01T08:04:34.135529Z
+1426
 yanghongzhou
 
 
@@ -330,7 +330,7 @@ yanghongzhou
 
 
 
-657
+653
 
 VBannerModel.m
 file

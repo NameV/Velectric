@@ -51,6 +51,9 @@
         [self creatGuideView];
     }
     
+    //检测网络状态
+    [self AFNetWorking];
+    
     return YES;
 }
 
@@ -341,6 +344,40 @@
 //        [VJDProgressHUD showErrorHUD:INTERNET_ERROR];
 //    }];
 //}
+
+#pragma mark - 检测网络状态
+
+/**
+ *  检测网络状态
+ */
+- (void)AFNetWorking {
+    [[AFNetworkReachabilityManager sharedManager]setReachabilityStatusChangeBlock:^(AFNetworkReachabilityStatus status) {
+        switch (status) {
+            case AFNetworkReachabilityStatusUnknown:
+                NSLog(@"未识别的网络");
+                [VJDProgressHUD showTextHUD:@"网络异常"];
+                break;
+                
+            case AFNetworkReachabilityStatusNotReachable:
+                NSLog(@"不可达的网络(未连接)");
+                [VJDProgressHUD showTextHUD:@"网络异常"];
+                break;
+                
+            case AFNetworkReachabilityStatusReachableViaWWAN:
+                NSLog(@"2G,3G,4G...的网络");
+                [VJDProgressHUD showTextHUD:@"移动网络"];
+                break;
+                
+            case AFNetworkReachabilityStatusReachableViaWiFi:
+                NSLog(@"wifi的网络");
+                [VJDProgressHUD showTextHUD:@"WIFI网络"];
+                break;
+            default:
+                break;
+        }
+    }];
+    [[AFNetworkReachabilityManager sharedManager] startMonitoring];
+}
 
 - (void)applicationWillResignActive:(UIApplication *)application {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
