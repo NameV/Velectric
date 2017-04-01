@@ -18,6 +18,9 @@
 @property (nonatomic, strong)UIView *leftLine;//左边的横线
 @property (nonatomic, strong)UIView *rightLine;//右边的横线
 
+/* 规格背景图 */
+@property (nonatomic, strong) UIScrollView *BgView;
+
 @end
 
 @implementation VSubDetailView
@@ -114,6 +117,41 @@
         make.right.equalTo(self.mas_right).offset(-kPadding);
     }];
     
+    [self addSubview:self.BgView];
+    [self.BgView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.bottom.equalTo(self);
+        make.top.equalTo(self.leftLine.mas_bottom).offset(10);
+    }];
+    
+}
+
+#pragma mark - setter
+
+- (void)setGuigeString:(NSString *)guigeString {
+    _guigeString = guigeString;
+    [self.BgView removeAllSubviews];
+    if (guigeString.length == 0 || [guigeString isEmptyString]) {
+        UILabel *label = [UILabel labelShortWithColor:V_GRAY_COLOR font:14];
+        label.text = @"无";
+    }else{
+        CGFloat height = 0 ;
+        NSArray *array = [guigeString componentsSeparatedByString:@","];
+        for (int i = 0; i < array.count; i++) {
+            UILabel *label = [UILabel labelShortWithColor:V_GRAY_COLOR font:12];
+//            label.backgroundColor = [UIColor blueColor];
+            CGFloat kWidth = (SCREEN_WIDTH - 40)/3 ;
+            CGFloat kHeight = 30;
+            CGFloat x = i % 3 ;
+            CGFloat y = i/3 ;
+            label.frame = CGRectMake((kWidth + 10) * x + 10, kHeight * y , kWidth, kHeight);
+            label.text = array[i];
+            [self.BgView addSubview:label];
+            
+            height = label.frame.origin.y ;
+        }
+        
+        self.BgView.contentSize = CGSizeMake(SCREEN_WIDTH,height + 30 * 3);
+    }
 }
 
 #pragma mark - getter
@@ -209,6 +247,13 @@
         _rightLine.backgroundColor = [UIColor ylColorWithHexString:@"#F2B602"];
     }
     return _rightLine;
+}
+
+- (UIScrollView *)BgView {
+    if (!_BgView) {
+        _BgView = [UIScrollView new];
+    }
+    return _BgView;
 }
 
 

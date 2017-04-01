@@ -386,6 +386,9 @@
 #pragma mark  顶部btn 的点击方法
 -(void)goTopFactoryTouch:(UIButton *)btn
 {
+    self.isSelcted = NO;
+    self.tanView.hidden =YES;
+    
     [self.goFactoryBtn setTitleColor:COLOR_999999 forState:UIControlStateNormal];
     [self.cart setTitleColor:COLOR_999999 forState:UIControlStateNormal];
     [self.goPayBtn setTitleColor:COLOR_999999 forState:UIControlStateNormal];
@@ -393,7 +396,7 @@
     if ([btn.titleLabel.text isEqualToString:@"商品介绍"]) {
         ELog(@"商品介绍");
         [btn setTitleColor:COLOR_F2B602 forState:UIControlStateNormal];
-        NSString * urlStr =[NSString stringWithFormat:@"%@/views/list/product_info_details.html?type=1&productId=%@",RequestDetailesURL_Dev,self.iD];
+        NSString * urlStr =[NSString stringWithFormat:@"%@?type=1&productId=%@",ProductInfoDetailsUrl,self.iD];
         NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
         // [NSURLRequest allowsAnyHTTPSCertificateForHost:urlStr];
         [self.view addSubview:self.web];
@@ -403,7 +406,7 @@
     }else if ([btn.titleLabel.text isEqualToString:@"规格参数"]) {
         ELog(@"规格参数");
         [btn setTitleColor:COLOR_F2B602 forState:UIControlStateNormal];
-        NSString * urlStr =[NSString stringWithFormat:@"%@/views/list/product_info_details.html?type=2&productId=%@",RequestDetailesURL_Dev,self.iD];
+        NSString * urlStr =[NSString stringWithFormat:@"%@?type=2&productId=%@",ProductInfoDetailsUrl,self.iD];
         NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
         // [NSURLRequest allowsAnyHTTPSCertificateForHost:urlStr];
         [self.view addSubview:self.web];
@@ -412,7 +415,7 @@
     }else if ([btn.titleLabel.text isEqualToString:@"包装清单"]) {
         ELog(@"包装清单");
         [btn setTitleColor:COLOR_F2B602 forState:UIControlStateNormal];
-        NSString * urlStr =[NSString stringWithFormat:@"%@/views/list/product_info_details.html?type=3&productId=%@",RequestDetailesURL_Dev,self.iD];
+        NSString * urlStr =[NSString stringWithFormat:@"%@?type=3&productId=%@",ProductInfoDetailsUrl,self.iD];
         NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
         // [NSURLRequest allowsAnyHTTPSCertificateForHost:urlStr];
         [self.view addSubview:self.web];
@@ -421,7 +424,7 @@
     }else if ([btn.titleLabel.text isEqualToString:@"售后"]) {
         ELog(@"售后");
         [btn setTitleColor:COLOR_F2B602 forState:UIControlStateNormal];
-        NSString * urlStr =[NSString stringWithFormat:@"%@/views/list/product_info_details.html?type=4&productId=%@",RequestDetailesURL_Dev,self.iD];
+        NSString * urlStr =[NSString stringWithFormat:@"%@?type=4&productId=%@",ProductInfoDetailsUrl,self.iD];
         NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
         // [NSURLRequest allowsAnyHTTPSCertificateForHost:urlStr];
         [self.view addSubview:self.web];
@@ -467,7 +470,13 @@
 #pragma mark 切换商品与详情
 -(void)goodsdetaiBtn:(UIButton *)btn
 {
+    
+    
     if (btn == self.goodsBtn) {
+        if (self.tableView.hidden == YES) {
+            self.isSelcted = NO;
+            self.tanView.hidden =YES;
+        }
         ELog(@"商品");
         self.tableView.hidden =NO;
         self.detailView.hidden = YES;
@@ -475,11 +484,15 @@
         [self.goodsBtn setTitleColor:COLOR_F2B602 forState:UIControlStateNormal];
         [self.detailBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     }else{
+        if (self.tableView.hidden == NO) {
+            self.isSelcted = NO;
+            self.tanView.hidden =YES;
+        }
         [self.detailBtn setTitleColor:COLOR_F2B602 forState:UIControlStateNormal];
         [self.goodsBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         self.tableView.hidden =YES;
         self.detailView.hidden = NO;
-        NSString * urlStr =[NSString stringWithFormat:@"%@/views/list/product_info_details.html?type=1&productId=%@",RequestDetailesURL_Dev,self.iD];
+        NSString * urlStr =[NSString stringWithFormat:@"%@?type=1&productId=%@",ProductInfoDetailsUrl,self.iD];
         NSURLRequest *request =[NSURLRequest requestWithURL:[NSURL URLWithString:urlStr]];
        // [NSURLRequest allowsAnyHTTPSCertificateForHost:urlStr];
         [self.view addSubview:self.web];
@@ -1260,6 +1273,8 @@
         self.produtSubView.priceLabel.text = [NSString stringWithFormat:@"￥%.2f",[priceValue floatValue]];
         self.produtSubView.productTypeValueLabel.text = dic[@"name"];
         self.produtSubView.minValueLabel.text = [NSString stringWithFormat:@"%@",dataDic[@"minimumOrderQuantity"]];
+        self.produtSubView.guigeString = dic[@"propvalue"];
+//        self.produtSubView.guigeString = @"时间了反馈,爱是来得及发来看撒,asdj,阿萨德飞机,aslfjl";
         self.produtSubView.hidden = NO;
     }
     

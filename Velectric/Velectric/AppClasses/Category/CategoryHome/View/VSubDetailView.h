@@ -22,6 +22,7 @@
 @property (nonatomic, strong)UILabel *minKeyLabel;//最小起订量Valuelabel
 @property (nonatomic, strong)UILabel *minValueLabel;//最小起订量Valuelabel
 
-
+/* 规格型号字符串，set方法控制button的显示 */
+@property (nonatomic, copy) NSString *guigeString;
 
 @end

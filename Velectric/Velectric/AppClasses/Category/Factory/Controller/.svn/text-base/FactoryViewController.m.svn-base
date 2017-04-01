@@ -106,7 +106,7 @@
                 if (array.count > 0 ) {
                     NSDictionary *valueDic = [array firstObject];
                     self.brandDetailModel.name = valueDic[@"company"];
-                    self.brandDetailModel.imageUrl = [NSString stringWithFormat:@"%@/%@",V_Base_ImageURL,valueDic[@"logUrl"]];
+                    self.brandDetailModel.imageUrl = [NSString stringWithFormat:@"%@/%@",V_Base_ImageURL,valueDic[@"logoUrl"]];
                     self.brandDetailModel.kdescription = valueDic[@"description"];
                     self.brandDetailModel.manage = responsDic[@"scop"];
                 }

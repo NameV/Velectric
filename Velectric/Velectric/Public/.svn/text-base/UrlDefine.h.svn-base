@@ -746,6 +746,14 @@
 #define GetOrderToPayPATH         @"views/my/order/toPay.html"
 #define OrderToPayUrl          CreateH5Url(GetOrderToPayPATH)
 
+/**
+ *  详情H5
+ */
+
+#define GetProductInfoDetailsPATH         @"/views/list/product_info_details.html"
+#define ProductInfoDetailsUrl          CreateH5Url(GetProductInfoDetailsPATH)
+
+
 
 //-------------------------- H5 End ----------------------
 
