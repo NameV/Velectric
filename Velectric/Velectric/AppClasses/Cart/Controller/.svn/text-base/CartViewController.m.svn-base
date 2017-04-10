@@ -38,6 +38,9 @@
 @property (nonatomic, copy)NSString * flagBottom;//底部Btn的显示标示
 @property (nonatomic,strong)UILabel * hejiLable;//底部合计的lable
 
+/* 底部遮盖view，购物车为空时遮住底部view */
+@property (nonatomic, strong) UIView *bottomView;
+
 @end
 
 
@@ -72,6 +75,12 @@
         //购物车蒙层提示
         [self mengCengUI];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(reloadTableView) name:CartViewReloadView object:nil];
+}
+
+- (void)reloadTableView {
+    [self.tableView reloadData];
 }
 #pragma mark 请求购物车数据
 -(void)loadUpdata
@@ -92,11 +101,24 @@
             [cListModel setValuesForKeysWithDictionary:brandsInfo];
             [dataArray addObject:cListModel];
         }
+        
+        //****************赋值basketID******************
+        for (int i=0; i<dataArray.count; i++) {//循环出要传的model
+            CartListModel * cartListModel = dataArray[i];
+            for (int j = 0; j < cartListModel.cartList.count; j++) {
+                CartModel * cartModel = cartListModel.cartList[j];
+                cartModel.basketId = cartListModel.basketId;
+            }
+        }
+        //*********************************************
+        
         if (dataArray.count) {
             self.cartnil.hidden = YES;
+            self.bottomView.hidden = YES;
             self.rightBtn.hidden = NO;
         }else{
             self.cartnil.hidden = NO;
+            self.bottomView.hidden = NO;
             self.rightBtn.hidden = YES;
         }
         NSInteger childRoonInt = 0;
@@ -139,6 +161,7 @@
     self.navigationItem.rightBarButtonItem = rightBotton;
     
     UITableView * tableView = [[UITableView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 0) style:UITableViewStylePlain];
+    tableView.backgroundColor = [UIColor whiteColor];
     tableView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT - 49 - 50);
     tableView.separatorColor = [UIColor clearColor];
     tableView.delegate = self;
@@ -185,12 +208,15 @@
         bottomBtn.frame =CGRectMake(0, SCREEN_HEIGHT-113, SCREEN_WIDTH*0.33, 50);
         hejiLable.frame=CGRectMake(CGRectGetMaxX(bottomBtn.frame)-1, SCREEN_HEIGHT-113, SCREEN_WIDTH*0.33, 50);
         goPayBtn.frame =CGRectMake(SCREEN_WIDTH*0.66-1, SCREEN_HEIGHT-113, SCREEN_WIDTH*0.34+1, 50);
+        self.bottomView.frame = CGRectMake(0, SCREEN_HEIGHT-113, SCREEN_WIDTH, 50);
     }else{
         bottomBtn.frame =CGRectMake(0, SCREEN_HEIGHT-160, SCREEN_WIDTH*0.33, 50);
         hejiLable.frame=CGRectMake(CGRectGetMaxX(bottomBtn.frame)-1, SCREEN_HEIGHT-160, SCREEN_WIDTH*0.33, 50);
         goPayBtn.frame =CGRectMake(SCREEN_WIDTH*0.66-1, SCREEN_HEIGHT-160, SCREEN_WIDTH*0.34+1, 50);
+        self.bottomView.frame = CGRectMake(0, SCREEN_HEIGHT-160, SCREEN_WIDTH, 50) ;
     }
     
+    [self.view addSubview:self.bottomView];//底部遮挡视图
     
 }
 #pragma mark 编辑的button 的方法
@@ -205,26 +231,9 @@
     }else if ([@"全选" isEqualToString:btn.titleLabel.text]){
         ELog(@"全选");
         if (self.isSelect) {
-            self.isSelect =NO;
-//            [self.tableView reloadData];
-            [btn setImage:[UIImage imageNamed:@"weixuan"] forState:UIControlStateNormal];
-
-            for (CartListModel * listModel in dataArray) {
-                for (CartModel * model in listModel.cartList) {
-                        model.selected =NO;
-                }
-            }
-            [self.tableView reloadData];
+            [self selectAllBasketWithType:@0];
         }else{
-            self.isSelect =YES;
-//            [self.tableView reloadData];
-            [btn setImage:[UIImage imageNamed:@"yixuan"] forState:UIControlStateNormal];
-            for (CartListModel * listModel in dataArray) {
-                for (CartModel * model in listModel.cartList) {
-                        model.selected =YES;
-                }
-            }
-            [self.tableView reloadData];
+            [self selectAllBasketWithType:@1];
         }
         
     }else if ([@"去支付" isEqualToString:btn.titleLabel.text]){
@@ -429,14 +438,6 @@
                 }
             }
         }
-//        for (CartModel * cartModel in cartListModel.cartList){
-//            if (!cartModel.selected) {
-//                [cartListModel.cartList removeObject:cartModel];
-//                if (cartListModel.cartList.count==0) {
-//                    [productListArr1 removeObject:cartListModel];
-//                }
-//            }
-//        }
     }
     
     orderVC.productList = productListArr1;//传值
@@ -517,6 +518,7 @@
     cell.infoLable.numberOfLines = 1;
     PPNumberButton * numberBtn = [PPNumberButton numberButtonWithFrame:CGRectZero];
                                   //CGRectMake(5, 0, 100, 30)];
+    
     if ([self.rightBtn.titleLabel.text isEqualToString:@"编辑"]) {
         numberBtn.isCanEdit = YES;
     }else{
@@ -530,10 +532,11 @@
 
     CartListModel * model = [dataArray objectAtIndex:indexPath.section];
     CartModel * cartModel = [model.cartList objectAtIndex:indexPath.row];
+    numberBtn.cartModel = cartModel;//设置数量用参数
     numberBtn.minValue =[cartModel.minQdl integerValue]; //设置最小起订量
+    VJDWeakSelf;
     numberBtn.resultBlock = ^(NSString *num){
-        cartModel.quantity = [num integerValue];
-        [self.tableView reloadData];
+        [weakSelf changeQuantityWithQuantity:[num integerValue] model:cartModel];
     };
     cell.numberView.userInteractionEnabled = YES;
     if (cartModel.selected) {
@@ -564,6 +567,31 @@
 
     return cell;
 }
+
+- (void)changeQuantityWithQuantity:(NSInteger )quantity model:(CartModel *)cartModel{
+    NSDictionary * parameters = @{@"loginName":GET_USER_INFO.loginName ? GET_USER_INFO.loginName : @"",
+                                  @"basketId"  : cartModel.basketId ? cartModel.basketId : @"" ,
+                                  @"itemId" :   cartModel.itemId ? cartModel.itemId : @"" ,
+                                  @"goodId"    :  [NSNumber numberWithInteger:cartModel.goodsId] ,
+                                  @"quantity"   :   [NSNumber numberWithInteger:quantity]
+                                  };
+    [VJDProgressHUD showProgressHUD:nil];
+    [SYNetworkingManager GetOrPostWithHttpType:2
+                                 WithURLString:GetCartReplaceURL
+                                    parameters:parameters
+                                       success:^(NSDictionary *responseObject) {
+                                           [VJDProgressHUD dismissHUD];
+                                           if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
+                                               cartModel.quantity = quantity;
+                                               [self.tableView reloadData];
+                                           }
+                                           
+                                       } failure:^(NSError *error) {
+                                           [VJDProgressHUD showTextHUD:INTERNET_ERROR];
+                                           [self.tableView reloadData];
+                                       }];
+}
+
 #pragma mark didselect 选中的方法
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -588,6 +616,7 @@
 }
 
 #pragma mark cellBtn 的点击方法
+/*
 -(void)cellBtn:(UIButton *)btn
 {
     NSInteger section = btn.tag/10000;
@@ -603,6 +632,23 @@
     }
     [self.tableView reloadData];
 }
+*/
+-(void)cellBtn:(UIButton *)btn
+{
+    NSInteger section = btn.tag/10000;
+    NSInteger row = btn.tag%10000;
+    CartListModel * model = [dataArray objectAtIndex:section];
+    CartModel * cartModel = [model.cartList objectAtIndex:row];
+    
+    if (cartModel.selected == YES) {//选中的情况下，取消选中
+        [self unSelectCartWithModel:cartModel];
+    }else{//未选中的情况下，去选中
+        [self selectCartWithModel:cartModel];
+    }
+       
+    [self.tableView reloadData];
+}
+
 #pragma mark 每行行高
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -727,6 +773,7 @@
     
 }
 #pragma mark   每个分区btn 的选中状态
+/*
 -(void)xuanBtnSection:(UIButton *)btn
 {
     ELog(@"section 选中");
@@ -747,6 +794,115 @@
     }
     [self.tableView reloadData];
 }
+ */
+-(void)xuanBtnSection:(UIButton *)btn
+{
+    ELog(@"section 选中");
+    CartListModel * listModel = dataArray[btn.tag-150];
+    if (btn.selected) {
+        [self selectAllURLWithBasketId:listModel.basketId type:@0];
+        
+    }else{
+        [self selectAllURLWithBasketId:listModel.basketId type:@1];
+    }
+    [self.tableView reloadData];
+}
+
+//选中某个商品
+- (void)selectCartWithModel:(CartModel *)model {
+
+    NSDictionary * parameters = @{@"loginName":GET_USER_INFO.loginName ? GET_USER_INFO.loginName : @"",
+                                  @"basketId"  : model.basketId ? model.basketId : @"" ,
+                                  @"itemId" :   model.itemId ? model.itemId : @""
+                                  };
+    [VJDProgressHUD showProgressHUD:nil];
+    [SYNetworkingManager GetOrPostWithHttpType:2
+                                 WithURLString:GetCartSelectURL
+                                    parameters:parameters
+                                       success:^(NSDictionary *responseObject) {
+                                           [VJDProgressHUD dismissHUD];
+                                           if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
+                                                model.selected = YES;
+                                           }
+                                           [self.tableView reloadData];
+                                       } failure:^(NSError *error) {
+                                           [VJDProgressHUD showTextHUD:INTERNET_ERROR];
+                                       }];
+}
+
+//取消选中某个商品
+- (void)unSelectCartWithModel:(CartModel *)model {
+    NSDictionary * parameters = @{@"loginName":GET_USER_INFO.loginName ? GET_USER_INFO.loginName : @"",
+                                  @"basketId"  : model.basketId ? model.basketId : @"" ,
+                                  @"itemId" :   model.itemId ? model.itemId : @""
+                                  };
+    [VJDProgressHUD showProgressHUD:nil];
+    [SYNetworkingManager GetOrPostWithHttpType:2
+                                 WithURLString:GetCartUnselectURL
+                                    parameters:parameters
+                                       success:^(NSDictionary *responseObject) {
+                                           [VJDProgressHUD dismissHUD];
+                                           if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
+                                               model.selected = NO;
+                                           }
+                                           [self.tableView reloadData];
+                                       } failure:^(NSError *error) {
+                                           [VJDProgressHUD showTextHUD:INTERNET_ERROR];
+                                       }];
+}
+
+//全选/全不选厂家商品【type判断】
+- (void)selectAllURLWithBasketId:(NSString *)basketId type:(NSNumber *)type{
+    NSDictionary * parameters = @{@"loginName":GET_USER_INFO.loginName ? GET_USER_INFO.loginName : @"",
+                                  @"basketId"  : basketId ,
+                                  @"type" :   type // 1-全选，0-全不选
+                                  };
+    [VJDProgressHUD showProgressHUD:nil];
+    [SYNetworkingManager GetOrPostWithHttpType:2
+                                 WithURLString:SelectAllURL
+                                    parameters:parameters
+                                       success:^(NSDictionary *responseObject) {
+                                           [VJDProgressHUD dismissHUD];
+                                           for (int i=0; i<dataArray.count; i++) {
+                                               CartListModel * cartListModel = dataArray[i];
+                                               if (cartListModel.basketId == basketId) {
+                                                   for (int j = 0; j < cartListModel.cartList.count; j++) {
+                                                       CartModel * cartModel = cartListModel.cartList[j];
+                                                       cartModel.selected = [type boolValue];
+                                                   }
+                                                   break;
+                                               }
+                                           }
+                                           [self.tableView reloadData];
+                                       } failure:^(NSError *error) {
+                                           [VJDProgressHUD showTextHUD:INTERNET_ERROR];
+                                       }];
+}
+
+//全选/全不选【type判断】
+- (void)selectAllBasketWithType:(NSNumber *)type{
+    NSDictionary * parameters = @{@"loginName":GET_USER_INFO.loginName ? GET_USER_INFO.loginName : @"",
+                                  @"type" :   type // 1-全选，0-全不选
+                                  };
+    [VJDProgressHUD showProgressHUD:nil];
+    [SYNetworkingManager GetOrPostWithHttpType:2
+                                 WithURLString:SelectAllBasketURL
+                                    parameters:parameters
+                                       success:^(NSDictionary *responseObject) {
+                                           [VJDProgressHUD dismissHUD];
+                                           for (int i=0; i<dataArray.count; i++) {
+                                               CartListModel * cartListModel = dataArray[i];
+                                               for (int j = 0; j < cartListModel.cartList.count; j++) {
+                                                   CartModel * cartModel = cartListModel.cartList[j];
+                                                   cartModel.selected = [type boolValue];
+                                               }
+                                           }
+                                           [self.tableView reloadData];
+                                       } failure:^(NSError *error) {
+                                           [VJDProgressHUD showTextHUD:INTERNET_ERROR];
+                                       }];
+}
+
 
 #pragma mark 每次都循环用来获取底部全选的状态
 -(void)forInDataArray:(NSArray *)dataAr
@@ -754,19 +910,23 @@
     //底部btn的显示
     for (CartListModel *cartListModel in dataAr) {
         for (CartModel * cartModel in cartListModel.cartList) {
-            if (!cartModel.selected) {
+            if (!cartModel.selected) {//如果有一个没有被选中，则置为1
                 _flagBottom = @"1";
                 break;
             }else{
                 _flagBottom =nil;
             }
         }
-        if (!_flagBottom) {
+        if (!_flagBottom) {//为零说明全部选中
             [self.bottomBtn setImage:[UIImage imageNamed:@"yixuan"] forState:UIControlStateNormal];
+            self.isSelect = YES;
         }else{
+            [self.bottomBtn setImage:[UIImage imageNamed:@"weixuan"] forState:UIControlStateNormal];
+            self.isSelect = NO;
         }
     }
     if (dataAr.count==0) {
+        self.isSelect = NO;
         [self.bottomBtn setImage:[UIImage imageNamed:@"weixuan"] forState:UIControlStateNormal];
     }
     
@@ -888,6 +1048,18 @@
     }
 }
 
+- (UIView *)bottomView {
+    if (!_bottomView) {
+        _bottomView = [[UIView alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT-160, SCREEN_WIDTH, 50)];
+        _bottomView.backgroundColor = [UIColor whiteColor];
+    }
+    return _bottomView;
+}
+
+
+-(void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:CartViewReloadView object:nil];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -896,104 +1068,6 @@
 
 #pragma mark - 之前的代码
 
-//#pragma mark 去支付的网络请求
-//-(void)goPayNetWorking
-//{
-//    NSString *goodsIdStr =nil;
-//    NSString *quantitys =nil;
-//    NSString *selected = nil;
-//    NSString * remark =nil;
-//    BOOL SelectStaute=NO;
-//    NSMutableArray * productListArr = [NSMutableArray arrayWithArray:dataArray];
-//    for (CartListModel * cartListModel in productListArr) {//循环获取goodsIdStr，selected
-//        for (CartModel * cartModel in cartListModel.cartList) {
-//            if (goodsIdStr) {
-//                goodsIdStr = [NSString stringWithFormat:@"%@,%ld",goodsIdStr,(long)cartModel.goodsId];
-//            }else{
-//                goodsIdStr = [NSString stringWithFormat:@"%ld",(long)cartModel.goodsId];
-//            }
-//            if (!cartModel.selected) {
-//                if (!selected) {
-//                    selected = @"0";
-//                }else{
-//                    selected = [NSString stringWithFormat:@"%@,0",selected];
-//                }
-//            }else{
-//                SelectStaute =YES;
-//                if (!selected) {
-//                    selected = @"1";
-//                }else{
-//                    selected = [NSString stringWithFormat:@"%@,1",selected];
-//                }
-//            }
-//        }
-//    }
-//    
-//    OrderSettlementVC * orderVC = [[OrderSettlementVC alloc]init];
-//    NSMutableArray * productListArr1 = [NSMutableArray arrayWithArray:dataArray];
-//    for (int i=0; i<productListArr1.count; i++) {//循环出要传的model
-//        CartListModel * cartListModel = productListArr1[i];
-//        for (CartModel * cartModel in cartListModel.cartList){
-//            if (!cartModel.selected) {
-//                [cartListModel.cartList removeObject:cartModel];
-//                if (cartListModel.cartList.count==0) {
-//                    [productListArr1 removeObject:cartListModel];
-//                }
-//            }
-//        }
-//    }
-//    orderVC.productList = productListArr1;//传值
-//    orderVC.settlemnetType =OrderSettlement_More;//(购物车进入)
-//    NSString * basketIds =nil;
-//    for (NSString * basketIdStr in listArray) {
-//        
-//        if (remark) {
-//            remark = [NSString stringWithFormat:@"%@,1",remark];
-//            
-//        }else{
-//            remark=@"1";
-//        }
-//        
-//        if (basketIds) {
-//            basketIds = [NSString stringWithFormat:@"%@,%@",basketIds,basketIdStr];
-//        }else{
-//            basketIds = basketIdStr;
-//        }
-//        
-//        if (quantitys) {
-//            quantitys = [NSString stringWithFormat:@"%@,1",quantitys];
-//        }else{
-//            quantitys =@"1";
-//        }
-//    }
-//    
-//    [VJDProgressHUD  showProgressHUD:@"请求中..."];
-//    if (!goodsIdStr||!basketIds||!quantitys||!selected||!remark) {
-//        [VJDProgressHUD showTextHUD:@"您还未选择商品"];
-//        return;
-//    }
-//    NSDictionary * parameters = @{@"basketIds":basketIds,//购物篮ID
-//                                  @"goodsIdStr":goodsIdStr,//商品ID
-//                                  @"quantitys":quantitys,//商品数量
-//                                  @"selected":selected,
-//                                  @"remark":remark,
-//                                  @"loginName":GET_USER_INFO.loginName,
-//                                  };
-//    [SYNetworkingManager GetOrPostWithHttpType:2 WithURLString:GetAddAllGoodsToCartURL parameters:parameters success:^(NSDictionary *responseObject) {
-//        [VJDProgressHUD dismissHUD];
-//        if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
-//            if (SelectStaute) {
-//                [self.navigationController pushViewController:orderVC animated:YES];
-//            }else{
-//                [VJDProgressHUD showTextHUD:@"您还未选择商品"];
-//                return ;
-//            }
-//        }
-//    } failure:^(NSError *error) {
-//        ELog(@"失败");
-//        [VJDProgressHUD showTextHUD:@"网络连接异常，请重试"];
-//    }];
-//}
 
 
 @end

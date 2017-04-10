@@ -51,7 +51,8 @@
     UILabel * versionlab = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - 150)/2, logoImage.bottom + 10, 150, 20)];
     versionlab.font = Font_1_F15;
     versionlab.textColor = COLOR_666666;
-    versionlab.text = @"版本信息：V1.0";
+    NSString *Version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+    versionlab.text = [NSString stringWithFormat:@"版本信息：%@",Version];
     versionlab.textAlignment = NSTextAlignmentCenter;
     [self.view addSubview:versionlab];
     
@@ -76,7 +77,8 @@
     [self.view addSubview:attentionUSLab];
     
     //二维码
-    UIImage * code = [UIImage imageNamed:@"twoCode"];
+//    UIImage * code = [UIImage imageNamed:@"twoCode"];
+    UIImage * code = [UIImage imageNamed:@"AppStoreAdd"];
     UIImageView * twoCodeImage = [[UIImageView alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-code.size.width)/2, attentionUSLab.bottom + 30, code.size.width, code.size.height)];
     twoCodeImage.image = code;
     [self.view addSubview:twoCodeImage];

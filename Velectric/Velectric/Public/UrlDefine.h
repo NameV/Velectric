@@ -469,6 +469,35 @@
 #define GetDeletePATH         @"cart/delete"
 #define GetDeleteURL          CreateRequestApiShopCarUrl(GetDeletePATH)
 
+/**
+ *   勾选商品【单选】
+ */
+#define GetCartSelectPATH         @"cart/select"
+#define GetCartSelectURL          CreateRequestApiShopCarUrl(GetCartSelectPATH)
+
+/**
+ *   取消勾选【单选取消】
+ */
+#define GetCartUnselectPATH         @"cart/unSelect"
+#define GetCartUnselectURL          CreateRequestApiShopCarUrl(GetCartUnselectPATH)
+
+/**
+ *   修改购物车商品数量
+ */
+#define GetCartReplacePATH         @"cart/replace"
+#define GetCartReplaceURL          CreateRequestApiShopCarUrl(GetCartReplacePATH)
+
+/**
+ *   全选/全不选厂家商品【type判断】
+ */
+#define GetSelectAllPATH         @"cart/selectAll"
+#define SelectAllURL          CreateRequestApiShopCarUrl(GetSelectAllPATH)
+
+/**
+ *   全选/全不选【type判断】
+ */
+#define GetSelectAllBasketPATH         @"cart/selectAllBasket"
+#define SelectAllBasketURL          CreateRequestApiShopCarUrl(GetSelectAllBasketPATH)
 
 //-------------------------- 购物车 End ----------------------
 
@@ -756,6 +785,22 @@
 
 
 //-------------------------- H5 End ----------------------
+
+//-------------------------- 更新 Begin ----------------------
+
+/**
+ *  查看用户状态，显示不同页面
+ */
+#define GetgetAuditStatePATH         @"member/getAuditState"
+#define GetAuditStateURL          CreateRequestApiBaseUrl(GetgetAuditStatePATH)
+
+/**
+ *  查看更新
+ */
+#define GetGetVersionPATH         @"version/getVersion"
+#define GetVersionURL          CreateRequestApiBaseUrl(GetGetVersionPATH)
+
+//-------------------------- 更新 End ----------------------
 
 
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16C67" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
@@ -34,10 +34,18 @@
                         <constraint firstItem="yNY-nr-jV7" firstAttribute="centerX" secondItem="cvD-R7-S3v" secondAttribute="centerX" id="rB9-aN-tFL"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1y8-W4-HgU">
+                    <rect key="frame" x="0.0" y="532" width="375" height="135"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
             </subviews>
             <color key="backgroundColor" red="0.96862745098039216" green="0.96862745098039216" blue="0.96862745098039216" alpha="1" colorSpace="calibratedRGB"/>
             <constraints>
+                <constraint firstAttribute="trailing" secondItem="1y8-W4-HgU" secondAttribute="trailing" id="1LB-vS-72y"/>
+                <constraint firstItem="1y8-W4-HgU" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="6Rq-EV-JLa"/>
+                <constraint firstAttribute="bottom" secondItem="1y8-W4-HgU" secondAttribute="bottom" id="8tP-qX-bg8"/>
                 <constraint firstAttribute="bottom" secondItem="cvD-R7-S3v" secondAttribute="bottom" constant="135" id="Iay-z2-Pn5"/>
+                <constraint firstItem="1y8-W4-HgU" firstAttribute="top" secondItem="cvD-R7-S3v" secondAttribute="bottom" id="NCW-Nu-oj0"/>
                 <constraint firstItem="cvD-R7-S3v" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="YC9-Qq-nX8"/>
                 <constraint firstItem="cvD-R7-S3v" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="dBi-Kj-M5I"/>
                 <constraint firstAttribute="trailing" secondItem="cvD-R7-S3v" secondAttribute="trailing" id="tef-gA-Gti"/>

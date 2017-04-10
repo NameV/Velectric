@@ -1,14 +1,14 @@
 10
 
 dir
-1416
+1457
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/AppClasses/Category/Factory/Controller
 svn://yanghongzhou@192.168.1.6
 
 
 
-2017-03-30T04:28:40.223604Z
-1412
+2017-04-10T02:13:30.452444Z
+1455
 yanghongzhou
 
 
@@ -28,14 +28,14 @@ f8e417dc-ff0f-4c5c-8625-6b0fab15d564
 
 FactoryViewController.m
 file
-1430
 
 
 
-2017-04-01T10:07:57.000000Z
-5eb50b97ee83118ce35ac31d6edcb430
-2017-04-01T10:10:42.040602Z
-1430
+
+2017-04-10T02:10:35.000000Z
+04abe553b062e6b708ee6bc8b2b528d7
+2017-04-10T02:13:30.452444Z
+1455
 yanghongzhou
 
 
@@ -58,7 +58,7 @@ yanghongzhou
 
 
 
-34503
+35424
 
 FactoryViewController.h
 file
@@ -66,11 +66,11 @@ file
 
 
 
-2017-03-27T06:06:51.000000Z
-b8cff6e03d66af3e81f5665f9158ccf3
-2017-02-21T07:01:30.163316Z
-1109
-liuxiaoqin
+2017-04-10T01:59:14.000000Z
+116afbd42d594f5f9ca479e7942c4e86
+2017-04-10T02:13:30.452444Z
+1455
+yanghongzhou
 
 
 
@@ -92,5 +92,5 @@ liuxiaoqin
 
 
 
-1579
+1676
 

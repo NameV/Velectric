@@ -1,14 +1,14 @@
 10
 
 dir
-1416
+1457
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/Manager
 svn://yanghongzhou@192.168.1.6
 
 
 
-2017-02-15T06:50:55.798318Z
-1083
+2017-04-06T06:16:58.914766Z
+1439
 yanghongzhou
 
 
@@ -25,4 +25,72 @@ yanghongzhou
 
 
 f8e417dc-ff0f-4c5c-8625-6b0fab15d564
+
+VUpdateManager.h
+file
+
+
+
+
+2017-04-06T04:47:06.000000Z
+ee53ffdb2934f5d6f29f15e40f151b03
+2017-04-06T06:16:58.914766Z
+1439
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+476
+
+VUpdateManager.m
+file
+
+
+
+
+2017-04-06T04:46:06.000000Z
+8d0359b166f6bbe1936f08ecb77d51cc
+2017-04-06T06:16:58.914766Z
+1439
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+9549
 

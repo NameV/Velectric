@@ -38,5 +38,6 @@
 @property (nonatomic, copy)NSString * level;//id级别
 @property (nonatomic, copy)NSString * categoryNameStr;//筛选的name
 
-
+@property (copy,nonatomic) NSNumber * categoryIds;
+@property (copy,nonatomic) NSArray * brandIds;
 @end

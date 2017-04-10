@@ -9,6 +9,7 @@
 #import "LoginViewController.h"
 #import "AlertView.h"
 #import "CheckViewController.h"
+#import "VUpdateManager.h"
 
 @interface LoginViewController ()<AlertViewDelegate,UITextFieldDelegate>
 {
@@ -23,10 +24,18 @@
 @property (nonatomic, copy)NSString * VerifyCode;//图形验证码
 @property (nonatomic, assign) BOOL showVerityCode;//是否显示图形验证码
 @property (nonatomic, copy)NSString * auditStatestr;//审核状态
-
+/* 暂不登录，去逛逛 */
+@property (nonatomic, strong) UIButton *withoutLoginBtn;
 @end
 
 @implementation LoginViewController
+
+- (instancetype)init {
+    if (self = [super init]) {
+         [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(showWithoutLoginButton:) name:ShowWithouLoginNotification object:nil];
+    }
+    return self;
+}
 
 #pragma mark  初始化提示框
 - (AlertView *)alertView{
@@ -45,7 +54,26 @@
     self.view.backgroundColor = [UIColor whiteColor];
     [self creatUI];
     self.verifycodesign = 0;
+    
+    [self showWithoutLoginButton:nil];
+}
 
+//是否显示直接去首页的button
+- (void)showWithoutLoginButton:(NSNotification *)notification {
+    
+    VUpdateManager *manager = [VUpdateManager shareManager];
+//    NSDictionary *userInfo = notification.userInfo;
+    //显示button
+    if ([manager.showBtn isEqualToString:@"1"]) {
+        [self.view addSubview:self.withoutLoginBtn];
+        [self.withoutLoginBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.centerX.equalTo(self.view.mas_centerX);
+            make.bottom.equalTo(self.view.mas_bottom).offset(-20);
+        }];
+        self.withoutLoginBtn.hidden = NO;
+    }else{
+        self.withoutLoginBtn.hidden = YES;
+    }
 }
 
 #pragma mark segmendController 的创建
@@ -498,6 +526,35 @@
     [self.view endEditing:YES];
 }
 
+#pragma mark - withoutLoginBtnAction
+
+//暂不登录，去逛逛，进入主页
+- (void)withoutLoginBtnAction:(UIButton *)btn {
+    //账号登录的时储存用户信息
+    NSMutableDictionary * dic = [NSMutableDictionary dictionary];
+    [dic setValue:TestLoginName forKey:@"loginName"];//存手机号
+    [GET_USER_INFO setUserInfo:dic];
+    [UserDefaults setBool:YES forKey:DEFINE_STRING_LOGIN];
+    //切换tabbar
+    VelectricTabbarController * tabbar = [[VelectricTabbarController alloc]init];
+    self.view.window.rootViewController = tabbar;
+    //友盟账号统计
+    [MobClick profileSignInWithPUID:self.phoneLogin.phoneField.text provider:@"iOS"];
+}
+
+#pragma mark - getter
+
+-(UIButton *)withoutLoginBtn {
+    if (!_withoutLoginBtn) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+        [button setTitle:@"暂不登录，去逛逛" forState:UIControlStateNormal];
+        button.titleLabel.font = [UIFont systemFontOfSize:13];
+        [button setTitleColor:V_GRAY_COLOR forState:UIControlStateNormal];
+        [button addTarget:self action:@selector(withoutLoginBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+        _withoutLoginBtn = button;
+    }
+    return _withoutLoginBtn;
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -518,6 +575,8 @@
     self.navigationController.navigationBar.hidden = NO;
 }
 
-
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter]removeObserver:self name:ShowWithouLoginNotification object:nil];
+}
 
 @end

@@ -29,6 +29,7 @@
 #import "VProductListPayVC.h"//结算清单界面f
 
 #import "VSubDetailView.h"//弹出的规格型号页面
+#import "CartModel.h"
 
 @interface DetailsViewController ()<UITableViewDataSource, UITableViewDelegate,SDCycleScrollViewDelegate,MBProgressHUDDelegate,UIWebViewDelegate>
 {
@@ -594,12 +595,20 @@
         [self.navigationController pushViewController:cart animated:YES];
     }else if ([btn.titleLabel.text isEqualToString:@"加入购物车"]){
         ELog(@"加入购物车");
+        if ([GET_USER_INFO.loginName isEqualToString:TestLoginName]) {//测试账号，显示请登录按钮
+            [VJDProgressHUD showTextHUD:ReLoginToast];
+            return;
+        }
         if (mutableArray.count) {
             [self addLotCartNetWorking];
         }else{
             [self addCartNetWorking];
         }
     }else if ([btn.titleLabel.text isEqualToString:@"立即结算"]){
+        if ([GET_USER_INFO.loginName isEqualToString:TestLoginName]) {//测试账号，显示请登录按钮
+            [VJDProgressHUD showTextHUD:ReLoginToast];
+            return;
+        }
         //----------------------之前代码-----------------------
 //        if (mutableArray.count) {
 //            [self lotPay];
@@ -720,8 +729,23 @@
                 [self.allProductArray addObject:cListModel];
             }
             OrderSettlementVC *orderVC = [[OrderSettlementVC alloc]init];
+            NSMutableArray * productListArr1 = [NSMutableArray arrayWithArray:self.allProductArray];
+            for (int i=0; i<productListArr1.count; i++) {//循环出要传的model
+                CartListModel * cartListModel = productListArr1[i];
+                for (int j = 0; j < cartListModel.cartList.count; j++) {
+                    CartModel * cartModel = cartListModel.cartList[j];
+                    if (!cartModel.selected) {
+                        [cartListModel.cartList removeObject:cartModel];
+                        j--;
+                        if (cartListModel.cartList.count==0) {
+                            [productListArr1 removeObject:cartListModel];
+                            i--;
+                        }
+                    }
+                }
+            }
             orderVC.settlemnetType = OrderSettlement_More;
-            orderVC.productList = self.allProductArray;
+            orderVC.productList = productListArr1;
             [self.navigationController pushViewController:orderVC animated:YES];
 
         }else{

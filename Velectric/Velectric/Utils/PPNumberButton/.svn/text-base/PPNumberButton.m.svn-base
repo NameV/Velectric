@@ -150,7 +150,7 @@
     
     [textField.text pp_isNotBlank] == NO || textField.text.integerValue < _minValue ? _textField.text = minValueString : nil;
     textField.text.integerValue > _maxValue ? _textField.text = maxValueString : nil;
-    _resultBlock ? _resultBlock(_textField.text) : nil;
+    _resultBlock ? _resultBlock(_textField.text) : nil;//啦啦啦啦
     _delegate ? [_delegate pp_numberButton:self number:_textField.text] : nil;
 }
 
@@ -213,7 +213,7 @@
         }
         
         _textField.text = [NSString stringWithFormat:@"%ld", number];
-        _resultBlock ? _resultBlock(_textField.text) : nil;
+        _resultBlock ? _resultBlock(_textField.text) : nil;//啦啦啦啦
         _delegate ? [_delegate pp_numberButton:self number:_textField.text] : nil;
     }
     else
@@ -237,7 +237,7 @@
     if (number >= _minValue)
     {
         _textField.text = [NSString stringWithFormat:@"%ld", number];
-        _resultBlock ? _resultBlock(_textField.text) : nil;
+        _resultBlock ? _resultBlock(_textField.text) : nil;//啦啦啦啦
         _delegate ? [_delegate pp_numberButton:self number:_textField.text] : nil;
     }
     else

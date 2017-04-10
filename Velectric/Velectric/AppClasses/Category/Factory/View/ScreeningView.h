@@ -60,7 +60,7 @@
 @property (assign,nonatomic) BOOL isCreatBottomView;
 
 //回调block
-@property (copy,nonatomic) void (^screeningBlcok)(NSMutableArray * brandsList,NSMutableArray * properyList,NSString * lowPrice,NSString * highPrice);
+@property (copy,nonatomic) void (^screeningBlcok)(NSMutableArray * brandsList,NSMutableArray * properyList,NSString * lowPrice,NSString * highPrice,HomeCategoryModel *selectModel);
 //回调block
 @property (copy,nonatomic) void (^categoryNameBlock)(NSString * categoryNameStr);
 //screenView 的属性

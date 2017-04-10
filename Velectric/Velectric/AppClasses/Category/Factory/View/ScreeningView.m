@@ -709,7 +709,7 @@ static int brandMoreBtnTag = 20170317;//品牌查看更多按钮tag，防止更�
         }
     }
     if (_screeningBlcok) {
-        _screeningBlcok(_selectBrandsList,muArray,_lowPriceTextF.text,_highPriceTextF.text);
+        _screeningBlcok(_selectBrandsList,muArray,_lowPriceTextF.text,_highPriceTextF.text,_selectCategoryModel);
         if (_categoryNameBlock) {
                         _categoryNameBlock(_categoryValueLab.text);
         }

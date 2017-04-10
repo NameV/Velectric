@@ -29,6 +29,7 @@
 #import "VProductListPayVC.h"//结算清单界面f
 
 #import "VSubDetailView.h"//弹出的规格型号页面
+#import "CartModel.h"
 
 @interface DetailsViewController ()<UITableViewDataSource, UITableViewDelegate,SDCycleScrollViewDelegate,MBProgressHUDDelegate,UIWebViewDelegate>
 {
@@ -594,12 +595,20 @@
         [self.navigationController pushViewController:cart animated:YES];
     }else if ([btn.titleLabel.text isEqualToString:@"加入购物车"]){
         ELog(@"加入购物车");
+        if ([GET_USER_INFO.loginName isEqualToString:TestLoginName]) {//测试账号，显示请登录按钮
+            [VJDProgressHUD showTextHUD:ReLoginToast];
+            return;
+        }
         if (mutableArray.count) {
             [self addLotCartNetWorking];
         }else{
             [self addCartNetWorking];
         }
     }else if ([btn.titleLabel.text isEqualToString:@"立即结算"]){
+        if ([GET_USER_INFO.loginName isEqualToString:TestLoginName]) {//测试账号，显示请登录按钮
+            [VJDProgressHUD showTextHUD:ReLoginToast];
+            return;
+        }
         //----------------------之前代码-----------------------
 //        if (mutableArray.count) {
 //            [self lotPay];
@@ -625,6 +634,7 @@
 #pragma mark 单个加入购物车加入购物车的方法
 -(void)addCartNetWorkingBackground
 {
+    _btnDic = [_dataArray firstObject];//默认取第一个元素，不选中也能加入购物车
     if (!(_btnDic[@"id"])) {
         [VJDProgressHUD showTextHUD:@"请选择产品型号"];
         return;
@@ -652,6 +662,7 @@
 -(void)addLotCartNetWorkingBackground
 {
     
+    _btnDic = [_dataArray firstObject];//默认取第一个元素，不选中也能加入购物车
     NSString *goodId = nil;
     NSString * payNumber = nil;
     for (NSDictionary * dic in mutableArray) {//获取多个型号
@@ -720,8 +731,23 @@
                 [self.allProductArray addObject:cListModel];
             }
             OrderSettlementVC *orderVC = [[OrderSettlementVC alloc]init];
+            NSMutableArray * productListArr1 = [NSMutableArray arrayWithArray:self.allProductArray];
+            for (int i=0; i<productListArr1.count; i++) {//循环出要传的model
+                CartListModel * cartListModel = productListArr1[i];
+                for (int j = 0; j < cartListModel.cartList.count; j++) {
+                    CartModel * cartModel = cartListModel.cartList[j];
+                    if (!cartModel.selected) {
+                        [cartListModel.cartList removeObject:cartModel];
+                        j--;
+                        if (cartListModel.cartList.count==0) {
+                            [productListArr1 removeObject:cartListModel];
+                            i--;
+                        }
+                    }
+                }
+            }
             orderVC.settlemnetType = OrderSettlement_More;
-            orderVC.productList = self.allProductArray;
+            orderVC.productList = productListArr1;
             [self.navigationController pushViewController:orderVC animated:YES];
 
         }else{
@@ -790,7 +816,7 @@
 #pragma mark 多个型号去结算
 -(void)lotPay
 {
-    
+    _btnDic = [_dataArray firstObject];//默认取第一个元素，不选中也能加入购物车
     NSString *goodId = nil;
     NSString * payNumber = nil;
     NSMutableArray * totalPriceArr = [NSMutableArray array];//每个产品的单价
@@ -839,6 +865,7 @@
 #pragma mark 单个型号去结算
 -(void)aPay
 {
+    _btnDic = [_dataArray firstObject];//默认取第一个元素，不选中也能加入购物车
     if (!(_btnDic[@"id"])) {
         [VJDProgressHUD showTextHUD:@"请选择产品型号"];
         return;
@@ -857,6 +884,7 @@
 #pragma mark 单个加入购物车加入购物车的方法
 -(void)addCartNetWorking
 {
+    _btnDic = [_dataArray firstObject];//默认取第一个元素，不选中也能加入购物车
     if (!(_btnDic[@"id"])) {
         [VJDProgressHUD showTextHUD:@"请选择产品型号"];
         return;
@@ -883,6 +911,7 @@
 -(void)addLotCartNetWorking
 {
     
+    _btnDic = [_dataArray firstObject];//默认取第一个元素，不选中也能加入购物车
     NSString *goodId = nil;
     NSString * payNumber = nil;
     for (NSDictionary * dic in mutableArray) {//获取多个型号
@@ -1075,7 +1104,7 @@
             make.top.bottom.equalTo(cell.contentView);
             make.right.equalTo(cell.contentView.mas_right).offset(-130);
         }];
-        [popDetailBtn addTarget:self action:@selector(popDetailBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+//        [popDetailBtn addTarget:self action:@selector(popDetailBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         
         return cell;
 

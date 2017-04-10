@@ -39,6 +39,7 @@
 		24A8B2B71E6130DE0094C703 /* VGetMoneyRecordModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 24A8B2B61E6130DE0094C703 /* VGetMoneyRecordModel.m */; };
 		24A8B2BA1E61376D0094C703 /* VGetMoneyRecordCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 24A8B2B91E61376D0094C703 /* VGetMoneyRecordCell.m */; };
 		24AF94871E66BC8C004BDA1B /* VFileMnager.m in Sources */ = {isa = PBXBuildFile; fileRef = 24AF94861E66BC8C004BDA1B /* VFileMnager.m */; };
+		24B30C6F1E94C95900A86B4E /* VUpdateManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 24B30C6E1E94C95900A86B4E /* VUpdateManager.m */; };
 		24D09D171E67B358009B8D15 /* VScanRecordVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D09D161E67B358009B8D15 /* VScanRecordVC.m */; };
 		24D09D1D1E67CF7C009B8D15 /* VScanHistoryCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D09D1C1E67CF7C009B8D15 /* VScanHistoryCell.m */; };
 		24D09D201E67D032009B8D15 /* VScanHistoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 24D09D1F1E67D032009B8D15 /* VScanHistoryModel.m */; };
@@ -46,6 +47,9 @@
 		24ED21FE1E794CE5002947C2 /* NSDate+VDate.m in Sources */ = {isa = PBXBuildFile; fileRef = 24ED21FD1E794CE5002947C2 /* NSDate+VDate.m */; };
 		24ED22011E7BE1E0002947C2 /* NSArray+VArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 24ED22001E7BE1E0002947C2 /* NSArray+VArray.m */; };
 		24ED22041E7BE218002947C2 /* NSMutableArray+VMutableArray.m in Sources */ = {isa = PBXBuildFile; fileRef = 24ED22031E7BE218002947C2 /* NSMutableArray+VMutableArray.m */; };
+		24F74E691E95E0EF00FE2BCE /* VPalceHolderViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 24F74E681E95E0EF00FE2BCE /* VPalceHolderViewController.m */; };
+		24F74E6C1E95E82F00FE2BCE /* BSAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 24F74E6B1E95E82F00FE2BCE /* BSAlertView.m */; };
+		24F74E6F1E95E98700FE2BCE /* VUpdateModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 24F74E6E1E95E98700FE2BCE /* VUpdateModel.m */; };
 		4D0355E71E1F76D10039AA76 /* BrandsCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0355E61E1F76D10039AA76 /* BrandsCollectionCell.m */; };
 		4D0355EA1E1F8E9B0039AA76 /* HeaderNewView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D0355E91E1F8E9B0039AA76 /* HeaderNewView.m */; };
 		4D090EE31E0BD62B00AB5295 /* NSDate+BY.m in Sources */ = {isa = PBXBuildFile; fileRef = 4D090EE21E0BD62B00AB5295 /* NSDate+BY.m */; };
@@ -99,7 +103,6 @@
 		4DAF1FB11E05331C0028D42A /* GoodsModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DAF1FB01E05331C0028D42A /* GoodsModel.m */; };
 		4DAFCB4D1E127AE000F3EB97 /* HomeCategoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DAFCB4C1E127AE000F3EB97 /* HomeCategoryModel.m */; };
 		4DC551551E02A79C006A27E6 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC551541E02A79C006A27E6 /* main.m */; };
-		4DC5515E1E02A79C006A27E6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4DC5515C1E02A79C006A27E6 /* Main.storyboard */; };
 		4DC5516E1E02A79C006A27E6 /* VelectricTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC5516D1E02A79C006A27E6 /* VelectricTests.m */; };
 		4DC551791E02A79C006A27E6 /* VelectricUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4DC551781E02A79C006A27E6 /* VelectricUITests.m */; };
 		4DC551871E02A7D0006A27E6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4DC551861E02A7D0006A27E6 /* Assets.xcassets */; };
@@ -430,6 +433,8 @@
 		24AF943E1E669045004BDA1B /* Macro.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Macro.h; sourceTree = "<group>"; };
 		24AF94851E66BC8C004BDA1B /* VFileMnager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VFileMnager.h; sourceTree = "<group>"; };
 		24AF94861E66BC8C004BDA1B /* VFileMnager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VFileMnager.m; sourceTree = "<group>"; };
+		24B30C6D1E94C95900A86B4E /* VUpdateManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VUpdateManager.h; path = ../../Manager/VUpdateManager.h; sourceTree = "<group>"; };
+		24B30C6E1E94C95900A86B4E /* VUpdateManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VUpdateManager.m; path = ../../Manager/VUpdateManager.m; sourceTree = "<group>"; };
 		24D09D151E67B358009B8D15 /* VScanRecordVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VScanRecordVC.h; sourceTree = "<group>"; };
 		24D09D161E67B358009B8D15 /* VScanRecordVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VScanRecordVC.m; sourceTree = "<group>"; };
 		24D09D1B1E67CF7C009B8D15 /* VScanHistoryCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VScanHistoryCell.h; sourceTree = "<group>"; };
@@ -444,6 +449,12 @@
 		24ED22001E7BE1E0002947C2 /* NSArray+VArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+VArray.m"; sourceTree = "<group>"; };
 		24ED22021E7BE218002947C2 /* NSMutableArray+VMutableArray.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableArray+VMutableArray.h"; sourceTree = "<group>"; };
 		24ED22031E7BE218002947C2 /* NSMutableArray+VMutableArray.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableArray+VMutableArray.m"; sourceTree = "<group>"; };
+		24F74E671E95E0EF00FE2BCE /* VPalceHolderViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPalceHolderViewController.h; sourceTree = "<group>"; };
+		24F74E681E95E0EF00FE2BCE /* VPalceHolderViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VPalceHolderViewController.m; sourceTree = "<group>"; };
+		24F74E6A1E95E82F00FE2BCE /* BSAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BSAlertView.h; sourceTree = "<group>"; };
+		24F74E6B1E95E82F00FE2BCE /* BSAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BSAlertView.m; sourceTree = "<group>"; };
+		24F74E6D1E95E98700FE2BCE /* VUpdateModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VUpdateModel.h; sourceTree = "<group>"; };
+		24F74E6E1E95E98700FE2BCE /* VUpdateModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VUpdateModel.m; sourceTree = "<group>"; };
 		4D0355E51E1F76D10039AA76 /* BrandsCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BrandsCollectionCell.h; sourceTree = "<group>"; };
 		4D0355E61E1F76D10039AA76 /* BrandsCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BrandsCollectionCell.m; sourceTree = "<group>"; };
 		4D0355E81E1F8E9B0039AA76 /* HeaderNewView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeaderNewView.h; sourceTree = "<group>"; };
@@ -549,7 +560,6 @@
 		4DAFCB4C1E127AE000F3EB97 /* HomeCategoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeCategoryModel.m; sourceTree = "<group>"; };
 		4DC551501E02A79C006A27E6 /* Velectric.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Velectric.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC551541E02A79C006A27E6 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4DC5515D1E02A79C006A27E6 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4DC551641E02A79C006A27E6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4DC551691E02A79C006A27E6 /* VelectricTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VelectricTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC5516D1E02A79C006A27E6 /* VelectricTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VelectricTests.m; sourceTree = "<group>"; };
@@ -1136,12 +1146,16 @@
 		24AF94841E66BC7A004BDA1B /* Manager */ = {
 			isa = PBXGroup;
 			children = (
+				24B30C6D1E94C95900A86B4E /* VUpdateManager.h */,
+				24B30C6E1E94C95900A86B4E /* VUpdateManager.m */,
 				24AF94851E66BC8C004BDA1B /* VFileMnager.h */,
 				24AF94861E66BC8C004BDA1B /* VFileMnager.m */,
 				24970DCB1E6E5BBD00E974A5 /* VFileManagerHistoryModel.h */,
 				24970DCC1E6E5BBD00E974A5 /* VFileManagerHistoryModel.m */,
 				24970DC51E6D5AE900E974A5 /* VDateManager.h */,
 				24970DC61E6D5AE900E974A5 /* VDateManager.m */,
+				24F74E6D1E95E98700FE2BCE /* VUpdateModel.h */,
+				24F74E6E1E95E98700FE2BCE /* VUpdateModel.m */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1389,7 +1403,6 @@
 				4DC5520D1E02AC64006A27E6 /* Public */,
 				4DC552241E02AC64006A27E6 /* Manager */,
 				4DC552251E02AC64006A27E6 /* Framework */,
-				4DC5515C1E02A79C006A27E6 /* Main.storyboard */,
 				4DC551641E02A79C006A27E6 /* Info.plist */,
 				4DC551531E02A79C006A27E6 /* Supporting Files */,
 			);
@@ -1730,6 +1743,8 @@
 				4DC5520A1E02AC64006A27E6 /* VelectricNavController.m */,
 				4DC5520B1E02AC64006A27E6 /* VelectricTabbarController.h */,
 				4DC5520C1E02AC64006A27E6 /* VelectricTabbarController.m */,
+				24F74E671E95E0EF00FE2BCE /* VPalceHolderViewController.h */,
+				24F74E681E95E0EF00FE2BCE /* VPalceHolderViewController.m */,
 			);
 			name = VJDControl;
 			path = ../Utils/VJDControl;
@@ -2666,6 +2681,8 @@
 		CE6187621E5EBAC5006C39BD /* BSUI */ = {
 			isa = PBXGroup;
 			children = (
+				24F74E6A1E95E82F00FE2BCE /* BSAlertView.h */,
+				24F74E6B1E95E82F00FE2BCE /* BSAlertView.m */,
 				CE6187631E5FCAF6006C39BD /* USPopView.h */,
 				CE6187641E5FCAF6006C39BD /* USPopView.m */,
 				2476F5CF1E653A6C007ACC31 /* VPopView.h */,
@@ -2978,7 +2995,6 @@
 				4DC5537A1E02ADCD006A27E6 /* SVProgressHUD.bundle in Resources */,
 				4DFF88C51E2885D80038180C /* loading60x600020@2x.png in Resources */,
 				CE775B761E02B4CE00CBFC82 /* Commodity.plist in Resources */,
-				4DC5515E1E02A79C006A27E6 /* Main.storyboard in Resources */,
 				4DC553841E02ADF9006A27E6 /* license.txt in Resources */,
 				4DC553591E02AC64006A27E6 /* loginViewFirst.xib in Resources */,
 				4DC5533E1E02AC64006A27E6 /* MultilevelTableViewCell.xib in Resources */,
@@ -3060,6 +3076,7 @@
 				4DC553581E02AC64006A27E6 /* loginViewFirst.m in Sources */,
 				4DC553171E02AC64006A27E6 /* AFURLConnectionOperation.m in Sources */,
 				247ADB6A1E82564C00A1B78A /* NSDictionary+VDictionary.m in Sources */,
+				24F74E691E95E0EF00FE2BCE /* VPalceHolderViewController.m in Sources */,
 				4DC553551E02AC64006A27E6 /* BuyScoreView.m in Sources */,
 				4DC553531E02AC64006A27E6 /* memberMeansController.m in Sources */,
 				4DC553101E02AC64006A27E6 /* SCFocusTool.m in Sources */,
@@ -3096,6 +3113,7 @@
 				4DC553851E02ADF9006A27E6 /* readme.md in Sources */,
 				4D312E0F1E0521B5002EE343 /* PSNormalRefreshFooter.m in Sources */,
 				CE61876C1E5FCB26006C39BD /* VMyCardModel.m in Sources */,
+				24F74E6F1E95E98700FE2BCE /* VUpdateModel.m in Sources */,
 				4DA582E51E2B680D0059EF65 /* ScreeningCategoryViewCell3.m in Sources */,
 				4DC553121E02AC64006A27E6 /* BaseViewController.m in Sources */,
 				4D27B4371E0396A50010B7EE /* QuickPayVC.m in Sources */,
@@ -3139,6 +3157,7 @@
 				4D146AB31E13C11600DA17AB /* ScreeningCategoryView.m in Sources */,
 				4D146AAD1E139C3100DA17AB /* VJDToolbarView.m in Sources */,
 				2437012D1E63C6E500EA6D8E /* VBaseWebVC.m in Sources */,
+				24F74E6C1E95E82F00FE2BCE /* BSAlertView.m in Sources */,
 				4DC553641E02AC64006A27E6 /* AddressListCell1.m in Sources */,
 				F58E30691E52DA3B00FC9C8C /* VBatchListViewController.m in Sources */,
 				243701371E6407B600EA6D8E /* VEmptyView.m in Sources */,
@@ -3299,6 +3318,7 @@
 				4DC553AD1E02AFC7006A27E6 /* TYViewStorage.m in Sources */,
 				4DC5534B1E02AC64006A27E6 /* BuyScopeController.m in Sources */,
 				2476F5D71E657517007ACC31 /* VProductDetailModel.m in Sources */,
+				24B30C6F1E94C95900A86B4E /* VUpdateManager.m in Sources */,
 				4DC553781E02ADCD006A27E6 /* README.md in Sources */,
 				4DC553AC1E02AFC7006A27E6 /* TYTextStorage.m in Sources */,
 				4DC553001E02AC64006A27E6 /* UIView+REFrostedViewController.m in Sources */,
@@ -3346,17 +3366,6 @@
 			targetProxy = 4DC551751E02A79C006A27E6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
-
-/* Begin PBXVariantGroup section */
-		4DC5515C1E02A79C006A27E6 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4DC5515D1E02A79C006A27E6 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		4DC5517B1E02A79C006A27E6 /* Debug */ = {

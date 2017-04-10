@@ -1,14 +1,14 @@
 10
 
 dir
-1416
+1457
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/AppClasses/Login/Controller
 svn://yanghongzhou@192.168.1.6
 
 
 
-2017-03-21T09:35:05.175951Z
-1355
+2017-04-06T06:16:58.914766Z
+1439
 yanghongzhou
 
 
@@ -372,10 +372,10 @@ file
 
 
 
-2017-03-27T06:06:50.000000Z
-3f23ab28a5fee9d6541e9499a0ee9437
-2017-03-21T09:35:05.175951Z
-1355
+2017-04-06T04:51:40.000000Z
+2c4e599fa7aaaa23d54c1fe82b1a657f
+2017-04-06T06:16:58.914766Z
+1439
 yanghongzhou
 
 
@@ -398,7 +398,7 @@ yanghongzhou
 
 
 
-20193
+22611
 
 ScopeViewController.m
 file

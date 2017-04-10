@@ -30,6 +30,7 @@
  */
 
 #import <UIKit/UIKit.h>
+#import "CartModel.h"
 
 @protocol PPNumberButtonDelegate <NSObject>
 @optional
@@ -80,6 +81,9 @@ IB_DESIGNABLE
 
 /** 是否可编辑 */
 @property (nonatomic, assign) BOOL isCanEdit;
+
+/* 网络请求用 */
+@property (nonatomic, strong) CartModel *cartModel;
 
 @end
 

@@ -61,8 +61,14 @@
     
     //创建UI
     [self creatUI];
-    //创建header
-    [self creatHeaderView];
+    
+    if ([GET_USER_INFO.loginName isEqualToString:TestLoginName]) {//测试账号，显示请登录按钮
+        [self createReloginView];
+    }else{
+        //创建header
+        [self creatHeaderView];
+    }
+   
     //创建背景
     [self creatBackgroungView];
 }
@@ -115,6 +121,37 @@
     _companyNameLab.text = @"南京海伦机械设备有限公司";
     _companyNameLab.textAlignment = NSTextAlignmentCenter;
     [headerView addSubview:_companyNameLab];
+}
+
+//显示请登录按钮
+- (void)createReloginView {
+    UIImage * image = [UIImage imageNamed:@"topBgImage"];
+    UIImageView * headerView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_WIDTH/(image.size.width/image.size.height))];
+    headerView.image = image;
+    headerView.userInteractionEnabled = YES;
+    [_tableView setTableHeaderView:headerView];
+    
+    //黄色线条
+    UIView * line = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 1)];
+    line.backgroundColor = COLOR_F2B602;
+    [headerView addSubview:line];
+    
+    UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+    button.frame = CGRectMake((SCREEN_WIDTH - 100) /2 , (headerView.frame.size.height-40)/2, 100, 40);
+    [button setTitle:@"登录" forState:UIControlStateNormal];
+    [button setTitleColor:V_ORANGE_COLOR forState:UIControlStateNormal];
+    button.titleLabel.font = [UIFont systemFontOfSize:16];
+    [button addTarget:self action:@selector(reLoginActin:) forControlEvents:UIControlEventTouchUpInside];
+    [headerView addSubview:button];
+}
+
+- (void)reLoginActin:(UIButton *)button {
+    [GET_USER_INFO clearInfo];// 清除缓存的用户信息
+    [UserDefaults setBool:NO forKey:DEFINE_STRING_LOGIN];//设置为未登录状态
+    [[NSNotificationCenter defaultCenter]postNotificationName:@"changRootViewController" object:nil];
+    
+    //友盟账号统计
+    [MobClick profileSignOff];
 }
 
 #pragma mark - 创建背景
@@ -254,6 +291,11 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if ([GET_USER_INFO.loginName isEqualToString:TestLoginName]) {
+        [VJDProgressHUD showTextHUD:ReLoginToast];
+        return;
+    }
+    
     if (indexPath.section == 0) {
         //我的订单
         if (indexPath.row == 0) {

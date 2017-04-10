@@ -9,6 +9,8 @@
 #import "AppDelegate.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "WXApi.h"
+#import "VUpdateManager.h"//检查更新
+#import "VPalceHolderViewController.h"//程序加载时默认的控制器
 
 @interface AppDelegate ()<WXApiDelegate>
 
@@ -25,13 +27,29 @@
     [self changRootViewController];
     self.window = [[UIWindow alloc]initWithFrame:[[UIScreen mainScreen]bounds]];
     self.window.backgroundColor = [UIColor whiteColor];
-    if (![UserDefaults boolForKey:DEFINE_STRING_LOGIN]){
+    
+    //************************检查用户状态*****************************
+    
+    //****之前代码
+    /*if (![UserDefaults boolForKey:DEFINE_STRING_LOGIN]){
         [self creatLoginView];
     }else{
         VelectricTabbarController * tabbar = [[VelectricTabbarController alloc]init];
-        [self.window makeKeyAndVisible];
         self.window.rootViewController =tabbar;
-    }
+        [self.window makeKeyAndVisible];
+    }*/
+    //***
+    
+    //默认控制器
+    VPalceHolderViewController *placeHolderCon = [[VPalceHolderViewController alloc]init];
+    self.window.rootViewController = placeHolderCon;
+    [self.window makeKeyAndVisible];
+    
+    //检查用户状态
+    [[VUpdateManager shareManager]checkUserNameState];
+
+    //************************检查用户状态*****************************
+    
     /******** 微信注册 *******/
     [WXApi registerApp:@"wx58e030f56f357e85" withDescription:@"V机电1.0"];
     
@@ -397,7 +415,9 @@
 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
-    // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+    
+    //检查更新
+    [[VUpdateManager shareManager] checkVersion];
 }
 
 

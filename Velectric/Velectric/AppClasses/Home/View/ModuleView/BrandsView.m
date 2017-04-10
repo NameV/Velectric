@@ -153,7 +153,7 @@ static CGFloat originX = 10;
     flowLayout.minimumLineSpacing = 0;          //行间距 最小距离
     flowLayout.sectionInset = UIEdgeInsetsMake(1, 1, 1, 1);
     
-    _brandCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, _brandtypeScrollView.bottom, SCREEN_WIDTH, distance * 2 + 20) collectionViewLayout:flowLayout];
+    _brandCollectionView = [[UICollectionView alloc]initWithFrame:CGRectMake(0, _brandtypeScrollView.bottom, SCREEN_WIDTH, distance * 2+1 ) collectionViewLayout:flowLayout];
     _brandCollectionView.backgroundColor = COLOR_FFFFFF;
     _brandCollectionView.dataSource = self;
     _brandCollectionView.delegate = self;
@@ -195,7 +195,7 @@ static CGFloat originX = 10;
 // item 大小
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return CGSizeMake(SCREEN_WIDTH/4, SCREEN_WIDTH/4);
+    return CGSizeMake(SCREEN_WIDTH/4, SCREEN_WIDTH/4-1);
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

@@ -41,7 +41,7 @@
 
 - (void)webViewConfig {
     
-    WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT-20)];
+    WKWebView *webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
     self.webView = webView;
     [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:HelpCenterUrl]]];
     [self.view addSubview:webView];

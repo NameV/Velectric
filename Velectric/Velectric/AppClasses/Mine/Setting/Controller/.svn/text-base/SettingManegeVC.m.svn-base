@@ -110,6 +110,10 @@
 #pragma mark - 修改密码
 -(void)doChangePassword
 {
+    if ([GET_USER_INFO.loginName isEqualToString:TestLoginName]) {//测试账号，显示请登录按钮
+        [VJDProgressHUD showTextHUD:ReLoginToast];
+        return;
+    }
     ChangePasswordVC * vc = [[ChangePasswordVC alloc]init];
     [self.navigationController pushViewController:vc animated:YES];
 }

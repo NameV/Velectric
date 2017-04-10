@@ -17,7 +17,7 @@
 #import "SearchViewController.h"
 #import "MJRefresh.h"
 #import "SkuPropertyModel.h"
-
+#import "HomeCategoryModel.h"
 
 #import "VJDToolbarView.h"          //工具栏
 #import "ScreeningView.h"           //筛选view
@@ -113,13 +113,15 @@
             [UIView animateWithDuration:0.3 animations:^{
                 self.saiXuanView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
             }];
-            self.saiXuanView.screeningBlcok =^(NSMutableArray * brandsList,NSMutableArray * properyList,NSString * lowPrice,NSString * highPrice){
+            VJDWeakSelf;
+            self.saiXuanView.screeningBlcok =^(NSMutableArray * brandsList,NSMutableArray * properyList,NSString * lowPrice,NSString * highPrice,HomeCategoryModel *selectModel){
+                weakSelf.categoryIds = @[[NSNumber numberWithInteger:selectModel.myId]];
                 NSString * idStr =nil;
                 for (BrandsModel * idModel in brandsList) {
                     if (idStr) {
-                        idStr = [NSString stringWithFormat:@"%@&brandNames=%@",idStr,idModel.brandName];
+                        idStr = [NSString stringWithFormat:@"%@&brandId=%@",idStr,idModel.brandId];
                     }else{
-                        idStr = [NSString stringWithFormat:@"%@", idModel.brandName];
+                        idStr = [NSString stringWithFormat:@"%@", idModel.brandId];
                     }
                 }
                 
@@ -131,11 +133,11 @@
                         skuId =idModel.properyId;
                     }
                 }
-                self.properyId = skuId;
-                self.brandNameStr = idStr;
-                self.minPrice = lowPrice;
-                self.maxPrice = highPrice;
-                [self initDataPageNum:1];
+                weakSelf.properyId = skuId;
+                weakSelf.brandNameStr = idStr;
+                weakSelf.minPrice = lowPrice;
+                weakSelf.maxPrice = highPrice;
+                [weakSelf initDataPageNum:1];
             };
         }
     };
@@ -257,13 +259,14 @@
         
     if (_enterType==ScreeningViewEnterType2) {//热卖商品进入时的网络请求
         [self netWorkEnterType2];
+        return;
     }
 
     NSString * requestUrl = nil;
-    if ([@"1" isEqualToString:_fromType]) {
+    if ([@"1" isEqualToString:_fromType]) {//热卖商品--查看更多
         categoryStr = self.categoryIdList;
         if (self.brandNameStr) {
-            requestUrl= [NSString stringWithFormat:@"%@?categoryIds=%@&pageNum=%ld&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@&optionIds=%@&brandNames=%@&sort=%@&sortDirection=%@",GetSearchProductPaginationResultURL,categoryStr,(long)self.pageNum
+            requestUrl= [NSString stringWithFormat:@"%@?categoryIds=%@&pageNum=%ld&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@&optionIds=%@&brandId=%@&sort=%@&sortDirection=%@",GetSearchProductPaginationResultURL,categoryStr,(long)self.pageNum
                          ,self.keyWords,self.minPrice,self.maxPrice,self.properyId,self.brandNameStr,self.sort,self.sortDirection];
             
         }else{
@@ -293,6 +296,21 @@
                 dataArray = mutableArr;
             }
             
+            //********无数据提醒***********
+            if (dataArray.count > 0) {
+                [self.messageLabel removeFromSuperview];
+            }else{
+                NSString * str = @"抱歉，没有找到相关数据";
+                [self.view addSubview:self.messageLabel];
+                [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.right.equalTo(self.view);
+                    make.top.equalTo(self.view.mas_top).offset(40);
+                    make.height.mas_equalTo(50);
+                }];
+                self.messageLabel.text = str;
+            }
+            //***************************
+            
             [_tableView headerEndRefreshing];
             [_tableView footerEndRefreshing];
             [VJDProgressHUD dismissHUD];
@@ -307,7 +325,7 @@
         categoryStr = self.categoryIdList;
         
         if (self.brandNameStr) {
-            requestUrl= [NSString stringWithFormat:@"%@?pageNum=1&pageSize=20&keyWords=%@&optionIds=%@&brandNames=%@&minPrice=%@&maxPrice=%@&sort=%@&sortDirection=%@",GetSearchProductPaginationResultURL,self.keyWords,self.properyId,self.brandNameStr,self.minPrice,self.maxPrice,self.sort,self.sortDirection];
+            requestUrl= [NSString stringWithFormat:@"%@?pageNum=1&pageSize=20&keyWords=%@&optionIds=%@&brandId=%@&minPrice=%@&maxPrice=%@&sort=%@&sortDirection=%@",GetSearchProductPaginationResultURL,self.keyWords,self.properyId,self.brandNameStr,self.minPrice,self.maxPrice,self.sort,self.sortDirection];
 
         }else{
             requestUrl= [NSString stringWithFormat:@"%@?pageNum=1&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@&sort=%@&sortDirection=%@",GetSearchProductPaginationResultURL,self.keyWords,self.minPrice, self.maxPrice,self.sort,self.sortDirection];
@@ -335,6 +353,22 @@
                 }
                 dataArray = mutableArr;
             }
+            
+            //********无数据提醒***********
+            if (dataArray.count > 0) {
+                [self.messageLabel removeFromSuperview];
+            }else{
+                NSString * str = @"抱歉，没有找到相关数据";
+                [self.view addSubview:self.messageLabel];
+                [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.right.equalTo(self.view);
+                    make.top.equalTo(self.view.mas_top).offset(40);
+                    make.height.mas_equalTo(50);
+                }];
+                self.messageLabel.text = str;
+            }
+            //***************************
+            
             [_tableView headerEndRefreshing];
             [_tableView footerEndRefreshing];
             [VJDProgressHUD dismissHUD];
@@ -351,11 +385,11 @@
             
         }];
         return;
-    }else if ([@"3" isEqualToString:_fromType]) {
+    }else if ([@"3" isEqualToString:_fromType]) {//首页--五金--筛选过来的接口
      //   [VJDProgressHUD showProgressHUD:@"加载中..."];
         categoryStr = self.categoryIdList;
         if (self.brandNameStr) {
-            requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&categoryIds=%@&sort=%@&sortDirection=%@&minPrice=%@&maxPrice=%@&optionIds=%@&brandNames=%@",GetSearchProductPaginationResultURL,self.pageNum,self.categoryIds[0],self.sort,self.sortDirection,self.minPrice,self.maxPrice,self.properyId,self.brandNameStr];
+            requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&categoryIds=%@&sort=%@&sortDirection=%@&minPrice=%@&maxPrice=%@&optionIds=%@&brandId=%@",GetSearchProductPaginationResultURL,self.pageNum,self.categoryIds[0],self.sort,self.sortDirection,self.minPrice,self.maxPrice,self.properyId,self.brandNameStr];
         }else{
             requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&categoryIds=%@&sort=%@&sortDirection=%@&minPrice=%@&maxPrice=%@",GetSearchProductPaginationResultURL,self.pageNum,self.categoryIds[0],self.sort,self.sortDirection,self.minPrice,self.maxPrice];
             
@@ -382,6 +416,21 @@
                 }
                 dataArray = mutableArr;
             }
+            
+            //********无数据提醒***********
+            if (dataArray.count > 0) {
+                [self.messageLabel removeFromSuperview];
+            }else{
+                NSString * str = @"抱歉，没有找到相关数据";
+                [self.view addSubview:self.messageLabel];
+                [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                    make.left.right.equalTo(self.view);
+                    make.top.equalTo(self.view.mas_top).offset(40);
+                    make.height.mas_equalTo(50);
+                }];
+                self.messageLabel.text = str;
+            }
+            //***************************
 
             [_tableView headerEndRefreshing];
             [_tableView footerEndRefreshing];
@@ -394,13 +443,13 @@
             
         }];
         return;
-    }else{
+    }else{//分类 筛选
         requestUrl =GetSearchProductPaginationResultURL;
     }
 
     
     if (self.brandNameStr) {
-        requestUrl= [NSString stringWithFormat:@"%@?categoryIds=%@&pageNum=%ld&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@&optionIds=%@&brandNames=%@&sort=%@&sortDirection=%@",GetSearchProductPaginationResultURL,categoryStr,(long)self.pageNum
+        requestUrl= [NSString stringWithFormat:@"%@?categoryIds=%@&pageNum=%ld&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@&optionIds=%@&brandId=%@&sort=%@&sortDirection=%@",GetSearchProductPaginationResultURL,categoryStr,(long)self.pageNum
                      ,self.keyWords,self.minPrice,self.maxPrice,self.properyId,self.brandNameStr,self.sort,self.sortDirection];
     }else{
         requestUrl= [NSString stringWithFormat:@"%@?categoryIds=%@&pageNum=%ld&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@&optionIds=%@&sort=%@&sortDirection=%@",GetSearchProductPaginationResultURL,categoryStr,(long)self.pageNum
@@ -428,6 +477,21 @@
             }
             dataArray = mutableArr;
         }
+        
+        //********无数据提醒***********
+        if (dataArray.count > 0) {
+            [self.messageLabel removeFromSuperview];
+        }else{
+            NSString * str = @"抱歉，没有找到相关数据";
+            [self.view addSubview:self.messageLabel];
+            [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.equalTo(self.view);
+                make.top.equalTo(self.view.mas_top).offset(40);
+                make.height.mas_equalTo(50);
+            }];
+            self.messageLabel.text = str;
+        }
+        //***************************
         
         [_tableView headerEndRefreshing];
         [_tableView footerEndRefreshing];
@@ -509,11 +573,15 @@
 #pragma mark 热卖商品进来的网络请求
 -(void)netWorkEnterType2
 {
+    
     NSString * requestUrl = nil;
     if (self.brandNameStr) {
-        requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&sort=%@&sortDirection=%@&optionIds=%@&brandNames=%@",GetSearchProductPaginationResultURL,self.pageNum,self.sort,self.sortDirection,self.properyId,self.brandNameStr];
+        requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&sort=%@&sortDirection=%@&optionIds=%@&brandId=%@",GetSearchProductPaginationResultURL,self.pageNum,self.sort,self.sortDirection,self.properyId,self.brandNameStr];
     }else{
          requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&sort=%@&sortDirection=%@&optionIds=%@",GetSearchProductPaginationResultURL,self.pageNum,self.sort,self.sortDirection,self.properyId];
+    }
+    if (self.categoryIds.count > 0) {
+        requestUrl = [NSString stringWithFormat:@"%@&categoryIds=%@",requestUrl,self.categoryIds[0]];
     }
     requestUrl = [NSString stringWithFormat:@"%@&subsiteId=1",requestUrl];
     requestUrl = [requestUrl stringByAppendingFormat:@"%@",_categoryIdList];
@@ -533,6 +601,20 @@
             }
             dataArray = mutableArr;
         }
+        //********无数据提醒***********
+        if (dataArray.count > 0) {
+            [self.messageLabel removeFromSuperview];
+        }else{
+            NSString * str = @"抱歉，没有找到相关数据";
+            [self.view addSubview:self.messageLabel];
+            [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.equalTo(self.view);
+                make.top.equalTo(self.view.mas_top).offset(40);
+                make.height.mas_equalTo(50);
+            }];
+            self.messageLabel.text = str;
+        }
+        //***************************
         [_tableView headerEndRefreshing];
         [_tableView footerEndRefreshing];
         [VJDProgressHUD dismissHUD];
@@ -573,7 +655,7 @@
     if(cell==nil){
         cell=[[NSBundle mainBundle] loadNibNamed:@"CommodityTableViewCell" owner:self options:nil][0];
     }
-    
+    cell.qiLable.hidden = YES;//隐藏“起”
     NSMutableDictionary * dic = [dataArray[indexPath.row] mutableCopy];
 //    NSString *string = dic[@"productName_ik"] ;
 //    NSMutableAttributedString *arrString = [[NSMutableAttributedString alloc]initWithString:dic[@"productName_ik"]];
