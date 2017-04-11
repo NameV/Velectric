@@ -133,6 +133,14 @@
         
         self.block(dataArray);
         
+        //***********购物车角标**************
+        NSString * carNumStr =[NSString stringWithFormat:@"%@",responseObject[@"cart"][@"totalQuantity"]];
+        
+        VelectricTabbarController *tabbarCon = (VelectricTabbarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+        UIViewController *viewCon = tabbarCon.childViewControllers[3];
+        viewCon.tabBarItem.badgeValue = carNumStr;
+        //*********************************
+        
     } failure:^(NSError *error) {
         ELog(@"失败");
         [_tableView headerEndRefreshing];
@@ -596,9 +604,11 @@
     CartListModel * model = [dataArray objectAtIndex:indexPath.section];
     CartModel * cartModel = [model.cartList objectAtIndex:indexPath.row];
     numberBtn.minValue =[cartModel.minQdl integerValue]; //设置最小起订量
+    VJDWeakSelf;
     numberBtn.resultBlock = ^(NSString *num){
-        cartModel.quantity = [num integerValue];
-        [self.tableView reloadData];
+//        cartModel.quantity = [num integerValue];
+//        [self.tableView reloadData]
+        [weakSelf changeQuantityWithQuantity:[num integerValue] model:cartModel];
     };
     cell.numberView.userInteractionEnabled = YES;
     if (cartModel.selected) {
@@ -632,6 +642,32 @@
     //-------------
     return cell;
 }
+
+//更改产品清单数量
+- (void)changeQuantityWithQuantity:(NSInteger )quantity model:(CartModel *)cartModel{
+    NSDictionary * parameters = @{@"loginName":GET_USER_INFO.loginName ? GET_USER_INFO.loginName : @"",
+                                  @"basketId"  : cartModel.basketId ? cartModel.basketId : @"" ,
+                                  @"itemId" :   cartModel.itemId ? cartModel.itemId : @"" ,
+                                  @"goodId"    :  [NSNumber numberWithInteger:cartModel.goodsId] ,
+                                  @"quantity"   :   [NSNumber numberWithInteger:quantity]
+                                  };
+    [VJDProgressHUD showProgressHUD:nil];
+    [SYNetworkingManager GetOrPostWithHttpType:2
+                                 WithURLString:GetCartReplaceURL
+                                    parameters:parameters
+                                       success:^(NSDictionary *responseObject) {
+                                           [VJDProgressHUD dismissHUD];
+                                           if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
+                                               cartModel.quantity = quantity;
+                                               [self.tableView reloadData];
+                                               [SCCartTool getCartQuality];//购物车角标
+                                           }
+                                           
+                                       } failure:^(NSError *error) {
+                                           [VJDProgressHUD showTextHUD:INTERNET_ERROR];
+                                       }];
+}
+
 #pragma mark didselect 选中的方法
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {

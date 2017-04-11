@@ -41,11 +41,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     
     [super viewWillAppear:animated];
-    // 添加通知观察者
-    [[NSNotificationCenter defaultCenter] addObserver:self
-                                             selector:@selector(updateBadgeValue)
-                                                 name:SCProductBuyCountDidChangeNotification
-                                               object:nil];
+    
     // 添加badgeView
 //    [self addBadgeViewOnTabBarButtons];
 }
@@ -61,6 +57,12 @@
     self.tabBar.backgroundImage = [UIImage imageNamed:@""];
     // 设置子控制器
     [self addChildViewControllers];
+    
+    // 添加通知观察者
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(updateBadgeValue)
+                                                 name:SCProductBuyCountDidChangeNotification
+                                               object:nil];
 
 }
 

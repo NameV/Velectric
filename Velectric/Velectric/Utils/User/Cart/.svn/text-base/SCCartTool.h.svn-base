@@ -39,6 +39,12 @@
  *  @return 购买总量
  */
 + (NSString *)totalCount;
+
+/**
+ *  请求购物车数量
+ */
++ (void)getCartQuality ;
+
 /**
  *  删除购物车中的商品
  *

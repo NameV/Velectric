@@ -24,6 +24,7 @@
 #import "AlertView.h"                   //提示框
 #import "memberMeansController.h"       //修改资料
 #import "MemberInfoVC.h"
+#import "SCCartTool.h"//请求购物车数量
 
 static CGFloat originX = 10;
 
@@ -145,6 +146,8 @@ static CGFloat originX = 10;
         alert.delegate = self;
         [[KGModal sharedInstance] showWithContentView:alert];
     }
+
+    [SCCartTool getCartQuality];//获取购物车角标数量
 }
 
 #pragma mark - 添加通知

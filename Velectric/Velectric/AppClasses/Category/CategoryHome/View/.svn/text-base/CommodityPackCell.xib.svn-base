@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11542" systemVersion="16B2659" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11524"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
         <capability name="Alignment constraints to the first baseline" minToolsVersion="6.0"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -36,7 +37,7 @@
                         </constraints>
                     </view>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="J1Z-ZN01-10A" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="fqi-Qo-ODT">
-                        <rect key="frame" x="40" y="10" width="129" height="29"/>
+                        <rect key="frame" x="18" y="10" width="151" height="29"/>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                         <nil key="highlightedColor"/>
@@ -59,10 +60,10 @@
                     <constraint firstItem="1U6-gG-IHl" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" id="GBp-w5-deg"/>
                     <constraint firstItem="tBe-Ej-ff6" firstAttribute="centerX" secondItem="H2p-sc-9uM" secondAttribute="centerX" id="NxG-fj-EGx"/>
                     <constraint firstItem="tBe-Ej-ff6" firstAttribute="top" secondItem="UZG-t5-O28" secondAttribute="top" id="PFE-0T-b28"/>
+                    <constraint firstItem="fqi-Qo-ODT" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leadingMargin" constant="10" id="T0i-0G-e8F"/>
                     <constraint firstAttribute="bottom" secondItem="1U6-gG-IHl" secondAttribute="bottom" id="Vf1-2R-pm0"/>
                     <constraint firstItem="tBe-Ej-ff6" firstAttribute="bottom" secondItem="UZG-t5-O28" secondAttribute="bottom" id="WlL-8y-E9e"/>
                     <constraint firstAttribute="bottom" secondItem="UZG-t5-O28" secondAttribute="bottom" constant="8" id="ZEt-Pd-YQN"/>
-                    <constraint firstItem="fqi-Qo-ODT" firstAttribute="leading" secondItem="1U6-gG-IHl" secondAttribute="trailing" constant="5" id="aA9-RL-vMm"/>
                     <constraint firstItem="UZG-t5-O28" firstAttribute="leading" secondItem="tBe-Ej-ff6" secondAttribute="trailing" constant="10" id="dy2-jY-v0l"/>
                     <constraint firstItem="UZG-t5-O28" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="8" id="iCI-JU-fVi"/>
                     <constraint firstItem="fqi-Qo-ODT" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="10" id="mcg-Ml-bDY"/>

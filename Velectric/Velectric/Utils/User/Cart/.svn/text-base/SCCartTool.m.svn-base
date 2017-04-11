@@ -109,6 +109,8 @@ static NSString *_totalCount;
     }
     return _totalCount;
 }
+ 
+ 
 
 + (void)calculateTotalCountWithNewCount:(NSString *)count {
     
@@ -117,4 +119,24 @@ static NSString *_totalCount;
     [SCUserDefault setObject:_totalCount forKey:SCCartCountKey];
 }
 */
+
++ (void)getCartQuality  {
+    NSDictionary * parameters = @{@"loginName":GET_USER_INFO.loginName,
+                                  };
+    [SYNetworkingManager GetOrPostWithHttpType:2 WithURLString:GetGetCartURL parameters:parameters success:^(NSDictionary *responseObject) {
+        ELog(@"成功");
+        NSString * carNumStr =[NSString stringWithFormat:@"%@",responseObject[@"cart"][@"totalQuantity"]];
+        
+        VelectricTabbarController *tabbarCon = (VelectricTabbarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+        UIViewController *viewCon = tabbarCon.childViewControllers[3];
+        viewCon.tabBarItem.badgeValue = carNumStr;
+        viewCon.tabBarItem.badgeColor = V_ORANGE_COLOR;
+        
+    } failure:^(NSError *error) {
+        ELog(@"失败");
+    }];
+
+}
+
+
 @end

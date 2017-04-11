@@ -1,14 +1,14 @@
 10
 
 dir
-1457
+1463
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/AppClasses/Category/CategoryHome/View
 svn://yanghongzhou@192.168.1.6
 
 
 
-2017-04-01T09:44:04.576568Z
-1429
+2017-04-11T07:58:32.056115Z
+1463
 yanghongzhou
 
 
@@ -128,6 +128,40 @@ has-props
 
 690
 
+VScanBigImageView.h
+file
+
+
+
+
+2017-04-11T03:25:18.000000Z
+c79c91c28dce384ad760959318080b31
+2017-04-11T07:58:32.056115Z
+1463
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+431
+
 MultilevelCollectionViewCell.m
 file
 
@@ -168,10 +202,10 @@ file
 
 
 
-2017-03-27T06:06:51.000000Z
-2022cfac1fe33a48e412ad81d86f671f
-2017-02-15T06:50:55.798318Z
-1083
+2017-04-10T08:02:55.000000Z
+9e17f2400d2be4c50a1ad38c944dd361
+2017-04-10T08:09:01.088987Z
+1459
 yanghongzhou
 has-props
 
@@ -194,7 +228,7 @@ has-props
 
 
 
-12062
+12147
 
 CollectionHeader.xib
 file
@@ -229,6 +263,40 @@ has-props
 
 
 2288
+
+VScanBigImageView.m
+file
+
+
+
+
+2017-04-11T07:56:37.000000Z
+d19630606d3e9323852c1b31a5c82f6d
+2017-04-11T07:58:32.056115Z
+1463
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4148
 
 CommodityTableViewCell.xib
 file
@@ -740,6 +808,40 @@ yanghongzhou
 
 457
 
+VBigImageCell.h
+file
+
+
+
+
+2017-04-11T06:03:43.000000Z
+7e0cc8e9bf31e503cc25431daec5a63c
+2017-04-11T07:58:32.056115Z
+1463
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+313
+
 VSubDetailView.h
 file
 
@@ -773,6 +875,40 @@ yanghongzhou
 
 
 829
+
+VBigImageCell.m
+file
+
+
+
+
+2017-04-11T07:39:41.000000Z
+e31b321810e5aa010666a241468ba356
+2017-04-11T07:58:32.056115Z
+1463
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+3749
 
 VSubDetailView.m
 file
@@ -978,40 +1114,6 @@ has-props
 
 2701
 
-MultilevelCollectionViewCell.xib
-file
-
-
-
-
-2017-03-27T06:06:51.000000Z
-35a47c76cd282f8b9f0bbe8084c06b77
-2017-03-24T06:32:22.097575Z
-1392
-yanghongzhou
-has-props
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-4241
-
 DetailsBtnView.h
 file
 
@@ -1045,6 +1147,40 @@ yanghongzhou
 
 
 922
+
+MultilevelCollectionViewCell.xib
+file
+
+
+
+
+2017-03-27T06:06:51.000000Z
+35a47c76cd282f8b9f0bbe8084c06b77
+2017-03-24T06:32:22.097575Z
+1392
+yanghongzhou
+has-props
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+4241
 
 MultilevelTableViewCell.h
 file

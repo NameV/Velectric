@@ -32,6 +32,7 @@
 @property (nonatomic, assign)BOOL isFromsearch;
 @property (nonatomic, copy)NSString * cartFlog;
 @property (nonatomic, copy)NSString * properyId;//筛选的sku属性
+@property (nonatomic, copy)NSString *properyNameStr;//筛选的sku名称
 @property (nonatomic, copy)NSString * brandNameStr;//筛选的品牌名称
 @property (nonatomic, copy)NSString * minPrice;//筛选的最小价格
 @property (nonatomic, copy)NSString * maxPrice;//筛选的最大价格

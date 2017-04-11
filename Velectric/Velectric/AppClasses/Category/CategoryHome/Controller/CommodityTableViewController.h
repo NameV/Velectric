@@ -55,6 +55,7 @@
 @property (nonatomic, copy)NSString *maxPrice;//筛选的最大值
 
 @property (nonatomic, copy)NSString *properyId;//筛选的skuid
+@property (nonatomic, copy)NSString *properyNameStr;//筛选的sku名称
 @property (nonatomic, copy)NSString * brandIds; //筛选的商品id
 @property (nonatomic, copy)NSString * brandNameStr;//筛选时的名称
 

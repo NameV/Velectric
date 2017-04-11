@@ -15,8 +15,11 @@
 -(CGFloat)getStringWidthWithFont:(UIFont *)font
 {
     NSString * string = self.length ? self:@"";
-    CGSize size = [string boundingRectWithSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil].size;
-    return size.width;
+    if (![string isEqualToString:@""]) {
+        CGSize size = [string boundingRectWithSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil].size;
+        return size.width;
+    }
+    return 0;
 }
 
 //获取文字高度

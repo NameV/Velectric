@@ -17,6 +17,8 @@
 		245F89EF1E6857B8000A1D4A /* VSelectAllView.m in Sources */ = {isa = PBXBuildFile; fileRef = 245F89EE1E6857B8000A1D4A /* VSelectAllView.m */; };
 		245F89F21E686909000A1D4A /* VScanTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 245F89F11E686909000A1D4A /* VScanTableHeaderView.m */; };
 		245F89F51E690BE7000A1D4A /* VProductListPayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 245F89F41E690BE7000A1D4A /* VProductListPayVC.m */; };
+		246341C31E9C771A00EC499C /* VScanBigImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 246341C21E9C771A00EC499C /* VScanBigImageView.m */; };
+		246341C61E9C89C700EC499C /* VBigImageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 246341C51E9C89C700EC499C /* VBigImageCell.m */; };
 		24733EB81E7003E200603908 /* VBannerModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 24733EB71E7003E200603908 /* VBannerModel.m */; };
 		2476F5D11E653A6C007ACC31 /* VPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2476F5D01E653A6C007ACC31 /* VPopView.m */; };
 		2476F5D41E65747B007ACC31 /* VProductDetailCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2476F5D31E65747B007ACC31 /* VProductDetailCell.m */; };
@@ -388,6 +390,10 @@
 		245F89F11E686909000A1D4A /* VScanTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VScanTableHeaderView.m; sourceTree = "<group>"; };
 		245F89F31E690BE7000A1D4A /* VProductListPayVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VProductListPayVC.h; path = ../../../Cart/Controller/VProductListPayVC.h; sourceTree = "<group>"; };
 		245F89F41E690BE7000A1D4A /* VProductListPayVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VProductListPayVC.m; path = ../../../Cart/Controller/VProductListPayVC.m; sourceTree = "<group>"; };
+		246341C11E9C771A00EC499C /* VScanBigImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VScanBigImageView.h; sourceTree = "<group>"; };
+		246341C21E9C771A00EC499C /* VScanBigImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VScanBigImageView.m; sourceTree = "<group>"; };
+		246341C41E9C89C700EC499C /* VBigImageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBigImageCell.h; sourceTree = "<group>"; };
+		246341C51E9C89C700EC499C /* VBigImageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBigImageCell.m; sourceTree = "<group>"; };
 		24733EB61E7003E200603908 /* VBannerModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VBannerModel.h; sourceTree = "<group>"; };
 		24733EB71E7003E200603908 /* VBannerModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VBannerModel.m; sourceTree = "<group>"; };
 		2476F5CF1E653A6C007ACC31 /* VPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VPopView.h; sourceTree = "<group>"; };
@@ -1974,6 +1980,10 @@
 				4DC552691E02AC64006A27E6 /* MultilevelTableViewCell.h */,
 				4DC5526A1E02AC64006A27E6 /* MultilevelTableViewCell.m */,
 				4DC5526B1E02AC64006A27E6 /* MultilevelTableViewCell.xib */,
+				246341C11E9C771A00EC499C /* VScanBigImageView.h */,
+				246341C21E9C771A00EC499C /* VScanBigImageView.m */,
+				246341C41E9C89C700EC499C /* VBigImageCell.h */,
+				246341C51E9C89C700EC499C /* VBigImageCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -3187,6 +3197,7 @@
 				4DC552E31E02AC64006A27E6 /* UIColor+Hex.m in Sources */,
 				CE099D381E2CFA8700D2230F /* ChineseString.m in Sources */,
 				CE61875D1E5E8946006C39BD /* VPersonBindCardVC.m in Sources */,
+				246341C31E9C771A00EC499C /* VScanBigImageView.m in Sources */,
 				4DC552FA1E02AC64006A27E6 /* PPiFlatSegmentedControl.m in Sources */,
 				F58E30AF1E52F11500FC9C8C /* VBacthListModel.m in Sources */,
 				CEEE8A341E23889200C41359 /* UIImage+LCGExt.m in Sources */,
@@ -3255,6 +3266,7 @@
 				CE61875E1E5E8946006C39BD /* VInputCellView.m in Sources */,
 				24970DCD1E6E5BBD00E974A5 /* VFileManagerHistoryModel.m in Sources */,
 				4DC552F61E02AC64006A27E6 /* UIFont+FontAwesome.m in Sources */,
+				246341C61E9C89C700EC499C /* VBigImageCell.m in Sources */,
 				4D5F47121E1527CA0062494A /* SkuPropertyModel.m in Sources */,
 				CE775B891E03E72B00CBFC82 /* TADotView.m in Sources */,
 				24ED21BC1E7163CC002947C2 /* VBrandDetailModel.m in Sources */,

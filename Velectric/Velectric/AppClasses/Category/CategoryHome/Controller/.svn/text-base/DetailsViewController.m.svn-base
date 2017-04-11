@@ -30,6 +30,8 @@
 
 #import "VSubDetailView.h"//弹出的规格型号页面
 #import "CartModel.h"
+#import "SCCartTool.h"
+#import "VScanBigImageView.h"//浏览大图view
 
 @interface DetailsViewController ()<UITableViewDataSource, UITableViewDelegate,SDCycleScrollViewDelegate,MBProgressHUDDelegate,UIWebViewDelegate>
 {
@@ -82,6 +84,11 @@
 
 @property (nonatomic, strong) VSubDetailView *produtSubView;//规格型号的view
 @property (nonatomic, strong) UIView *grayBgView;//规格型号的背景view
+
+/* 浏览大图 */
+@property (nonatomic, strong) VScanBigImageView *scanBigImage;
+/* 点击大图消失 */
+@property (nonatomic, strong) UITapGestureRecognizer *missBigImageTap;
 
 @end
 
@@ -152,6 +159,8 @@
     self.grayBgView.hidden = YES;
     [self.view addSubview:self.produtSubView];//详情页
     self.produtSubView.hidden = YES;
+    [self.view addSubview:self.scanBigImage];//浏览大图
+    [self.scanBigImage addTapAction:self selector:@selector(missbigImage:)];
     
     mutableArray = [NSMutableArray array];
     ppBtnNumberArr= [NSMutableArray array];
@@ -184,7 +193,6 @@
     } failure:^(NSError *error) {
         ELog(@"失败");
         [_tableView headerEndRefreshing];
-        [VJDProgressHUD showTextHUD:@"网络连接异常，请重试"];
     }];
 }
 
@@ -634,6 +642,7 @@
 #pragma mark 单个加入购物车加入购物车的方法
 -(void)addCartNetWorkingBackground
 {
+    _btnDic = [_dataArray firstObject];//默认取第一个元素，不选中也能加入购物车
     if (!(_btnDic[@"id"])) {
         [VJDProgressHUD showTextHUD:@"请选择产品型号"];
         return;
@@ -650,6 +659,7 @@
         if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
             [VJDProgressHUD showSuccessHUD:nil];
             [self loadCartDatas];
+            [SCCartTool getCartQuality];//同步购物车角标
         }else{
             [VJDProgressHUD showTextHUD:@"网络连接异常，请重试"];
         }
@@ -661,6 +671,7 @@
 -(void)addLotCartNetWorkingBackground
 {
     
+    _btnDic = [_dataArray firstObject];//默认取第一个元素，不选中也能加入购物车
     NSString *goodId = nil;
     NSString * payNumber = nil;
     for (NSDictionary * dic in mutableArray) {//获取多个型号
@@ -691,6 +702,7 @@
     [SYNetworkingManager GetOrPostWithHttpType:2 WithURLString:GetBatchAddGoodsToCartURL parameters:parameters success:^(NSDictionary *responseObject) {
         if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
             [self loadCartDatas];
+            [SCCartTool getCartQuality];//同步购物车角标
         }else{
             [VJDProgressHUD showTextHUD:@"网络连接异常，请重试"];
         }
@@ -814,7 +826,7 @@
 #pragma mark 多个型号去结算
 -(void)lotPay
 {
-    
+    _btnDic = [_dataArray firstObject];//默认取第一个元素，不选中也能加入购物车
     NSString *goodId = nil;
     NSString * payNumber = nil;
     NSMutableArray * totalPriceArr = [NSMutableArray array];//每个产品的单价
@@ -863,6 +875,7 @@
 #pragma mark 单个型号去结算
 -(void)aPay
 {
+    _btnDic = [_dataArray firstObject];//默认取第一个元素，不选中也能加入购物车
     if (!(_btnDic[@"id"])) {
         [VJDProgressHUD showTextHUD:@"请选择产品型号"];
         return;
@@ -881,6 +894,7 @@
 #pragma mark 单个加入购物车加入购物车的方法
 -(void)addCartNetWorking
 {
+    _btnDic = [_dataArray firstObject];//默认取第一个元素，不选中也能加入购物车
     if (!(_btnDic[@"id"])) {
         [VJDProgressHUD showTextHUD:@"请选择产品型号"];
         return;
@@ -898,6 +912,7 @@
         self.bottomToolBar.yuanJiaoLable.text = [NSString stringWithFormat:@"%ld",self.cartQuantity];
         self.bottomToolBar.yuanJiaoLable.hidden =NO;
         [VJDProgressHUD showSuccessHUD:@"加入购物车成功"];
+        [SCCartTool getCartQuality];//获取购物车角标数量
     } failure:^(NSError *error) {
         ELog(@"失败");
         [VJDProgressHUD showTextHUD:@"网络连接异常，请重试"];
@@ -907,6 +922,7 @@
 -(void)addLotCartNetWorking
 {
     
+    _btnDic = [_dataArray firstObject];//默认取第一个元素，不选中也能加入购物车
     NSString *goodId = nil;
     NSString * payNumber = nil;
     for (NSDictionary * dic in mutableArray) {//获取多个型号
@@ -940,6 +956,9 @@
             [VJDProgressHUD showTextHUD:@"加入购物车成功"];
             _bottomToolBar.yuanJiaoLable.text = [NSString stringWithFormat:@"%ld",self.cartQuantity];
             _bottomToolBar.yuanJiaoLable.hidden = NO;
+            
+            [SCCartTool getCartQuality];//获取购物车角标数量
+            
         }else{
             [VJDProgressHUD showTextHUD:responseObject[@"msg"]];
         }
@@ -1082,7 +1101,7 @@
         cell.xinghaoAmoneyLable.text =dic[@"name"];
         cell.numberLable.text =dic[@"salesPrice"];
         cell.xuanBtn.tag =indexPath.row +10;
-        
+        cell.xuanBtn.hidden = YES ;//不选中也能加入购物车，隐藏选择按钮
         if (_dataArray.count>1) {
              [cell.xuanBtn addTarget:self action:@selector(duoXuanBtn:) forControlEvents:UIControlEventTouchUpInside];
         }else{
@@ -1099,7 +1118,7 @@
             make.top.bottom.equalTo(cell.contentView);
             make.right.equalTo(cell.contentView.mas_right).offset(-130);
         }];
-        [popDetailBtn addTarget:self action:@selector(popDetailBtnAction:) forControlEvents:UIControlEventTouchUpInside];
+//        [popDetailBtn addTarget:self action:@selector(popDetailBtnAction:) forControlEvents:UIControlEventTouchUpInside];
         
         return cell;
 
@@ -1177,12 +1196,14 @@
     if ([array.class isSubclassOfClass:[NSArray class]]) {
         NSDictionary *dic;
         if (array.count > 0) {
-            dic = [array firstObject];
-            picturUrl = [NSString stringWithFormat:@"%@/%@",V_Base_ImageURL,dic[@"goodsPictureUrl"]];
-            NSData *data = [NSData dataWithContentsOfURL:[NSURL  URLWithString:picturUrl]];
-            UIImage *image = [UIImage imageWithData:data]; // 取得图片
-            if (image) {
-                [picUrlArray addObject:image];
+            for (NSDictionary *value in array) {
+                dic = value;
+                picturUrl = [NSString stringWithFormat:@"%@/%@",V_Base_ImageURL,dic[@"goodsPictureUrl"]];
+                NSData *data = [NSData dataWithContentsOfURL:[NSURL  URLWithString:picturUrl]];
+                UIImage *image = [UIImage imageWithData:data]; // 取得图片
+                if (image) {
+                    [picUrlArray addObject:image];
+                }
             }
         }else {
             picturUrl = @"";
@@ -1191,6 +1212,12 @@
         picturUrl = [NSString stringWithFormat:@"%@/%@",V_Base_ImageURL,(NSString *)array];
         [picUrlArray addObject:picturUrl];
     }
+    
+    //************TODO
+    if (picUrlArray.count) {
+        [picUrlArray addObject:picUrlArray[0]];
+    }
+    //************
     
     //看数组里面是否有图片，没有图片显示默认图片
     if (picUrlArray.count > 0) {
@@ -1251,6 +1278,11 @@
 - (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didSelectItemAtIndex:(NSInteger)index
 {
     NSLog(@"---点击了第%ld张图片", index);
+    self.scanBigImage.hidden = NO;
+    self.scanBigImage.index = index;
+    self.scanBigImage.datas = [_images mutableCopy];
+    [self.scanBigImage.collectionView reloadData];
+    [self.navigationController setNavigationBarHidden:YES animated:NO];
 }
 - (void)indexOnPageControl:(NSInteger)index{
      _indexPage.text=[NSString stringWithFormat:@"%i/%i",(int)index+1,(int)_images.count];
@@ -1301,8 +1333,12 @@
 //        self.produtSubView.guigeString = @"时间了反馈,爱是来得及发来看撒,asdj,阿萨德飞机,aslfjl";
         self.produtSubView.hidden = NO;
     }
-    
-    
+}
+
+#pragma mark - 浏览大图消失
+- (void)missbigImage:(UITapGestureRecognizer *)tap {
+    self.scanBigImage.hidden = YES;
+    [self.navigationController setNavigationBarHidden:NO animated:NO];
 }
 
 #pragma mark - getter
@@ -1324,6 +1360,20 @@
     return _grayBgView;
 }
 
+- (VScanBigImageView *)scanBigImage {
+    if (!_scanBigImage) {
+        _scanBigImage = [[VScanBigImageView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        _scanBigImage.hidden = YES;
+    }
+    return _scanBigImage;
+}
+
+- (UITapGestureRecognizer *)missBigImageTap {
+    if (!_missBigImageTap) {
+        _missBigImageTap = [[UITapGestureRecognizer alloc]initWithTarget:self action:@selector(missbigImage:)];
+    }
+    return _missBigImageTap;
+}
 
 -(void)dealloc {
     //订单的进入方式  置为零 ,这样在订单返回的时候，不收影响

@@ -681,6 +681,7 @@
     if(cell==nil){
         cell=[[NSBundle mainBundle] loadNibNamed:@"CommodityTableViewCell" owner:self options:nil][0];
     }
+    cell.qiLable.hidden = YES;//隐藏“起”
     FactoryModel * factoryModel = dataArray[indexPath.row];
     cell.commodityName.text = factoryModel.name;
     [cell.commodityImg sd_setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",V_Base_ImageURL,factoryModel.pictureUrl]] placeholderImage:[UIImage imageNamed:@"placeholder"]];

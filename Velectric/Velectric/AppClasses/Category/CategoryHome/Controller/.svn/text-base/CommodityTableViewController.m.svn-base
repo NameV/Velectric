@@ -655,7 +655,7 @@
     if(cell==nil){
         cell=[[NSBundle mainBundle] loadNibNamed:@"CommodityTableViewCell" owner:self options:nil][0];
     }
-    
+    cell.qiLable.hidden = YES;//隐藏“起”
     NSMutableDictionary * dic = [dataArray[indexPath.row] mutableCopy];
 //    NSString *string = dic[@"productName_ik"] ;
 //    NSMutableAttributedString *arrString = [[NSMutableAttributedString alloc]initWithString:dic[@"productName_ik"]];

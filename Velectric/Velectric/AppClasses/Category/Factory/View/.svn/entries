@@ -1,7 +1,7 @@
 10
 
 dir
-1457
+1463
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/AppClasses/Category/Factory/View
 svn://yanghongzhou@192.168.1.6
 
@@ -25,40 +25,6 @@ yanghongzhou
 
 
 f8e417dc-ff0f-4c5c-8625-6b0fab15d564
-
-PinPaiDetailView.xib
-file
-
-
-
-
-2017-03-27T06:06:51.000000Z
-bc50f95027f43ad4b280727f40275376
-2017-02-15T06:50:55.798318Z
-1083
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-17433
 
 ScreeningCategoryViewCell3.h
 file
@@ -93,6 +59,40 @@ yanghongzhou
 
 
 509
+
+PinPaiDetailView.xib
+file
+
+
+
+
+2017-03-27T06:06:51.000000Z
+bc50f95027f43ad4b280727f40275376
+2017-02-15T06:50:55.798318Z
+1083
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+17433
 
 ScreeningCategoryViewCell1.m
 file
@@ -162,40 +162,6 @@ yanghongzhou
 
 3134
 
-PinPaiDetailView.h
-file
-
-
-
-
-2017-03-27T06:06:51.000000Z
-1848806f4e8732524051857ba7f18c33
-2017-02-15T06:50:55.798318Z
-1083
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-760
-
 ScreeningCategoryViewCell3.m
 file
 
@@ -229,6 +195,40 @@ yanghongzhou
 
 
 2005
+
+PinPaiDetailView.h
+file
+
+
+
+
+2017-03-27T06:06:51.000000Z
+1848806f4e8732524051857ba7f18c33
+2017-02-15T06:50:55.798318Z
+1083
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+760
 
 SectionView.h
 file
@@ -366,40 +366,6 @@ liuxiaoqin
 
 1933
 
-ScreeningView.h
-file
-
-
-
-
-2017-04-07T08:57:03.000000Z
-ac5a86019f5d6051f3106f3c112a629d
-2017-04-07T10:25:35.380294Z
-1453
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-2273
-
 ScreeningViewCell.h
 file
 
@@ -433,6 +399,40 @@ yanghongzhou
 
 
 765
+
+ScreeningView.h
+file
+
+
+
+
+2017-04-07T08:57:03.000000Z
+ac5a86019f5d6051f3106f3c112a629d
+2017-04-07T10:25:35.380294Z
+1453
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+2273
 
 ScreeningCategoryView.m
 file
@@ -468,40 +468,6 @@ liuxiaoqin
 
 12762
 
-ScreeningView.m
-file
-
-
-
-
-2017-04-07T08:57:03.000000Z
-b3c60fd3fc9c2e106dd2f9fb1ec327fe
-2017-04-07T10:25:35.380294Z
-1453
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-28132
-
 ScreeningViewCell.m
 file
 
@@ -535,6 +501,40 @@ yanghongzhou
 
 
 3820
+
+ScreeningView.m
+file
+
+
+
+
+2017-04-07T08:57:03.000000Z
+b3c60fd3fc9c2e106dd2f9fb1ec327fe
+2017-04-07T10:25:35.380294Z
+1453
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+28132
 
 ScreeningCategoryViewCell1.h
 file

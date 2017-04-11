@@ -36,6 +36,7 @@
 #import "YYModel.h"
 #import "MMPopupView.h"
 #import "Macro.h"
+#import "SCCartTool.h"
 
 //常用界面
 #import "BaseViewController.h"

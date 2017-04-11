@@ -128,6 +128,15 @@
         //0.05*SCREEN_HEIGHT*dataArray.count+0.22*SCREEN_HEIGHT*childRoonInt
         [_tableView reloadData];
         [_tableView headerEndRefreshing];
+        
+        //***********购物车角标**************
+        NSString * carNumStr =[NSString stringWithFormat:@"%@",responseObject[@"cart"][@"totalQuantity"]];
+        
+        VelectricTabbarController *tabbarCon = (VelectricTabbarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+        UIViewController *viewCon = tabbarCon.childViewControllers[3];
+        viewCon.tabBarItem.badgeValue = carNumStr;
+        //*********************************
+        
     } failure:^(NSError *error) {
         ELog(@"失败");
         [_tableView headerEndRefreshing];
@@ -584,11 +593,11 @@
                                            if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
                                                cartModel.quantity = quantity;
                                                [self.tableView reloadData];
+                                               [SCCartTool getCartQuality];//同步购物车角标
                                            }
                                            
                                        } failure:^(NSError *error) {
                                            [VJDProgressHUD showTextHUD:INTERNET_ERROR];
-                                           [self.tableView reloadData];
                                        }];
 }
 

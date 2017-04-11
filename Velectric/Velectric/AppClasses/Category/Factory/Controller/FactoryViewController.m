@@ -41,6 +41,8 @@
 @property (nonatomic, strong)NSDictionary *valueDic;//厂商的value字典
 @property (nonatomic, strong)VBrandDetailModel *brandDetailModel;//厂商的value字典
 
+/* 搜索无结果时的提示文字 */
+@property (nonatomic, strong) UILabel *messageLabel;
 
 @end
 
@@ -189,6 +191,9 @@
         [self requestHsearch];
         return;
     }
+    if (!self.properyNameStr) {
+        self.properyNameStr = @"";
+    }
     
     if ([self.cartFlog isEqualToString:@"cart"]) {
         [self requestCart];
@@ -211,7 +216,9 @@
                                   @"categoryIds":self.categoryIds ? self.categoryIds : @"",               //分类id  数组
                                   @"keyWords":@"",
                                   @"searchWithinResult":@"",
-                                  @"optionIds":@"",};
+                                  @"optionIds":self.properyId,
+                                  @"optionNames" : self.properyNameStr
+                                  };
     [SYNetworkingManager GetOrPostNoBodyWithHttpType:1 WithURLString:GetSearchProductPaginationResultURL parameters:parameters success:^(NSDictionary *responseObject) {
         [_tableView headerEndRefreshing];
         [_tableView footerEndRefreshing];
@@ -235,6 +242,21 @@
             }
             dataArray = mutableArr;
         }
+        //********无数据提醒***********
+        if (dataArray.count > 0) {
+            [self.messageLabel removeFromSuperview];
+        }else{
+            NSString * str = ShaixuanNoDataMsg;
+            [self.view addSubview:self.messageLabel];
+            [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.equalTo(self.view);
+                make.top.equalTo(self.view.mas_top).offset(155);
+                make.height.mas_equalTo(50);
+            }];
+            self.messageLabel.text = str;
+        }
+        //***************************
+
         [VJDProgressHUD dismissHUD];
         [_tableView reloadData];
     } failure:^(NSError *error) {
@@ -245,12 +267,16 @@
 //厂商的网络请求
 -(void)requestChangshang
 {
+    if (!self.properyNameStr) {
+        self.properyNameStr = @"";
+    }
+    
     NSString * requestUrl = nil;
     if (self.brandNameStr) {
-        requestUrl= [NSString stringWithFormat:@"%@?manufacturerName=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&optionIds=%@&categoryName=%@&categoryIds=%@",GetSearchProductPaginationResultURL,self.brandsModel.name,(long)self.pageNum
-                     ,self.minPrice,self.maxPrice,self.properyId,self.categoryNameStr,self.categoryIds ? self.categoryIds : @""];
+        requestUrl= [NSString stringWithFormat:@"%@?manufacturerName=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&optionIds=%@&categoryName=%@&categoryIds=%@&optionNames=%@",GetSearchProductPaginationResultURL,self.brandsModel.name,(long)self.pageNum
+                     ,self.minPrice,self.maxPrice,self.properyId,self.categoryNameStr,self.categoryIds ? self.categoryIds : @"",self.properyNameStr];
     }else{
-        requestUrl= [NSString stringWithFormat:@"%@?manufacturerName=%@&pageNum=%ld&pageSize=20",GetSearchProductPaginationResultURL,self.brandsModel.name,(long)self.pageNum
+        requestUrl= [NSString stringWithFormat:@"%@?manufacturerName=%@&pageNum=%ld&pageSize=20&optionNames=%@",GetSearchProductPaginationResultURL,self.brandsModel.name,(long)self.pageNum,self.properyNameStr
                      ];
     }
     requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
@@ -276,6 +302,20 @@
                 [_tableView.mj_footer noticeNoMoreData];
             }
         }
+        //********无数据提醒***********
+        if (dataArray.count > 0) {
+            [self.messageLabel removeFromSuperview];
+        }else{
+            NSString * str = ShaixuanNoDataMsg;
+            [self.view addSubview:self.messageLabel];
+            [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.equalTo(self.view);
+                make.top.equalTo(self.view.mas_top).offset(155);
+                make.height.mas_equalTo(50);
+            }];
+            self.messageLabel.text = str;
+        }
+        //***************************
         [_tableView reloadData];
     } failure:^(NSError *error) {
         [VJDProgressHUD showTextHUD:INTERNET_ERROR];
@@ -304,16 +344,18 @@
     if (!self.properyId) {
         self.properyId = @"";
     }
-    
+    if (!self.properyNameStr) {
+        self.properyNameStr = @"";
+    }
     
     
     NSString * requestUrl = nil;
     if (self.brandNameStr) {
-        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&optionIds=%@&categoryName=%@&sort=%@&sortDirection=%@&categoryIds=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
-                     ,self.minPrice,self.maxPrice,self.properyId,self.categoryNameStr,self.sort,self.sortDirection,self.categoryIds ? self.categoryIds : @""];
+        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&optionIds=%@&categoryName=%@&sort=%@&sortDirection=%@&categoryIds=%@&optionNames=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
+                     ,self.minPrice,self.maxPrice,self.properyId,self.categoryNameStr,self.sort,self.sortDirection,self.categoryIds ? self.categoryIds : @"",self.properyNameStr];
     }else{
-        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&sort=%@&sortDirection=%@&categoryIds=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
-                     ,self.minPrice,self.maxPrice,self.sort,self.sortDirection,self.categoryIds ? self.categoryIds : @""];
+        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&sort=%@&sortDirection=%@&categoryIds=%@&optionNames=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
+                     ,self.minPrice,self.maxPrice,self.sort,self.sortDirection,self.categoryIds ? self.categoryIds : @"",self.properyNameStr];
     }
     requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     
@@ -338,6 +380,20 @@
                 [_tableView.mj_footer noticeNoMoreData];
             }
         }
+        //********无数据提醒***********
+        if (dataArray.count > 0) {
+            [self.messageLabel removeFromSuperview];
+        }else{
+            NSString * str = ShaixuanNoDataMsg;
+            [self.view addSubview:self.messageLabel];
+            [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.equalTo(self.view);
+                make.top.equalTo(self.view.mas_top).offset(155);
+                make.height.mas_equalTo(50);
+            }];
+            self.messageLabel.text = str;
+        }
+        //***************************
         [_tableView reloadData];
     } failure:^(NSError *error) {
         [VJDProgressHUD showTextHUD:INTERNET_ERROR];
@@ -361,14 +417,18 @@
         self.properyId = @"";
     }
     
+    if (!self.properyNameStr) {
+        self.properyNameStr = @"";
+    }
+    
     NSString * requestUrl = nil;
     if (self.brandNameStr||self.categoryNameStr) {
-        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&optionIds=%@&categoryName=%@&sort=%@&sortDirection=%@&categoryIds=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
-                     ,self.minPrice,self.maxPrice,self.properyId,self.categoryNameStr,self.sort,self.sortDirection,self.categoryIds ? self.categoryIds : @""];
+        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&optionIds=%@&categoryName=%@&sort=%@&sortDirection=%@&categoryIds=%@&optionNames=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
+                     ,self.minPrice,self.maxPrice,self.properyId,self.categoryNameStr,self.sort,self.sortDirection,self.categoryIds ? self.categoryIds : @"",self.properyNameStr];
         
     }else{
-        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&sort=%@&sortDirection=%@&categoryIds=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
-                     ,self.minPrice,self.maxPrice,self.sort,self.sortDirection,self.categoryIds ? self.categoryIds : @""];
+        requestUrl= [NSString stringWithFormat:@"%@?brandNames=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&sort=%@&sortDirection=%@&categoryIds=%@&optionNames=%@",GetSearchProductPaginationResultURL,self.brandsList[0],(long)self.pageNum
+                     ,self.minPrice,self.maxPrice,self.sort,self.sortDirection,self.categoryIds ? self.categoryIds : @"",self.properyNameStr];
     }
     requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
     requestUrl = [NSString stringWithFormat:@"%@&subsiteId=1",requestUrl];
@@ -404,6 +464,22 @@
                 [_tableView.mj_footer endRefreshingWithNoMoreData];
             }
         }
+        
+        //********无数据提醒***********
+        if (dataArray.count > 0) {
+            [self.messageLabel removeFromSuperview];
+        }else{
+            NSString * str = ShaixuanNoDataMsg;
+            [self.view addSubview:self.messageLabel];
+            [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.equalTo(self.view);
+                make.top.equalTo(self.view.mas_top).offset(155);
+                make.height.mas_equalTo(50);
+            }];
+            self.messageLabel.text = str;
+        }
+        //***************************
+        
         [_tableView headerEndRefreshing];
         [_tableView footerEndRefreshing];
         [_tableView reloadData];
@@ -427,7 +503,8 @@
                                   @"sortDirection":self.sortDirection,//升序asc 降序 desc
                                   @"searchWithinResult":@"",
                                   @"loginName":@"",
-                                  @"optionIds":@"",//sku 属性
+                                  @"optionIds":self.properyId,//sku 属性
+                                  @"optionNames" : self.properyNameStr ,
                                   @"subsiteId"  :   @"1",
                                   @"categoryIds"    :   self.categoryIds ? self.categoryIds : @""
                                   };
@@ -453,6 +530,20 @@
                 [_tableView.mj_footer endRefreshingWithNoMoreData];
             }
         }
+        //********无数据提醒***********
+        if (dataArray.count > 0) {
+            [self.messageLabel removeFromSuperview];
+        }else{
+            NSString * str = ShaixuanNoDataMsg;
+            [self.view addSubview:self.messageLabel];
+            [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
+                make.left.right.equalTo(self.view);
+                make.top.equalTo(self.view.mas_top).offset(155);
+                make.height.mas_equalTo(50);
+            }];
+            self.messageLabel.text = str;
+        }
+        //***************************
         [_tableView reloadData];
     } failure:^(NSError *error) {
         [VJDProgressHUD showTextHUD:INTERNET_ERROR];
@@ -619,11 +710,17 @@
                 
                 
                 NSString * skuId =nil;
+                NSString * skuName =nil;
                 for (PropertyModel* idModel in properyList) {
                     if (skuId) {
                         skuId = [NSString stringWithFormat:@"%@&optionIds=%@",idModel.properyId,skuId];
                     }else{
                         skuId =idModel.properyId;
+                    }
+                    if (skuName) {
+                        skuName = [NSString stringWithFormat:@"%@&optionNames=%@",idModel.propertyValue,skuName];
+                    }else{
+                        skuName =idModel.propertyValue;
                     }
                 }
                 weakSelf.properyId = skuId;
@@ -815,6 +912,15 @@
         _brandIds = [NSArray array];
     }
     return _brandIds;
+}
+
+- (UILabel *)messageLabel {
+    if (!_messageLabel) {
+        _messageLabel = [UILabel labelLongWithColor:[UIColor redColor] font:14];
+        _messageLabel.textAlignment = NSTextAlignmentCenter;
+        _messageLabel.backgroundColor = [UIColor whiteColor];
+    }
+    return _messageLabel;
 }
 
 - (void)didReceiveMemoryWarning {

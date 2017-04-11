@@ -1,7 +1,7 @@
 10
 
 dir
-1457
+1463
 svn://yanghongzhou@192.168.1.6/trunk/02-Engineering_%E5%B7%A5%E7%A8%8B/09_%E4%BB%A3%E7%A0%81/ios/Velectric%201.3/Velectric/AppClasses/Home/View
 svn://yanghongzhou@192.168.1.6
 
@@ -28,40 +28,6 @@ f8e417dc-ff0f-4c5c-8625-6b0fab15d564
 
 ModuleView
 dir
-
-HomeTableViewCell.h
-file
-
-
-
-
-2017-03-27T06:06:50.000000Z
-8482362d97aadb2d2d9a251eb12213e9
-2017-02-15T06:50:55.798318Z
-1083
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-526
 
 VSearchView.m
 file
@@ -96,6 +62,40 @@ yanghongzhou
 
 
 15844
+
+HomeTableViewCell.h
+file
+
+
+
+
+2017-03-27T06:06:50.000000Z
+8482362d97aadb2d2d9a251eb12213e9
+2017-02-15T06:50:55.798318Z
+1083
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+526
 
 GoodsCollectionCell.m
 file
@@ -199,9 +199,6 @@ yanghongzhou
 
 1183
 
-searchView
-dir
-
 LableCell.xib
 file
 
@@ -235,6 +232,9 @@ yanghongzhou
 
 
 3237
+
+searchView
+dir
 
 HSearchView.m
 file
@@ -406,40 +406,6 @@ yanghongzhou
 
 712
 
-GoodsCollectionCell.h
-file
-
-
-
-
-2017-03-27T06:06:50.000000Z
-5f7fe6f7e1192dd9daae20f8597e67b5
-2017-02-15T06:50:55.798318Z
-1083
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-597
-
 MineTopCollectionView.m
 file
 
@@ -473,4 +439,38 @@ yanghongzhou
 
 
 3441
+
+GoodsCollectionCell.h
+file
+
+
+
+
+2017-03-27T06:06:50.000000Z
+5f7fe6f7e1192dd9daae20f8597e67b5
+2017-02-15T06:50:55.798318Z
+1083
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+597
 
