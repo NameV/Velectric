@@ -126,12 +126,16 @@ static NSString *_totalCount;
     [SYNetworkingManager GetOrPostWithHttpType:2 WithURLString:GetGetCartURL parameters:parameters success:^(NSDictionary *responseObject) {
         ELog(@"成功");
         NSString * carNumStr =[NSString stringWithFormat:@"%@",responseObject[@"cart"][@"totalQuantity"]];
-        
-        VelectricTabbarController *tabbarCon = (VelectricTabbarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-        UIViewController *viewCon = tabbarCon.childViewControllers[3];
-        viewCon.tabBarItem.badgeValue = carNumStr;
-        viewCon.tabBarItem.badgeColor = V_ORANGE_COLOR;
-        
+        if ([[[UIApplication sharedApplication].keyWindow.rootViewController class] isSubclassOfClass:[VelectricTabbarController class]]) {
+            VelectricTabbarController *tabbarCon = (VelectricTabbarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+            UIViewController *viewCon = tabbarCon.childViewControllers[3];
+            if ([carNumStr isEqualToString:@"0"]) {
+                viewCon.tabBarItem.badgeValue = nil;
+            }else {
+                viewCon.tabBarItem.badgeValue = carNumStr;
+            }
+            viewCon.tabBarItem.badgeColor = V_ORANGE_COLOR;
+        }
     } failure:^(NSError *error) {
         ELog(@"失败");
     }];

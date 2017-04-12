@@ -38,6 +38,9 @@
 @property (nonatomic, strong)ScreeningView * saiXuanView;//筛选的VIew
 @property (nonatomic, strong)VJDToolbarView * toolbar;//销量  价格
 
+/* 存储最开始的catogeryID */
+@property (nonatomic, strong) NSArray *fisrtCatogeryId;
+
 
 /* 搜索无结果时的提示文字 */
 @property (nonatomic, strong) UILabel *messageLabel;
@@ -51,6 +54,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    self.fisrtCatogeryId = [NSArray arrayWithArray:self.categoryIds];
+    
     //请求的页码
     self.pageNum = 1;
     //初始化数据
@@ -113,9 +119,24 @@
             [UIView animateWithDuration:0.3 animations:^{
                 self.saiXuanView.frame = CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
             }];
+            
             VJDWeakSelf;
+            //筛选重选的block
+            self.saiXuanView.reselectBlock = ^ {
+                if (weakSelf.enterType==ScreeningViewEnterType2) {//热卖商品
+                    weakSelf.categoryIds = @[];
+                }else{
+                    weakSelf.categoryIds = weakSelf.fisrtCatogeryId;
+                }
+                
+            };
+            
+            //筛选点击的block
             self.saiXuanView.screeningBlcok =^(NSMutableArray * brandsList,NSMutableArray * properyList,NSString * lowPrice,NSString * highPrice,HomeCategoryModel *selectModel){
-                weakSelf.categoryIds = @[[NSNumber numberWithInteger:selectModel.myId]];
+                if (selectModel.myId) {
+                    weakSelf.categoryIds = @[[NSNumber numberWithInteger:selectModel.myId]];
+                }
+
                 NSString * idStr =nil;
         
                 for (BrandsModel * idModel in brandsList) {
@@ -250,6 +271,7 @@
             categoryStr = str;
         }
     }
+    
     if (!self.categoryIdList) {
         self.categoryIdList =@"";
     }
@@ -278,13 +300,15 @@
         return;
     }
 
+    if (self.categoryIds.count > 0) {
+        categoryStr = [self.categoryIds firstObject];
+    }else{
+        categoryStr = self.categoryIdList;
+    }
+    
     NSString * requestUrl = nil;
     if ([@"1" isEqualToString:_fromType]) {//热卖商品--查看更多
-        if (self.categoryIds.count > 0) {
-            categoryStr = [self.categoryIds firstObject];
-        }else{
-            categoryStr = self.categoryIdList;
-        }
+        
         if (self.brandNameStr) {
             requestUrl= [NSString stringWithFormat:@"%@?categoryIds=%@&pageNum=%ld&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@&optionIds=%@&brandId=%@&sort=%@&sortDirection=%@&optionNames=%@",GetSearchProductPaginationResultURL,categoryStr,(long)self.pageNum
                          ,self.keyWords,self.minPrice,self.maxPrice,self.properyId,self.brandNameStr,self.sort,self.sortDirection,self.properyNameStr];
@@ -320,7 +344,7 @@
             if (dataArray.count > 0) {
                 [self.messageLabel removeFromSuperview];
             }else{
-                NSString * str = @"抱歉，没有找到相关数据";
+                NSString * str = ShaixuanNoDataMsg;
                 [self.view addSubview:self.messageLabel];
                 [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.left.right.equalTo(self.view);
@@ -342,13 +366,13 @@
         }];
         return;
     }else if ([@"2" isEqualToString:_fromType]) {//搜索过来的
-        categoryStr = self.categoryIdList;
+        
         
         if (self.brandNameStr) {
-            requestUrl= [NSString stringWithFormat:@"%@?pageNum=1&pageSize=20&keyWords=%@&optionIds=%@&brandId=%@&minPrice=%@&maxPrice=%@&sort=%@&sortDirection=%@&optionNames=%@",GetSearchProductPaginationResultURL,self.keyWords,self.properyId,self.brandNameStr,self.minPrice,self.maxPrice,self.sort,self.sortDirection,self.properyNameStr];
+            requestUrl= [NSString stringWithFormat:@"%@?pageNum=1&pageSize=20&keyWords=%@&optionIds=%@&brandId=%@&minPrice=%@&maxPrice=%@&sort=%@&sortDirection=%@&optionNames=%@&categoryIds=%@",GetSearchProductPaginationResultURL,self.keyWords,self.properyId,self.brandNameStr,self.minPrice,self.maxPrice,self.sort,self.sortDirection,self.properyNameStr,categoryStr];
 
         }else{
-            requestUrl= [NSString stringWithFormat:@"%@?pageNum=1&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@&sort=%@&sortDirection=%@&optionIds=%@&optionNames=%@",GetSearchProductPaginationResultURL,self.keyWords,self.minPrice, self.maxPrice,self.sort,self.sortDirection,self.properyId,self.properyNameStr];
+            requestUrl= [NSString stringWithFormat:@"%@?pageNum=1&pageSize=20&keyWords=%@&minPrice=%@&maxPrice=%@&sort=%@&sortDirection=%@&optionIds=%@&optionNames=%@&categoryIds=%@",GetSearchProductPaginationResultURL,self.keyWords,self.minPrice, self.maxPrice,self.sort,self.sortDirection,self.properyId,self.properyNameStr,categoryStr];
 
         }
         requestUrl = [NSString stringWithFormat:@"%@&subsiteId=1",requestUrl];
@@ -378,7 +402,7 @@
             if (dataArray.count > 0) {
                 [self.messageLabel removeFromSuperview];
             }else{
-                NSString * str = @"抱歉，没有找到相关数据";
+                NSString * str = ShaixuanNoDataMsg;
                 [self.view addSubview:self.messageLabel];
                 [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.left.right.equalTo(self.view);
@@ -407,11 +431,11 @@
         return;
     }else if ([@"3" isEqualToString:_fromType]) {//首页--五金--筛选过来的接口
      //   [VJDProgressHUD showProgressHUD:@"加载中..."];
-        categoryStr = self.categoryIdList;
+//        categoryStr = self.categoryIdList;
         if (self.brandNameStr) {
-            requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&categoryIds=%@&sort=%@&sortDirection=%@&minPrice=%@&maxPrice=%@&optionIds=%@&brandId=%@&optionNames=%@",GetSearchProductPaginationResultURL,self.pageNum,self.categoryIds[0],self.sort,self.sortDirection,self.minPrice,self.maxPrice,self.properyId,self.brandNameStr,self.properyNameStr];
+            requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&categoryIds=%@&sort=%@&sortDirection=%@&minPrice=%@&maxPrice=%@&optionIds=%@&brandId=%@&optionNames=%@",GetSearchProductPaginationResultURL,self.pageNum,categoryStr,self.sort,self.sortDirection,self.minPrice,self.maxPrice,self.properyId,self.brandNameStr,self.properyNameStr];
         }else{
-            requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&categoryIds=%@&sort=%@&sortDirection=%@&minPrice=%@&maxPrice=%@&optionIds=%@&optionNames=%@",GetSearchProductPaginationResultURL,self.pageNum,self.categoryIds[0],self.sort,self.sortDirection,self.minPrice,self.maxPrice,self.properyId,self.properyNameStr];
+            requestUrl= [NSString stringWithFormat:@"%@?pageNum=%ld&pageSize=20&categoryIds=%@&sort=%@&sortDirection=%@&minPrice=%@&maxPrice=%@&optionIds=%@&optionNames=%@",GetSearchProductPaginationResultURL,self.pageNum,categoryStr,self.sort,self.sortDirection,self.minPrice,self.maxPrice,self.properyId,self.properyNameStr];
             
         }
         requestUrl = [NSString stringWithFormat:@"%@&subsiteId=1",requestUrl];
@@ -441,7 +465,7 @@
             if (dataArray.count > 0) {
                 [self.messageLabel removeFromSuperview];
             }else{
-                NSString * str = @"抱歉，没有找到相关数据";
+                NSString * str = ShaixuanNoDataMsg;
                 [self.view addSubview:self.messageLabel];
                 [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                     make.left.right.equalTo(self.view);
@@ -502,7 +526,7 @@
         if (dataArray.count > 0) {
             [self.messageLabel removeFromSuperview];
         }else{
-            NSString * str = @"抱歉，没有找到相关数据";
+            NSString * str = ShaixuanNoDataMsg;
             [self.view addSubview:self.messageLabel];
             [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.equalTo(self.view);
@@ -635,7 +659,7 @@
         if (dataArray.count > 0) {
             [self.messageLabel removeFromSuperview];
         }else{
-            NSString * str = @"抱歉，没有找到相关数据";
+            NSString * str = ShaixuanNoDataMsg;
             [self.view addSubview:self.messageLabel];
             [self.messageLabel mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.right.equalTo(self.view);
@@ -754,7 +778,6 @@
     }
     return _messageLabel;
 }
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

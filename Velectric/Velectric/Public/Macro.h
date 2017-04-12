@@ -21,7 +21,7 @@
 #define ReLoginToast                   @"请登录"
 
 //重新登录提示
-#define ShaixuanNoDataMsg                   @"抱歉，没有找到相关数据"
+#define ShaixuanNoDataMsg                   @"抱歉，没有找到相关商品"
 
 //App Store 连接地址
 #define APPURL @"https://itunes.apple.com/us/app/vjidian/id1196688931?l=zh&ls=1&mt=8"

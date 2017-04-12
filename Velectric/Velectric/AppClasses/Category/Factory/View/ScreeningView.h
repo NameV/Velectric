@@ -8,6 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ScreenView.h"
+
+typedef void(^reSelectBlock)();
+
 @class HomeCategoryModel,BrandsModel;
 
 @interface ScreeningView : UIView<UITableViewDelegate,UITableViewDataSource,ScreenViewDelegate,UITextFieldDelegate>
@@ -74,6 +77,9 @@
 @property (copy, nonatomic)NSString * brandName;
 //是否是重置
 @property (assign, nonatomic)BOOL chongZhiFlog;
+
+/* 重选的block，重置catogeryId */
+@property (nonatomic, copy) reSelectBlock reselectBlock;
 
 
 -(void)enterType:(ScreeningViewEnterType)enterType;

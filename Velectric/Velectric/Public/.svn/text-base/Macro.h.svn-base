@@ -20,25 +20,12 @@
 //重新登录提示
 #define ReLoginToast                   @"请登录"
 
+//重新登录提示
+#define ShaixuanNoDataMsg                   @"抱歉，没有找到相关商品"
+
 //App Store 连接地址
 #define APPURL @"https://itunes.apple.com/us/app/vjidian/id1196688931?l=zh&ls=1&mt=8"
 
-#pragma mark ---------------- H5 URL  ----------------
-
-////帮助中心url
-//#define HelpCenterUrl                   @"http://192.168.1.8:8089/views/my/help/help-app.html"
-//
-////发现url
-//#define DiscoverH5Url                   @"http://192.168.1.8:8089/views/discover/discover-app.html"
-
-//搜索无结果推荐列表url
-//#define SearchRecommendedUrl                   @"http://106.75.70.143:8100/searchRecommended"
-
-//支付宝异步回调地址
-//#define AliPayAsynRequestUrl            @"http://106.75.70.143:8100/aliPayInterface/alipayNotifyInterface"
-
-//图片url前面的拼接路径
-//#define V_Base_ImageURL                 @"http://image.vjidian.com"
 
 #pragma mark ---------------- 通知宏  ----------------
 

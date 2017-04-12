@@ -353,7 +353,7 @@ static int brandMoreBtnTag = 20170317;//品牌查看更多按钮tag，防止更�
     for (UIView * obj in _brandsView.subviews) {
         if ([obj isKindOfClass:[UIButton class]]) {
             if (obj == self.moreBrandBtn) {//如果是品牌查看更多按钮，则跳过
-                break;
+                continue;
             }
             [obj removeFromSuperview];
         }
@@ -460,13 +460,16 @@ static int brandMoreBtnTag = 20170317;//品牌查看更多按钮tag，防止更�
         return;
     }
     //点击button反选
-    BrandsModel * model = [_brandsList objectAtIndex:sender.tag];
-    model.isSelect = !model.isSelect;
-    if (model.isSelect) {
-        [_selectBrandsList addObject:model];
-    }else{
-        [_selectBrandsList removeObject:model];
+    if (_brandsList.count > sender.tag) {
+        BrandsModel * model = [_brandsList objectAtIndex:sender.tag];
+        model.isSelect = !model.isSelect;
+        if (model.isSelect) {
+            [_selectBrandsList addObject:model];
+        }else{
+            [_selectBrandsList removeObject:model];
+        }
     }
+    
     [self reloadBrandsView];
 }
 
@@ -676,6 +679,11 @@ static int brandMoreBtnTag = 20170317;//品牌查看更多按钮tag，防止更�
     //-------------------------yulei修改bug--------------------------
     
     [_tableView reloadData];
+    
+    //主界面重置catogeryId
+    if (_reselectBlock) {
+        _reselectBlock();
+    }
 }
 
 #pragma mark - UITextFieldDelegate
