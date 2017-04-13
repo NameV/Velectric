@@ -94,40 +94,6 @@ yanghongzhou
 
 990
 
-LoginViewController.xib
-file
-
-
-
-
-2017-03-27T06:06:50.000000Z
-cd41988ad7317a6b138d729988234e8f
-2017-02-15T06:50:55.798318Z
-1083
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-6481
-
 BuyScopeController.m
 file
 
@@ -162,48 +128,14 @@ yanghongzhou
 
 8513
 
-memberMeansController.m
+LoginViewController.xib
 file
 
 
 
 
 2017-03-27T06:06:50.000000Z
-2f6cbb6589616dcb64ed27b0f2b1a08f
-2017-03-21T05:29:05.693946Z
-1354
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-35897
-
-LoginViewController.h
-file
-
-
-
-
-2017-03-27T06:06:50.000000Z
-9923216cceeac001e4b20afddc7b38e9
+cd41988ad7317a6b138d729988234e8f
 2017-02-15T06:50:55.798318Z
 1083
 yanghongzhou
@@ -228,7 +160,41 @@ yanghongzhou
 
 
 
-542
+6481
+
+memberMeansController.m
+file
+1476
+
+
+
+2017-04-13T02:33:14.000000Z
+f019dc13028d23a24e2352b0490fdd43
+2017-04-13T03:24:22.314221Z
+1476
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+35779
 
 CheckViewController.xib
 file
@@ -264,6 +230,40 @@ yanghongzhou
 
 6680
 
+LoginViewController.h
+file
+
+
+
+
+2017-03-27T06:06:50.000000Z
+9923216cceeac001e4b20afddc7b38e9
+2017-02-15T06:50:55.798318Z
+1083
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+542
+
 ScopeViewController.h
 file
 
@@ -297,74 +297,6 @@ yanghongzhou
 
 
 222
-
-LoginViewController.m
-file
-
-
-
-
-2017-04-06T04:51:40.000000Z
-2c4e599fa7aaaa23d54c1fe82b1a657f
-2017-04-06T06:16:58.914766Z
-1439
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-22611
-
-ForgetPassController.xib
-file
-
-
-
-
-2017-03-27T06:06:50.000000Z
-e19dc78765798616297328405e9eb295
-2017-02-15T06:50:55.798318Z
-1083
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-1340
 
 CheckViewController.h
 file
@@ -400,6 +332,74 @@ yanghongzhou
 
 552
 
+ForgetPassController.xib
+file
+
+
+
+
+2017-03-27T06:06:50.000000Z
+e19dc78765798616297328405e9eb295
+2017-02-15T06:50:55.798318Z
+1083
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+1340
+
+LoginViewController.m
+file
+
+
+
+
+2017-04-06T04:51:40.000000Z
+2c4e599fa7aaaa23d54c1fe82b1a657f
+2017-04-06T06:16:58.914766Z
+1439
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+22611
+
 ScopeViewController.m
 file
 
@@ -434,40 +434,6 @@ yanghongzhou
 
 871
 
-ForgetPassController.h
-file
-
-
-
-
-2017-03-27T06:06:50.000000Z
-59d031b14f970d37b4c111b5a1e2fc26
-2017-02-15T06:50:55.798318Z
-1083
-yanghongzhou
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-224
-
 CheckViewController.m
 file
 
@@ -501,6 +467,40 @@ yanghongzhou
 
 
 2752
+
+ForgetPassController.h
+file
+
+
+
+
+2017-03-27T06:06:50.000000Z
+59d031b14f970d37b4c111b5a1e2fc26
+2017-02-15T06:50:55.798318Z
+1083
+yanghongzhou
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+224
 
 ForgetPassController.m
 file

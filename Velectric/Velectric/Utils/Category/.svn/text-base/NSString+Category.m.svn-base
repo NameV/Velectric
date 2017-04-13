@@ -16,8 +16,10 @@
 {
     NSString * string = self.length ? self:@"";
     if (![string isEqualToString:@""]) {
-        CGSize size = [string boundingRectWithSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil].size;
-        return size.width;
+        if (font) {
+            CGSize size = [string boundingRectWithSize:CGSizeMake([[UIScreen mainScreen] bounds].size.width, MAXFLOAT) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:font} context:nil].size;
+            return size.width;
+        }
     }
     return 0;
 }

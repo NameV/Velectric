@@ -296,8 +296,6 @@ static NSInteger TagParam = 1000;
         //从注册进入，将红色标志隐藏
         if ([self.isForm isEqualToString:@"1"]) {
             cell.redIconButton.hidden = YES;
-        }else{
-            cell.redIconButton.hidden = NO;
         }
         
         return cell;
@@ -530,8 +528,6 @@ static NSInteger TagParam = 1000;
         //从注册进入，将红色标志隐藏
         if ([self.isForm isEqualToString:@"1"]) {
             cell.redIconButton.hidden = YES;
-        }else{
-            cell.redIconButton.hidden = NO;
         }
         
     return cell;
