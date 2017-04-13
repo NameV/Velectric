@@ -109,10 +109,13 @@
             if(![chineseString.string isEqualToString:@""]){
                 NSString *pinYinResult = [NSString string];
                 for(int j=0;j<chineseString.string.length;j++){
+                    
                     NSString *singlePinyinLetter = [[NSString stringWithFormat:@"%c",
-                                                   
                                                    pinyinFirstLetter([chineseString.string characterAtIndex:j])]uppercaseString];
-                    //                    NSLog(@"singlePinyinLetter ==%@",singlePinyinLetter);
+                    
+//                    NSString *str = [NSString stringWithFormat:@"%@",[chineseString.string substringWithRange:NSMakeRange(j, 1)]];
+//                    NSLog(@"%@",str);
+//                    NSString *singlePinyinLetter = [NSString firstCharactor:str];
                     
                     pinYinResult = [pinYinResult stringByAppendingString:singlePinyinLetter];
                 }
@@ -133,7 +136,6 @@
     NSLog(@"-----------------------------");
     return chineseStringsArray;
 }
-
 
 #pragma mark - 返回一组字母排序数组
 +(NSMutableArray*)SortArray:(NSArray*)stringArr

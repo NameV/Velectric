@@ -99,7 +99,7 @@
         
         CGRect rect = CGRectMake(0, self.btnView.bottom, SCREEN_WIDTH - alphaWidth, SCREEN_HEIGHT - self.btn.bottom);
         self.tableView.frame = rect;
-        self.tableView2.frame = rect;
+        self.tableView2.frame = CGRectMake(0, self.btnView.bottom, SCREEN_WIDTH - alphaWidth, SCREEN_HEIGHT - self.btn.bottom - 50);
     }else{
         _selectLab.hidden = NO;
         
@@ -202,16 +202,16 @@
 //导航栏确定点击方法
 -(void)btnTouch:(UIButton *)btn
 {
-    if (btn == self.btn) {
+    if (btn == self.btn) {//推荐品牌
         self.tableView.hidden = NO;
         self.tableView2.hidden = YES;
         btn.titleLabel.textColor =RGBColor(242, 182, 42);
         self.btn2.titleLabel.textColor = COLOR_666666;
 
-    }else if(btn == self.btn2){
+    }else if(btn == self.btn2){//字母排序
         self.tableView.hidden = YES;
         self.tableView2.hidden =NO;
-        btn.titleLabel.textColor =RGBColor(242, 182, 42) ;
+        [btn setTitleColor:RGBColor(242, 182, 42) forState:UIControlStateNormal];
         self.btn.titleLabel.textColor =COLOR_666666;
 
     }else if (btn == self.sureBtn){
@@ -245,7 +245,7 @@
 -(NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     if (tableView==self.tableView) {
-        return self.muArr.count;
+        return self.muArr.count > 25 ? 25 : self.muArr.count;
     }
     NSArray * arrmodel = dataArray[section];
     return arrmodel.count;

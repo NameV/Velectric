@@ -94,4 +94,8 @@
  */
 - (NSString *)subStringFrom:(NSString *)startString to:(NSString *)endString;
 
+
+//获取拼音首字母(传入汉字字符串, 返回大写拼音首字母)
++ (NSString *)firstCharactor:(NSString *)aString;
+
 @end

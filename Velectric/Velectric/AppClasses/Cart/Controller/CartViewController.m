@@ -126,21 +126,19 @@
            childRoonInt =childRoonInt+ listModel.cartList.count;
         }
         //0.05*SCREEN_HEIGHT*dataArray.count+0.22*SCREEN_HEIGHT*childRoonInt
-        [_tableView reloadData];
-        [_tableView headerEndRefreshing];
         
         //***********购物车角标**************
         NSString * carNumStr =[NSString stringWithFormat:@"%@",responseObject[@"cart"][@"totalQuantity"]];
-        
-        VelectricTabbarController *tabbarCon = (VelectricTabbarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-        UIViewController *viewCon = tabbarCon.childViewControllers[3];
         if ([carNumStr isEqualToString:@"0"]) {
-            viewCon.tabBarItem.badgeValue = nil;
+            self.tabBarItem.badgeValue = nil;
         }else {
-            viewCon.tabBarItem.badgeValue = carNumStr;
+            self.tabBarItem.badgeValue = carNumStr;
         }
-        viewCon.tabBarItem.badgeColor = V_ORANGE_COLOR;
+        self.tabBarItem.badgeColor = V_ORANGE_COLOR;
         //*********************************
+        
+        [_tableView reloadData];
+        [_tableView headerEndRefreshing];
         
     } failure:^(NSError *error) {
         ELog(@"失败");

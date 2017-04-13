@@ -136,14 +136,16 @@
         //***********购物车角标**************
         NSString * carNumStr =[NSString stringWithFormat:@"%@",responseObject[@"cart"][@"totalQuantity"]];
         
-        VelectricTabbarController *tabbarCon = (VelectricTabbarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
-        UIViewController *viewCon = tabbarCon.childViewControllers[3];
-        if ([carNumStr isEqualToString:@"0"]) {
-            viewCon.tabBarItem.badgeValue = nil;
-        }else {
-            viewCon.tabBarItem.badgeValue = carNumStr;
+        if ([[[UIApplication sharedApplication].keyWindow.rootViewController class] isSubclassOfClass:[VelectricTabbarController class]]) {
+            VelectricTabbarController *tabbarCon = (VelectricTabbarController *)[UIApplication sharedApplication].keyWindow.rootViewController;
+            UIViewController *viewCon = tabbarCon.childViewControllers[3];
+            if ([carNumStr isEqualToString:@"0"]) {
+                viewCon.tabBarItem.badgeValue = nil;
+            }else {
+                viewCon.tabBarItem.badgeValue = carNumStr;
+            }
+            viewCon.tabBarItem.badgeColor = V_ORANGE_COLOR;
         }
-        viewCon.tabBarItem.badgeColor = V_ORANGE_COLOR;
         //*********************************
         
     } failure:^(NSError *error) {

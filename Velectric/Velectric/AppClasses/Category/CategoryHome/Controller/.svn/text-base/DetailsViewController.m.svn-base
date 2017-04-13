@@ -1261,7 +1261,7 @@
         _indexPage.textAlignment = NSTextAlignmentCenter;
         _indexPage.font=[UIFont systemFontOfSize:20];
         _indexPage.textColor=[UIColor whiteColor];
-        _indexPage.text=[NSString stringWithFormat:@"0/%i",(int)_images.count];
+        _indexPage.text=[NSString stringWithFormat:@"1/%i",(int)_images.count];
         [pageView addSubview:_indexPage];
     }
     

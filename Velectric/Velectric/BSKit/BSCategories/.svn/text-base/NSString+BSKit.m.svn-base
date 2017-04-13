@@ -308,4 +308,43 @@
      substringWithRange:range];
 }
 
+//获取拼音首字母(传入汉字字符串, 返回大写拼音首字母)
++ (NSString *)firstCharactor:(NSString *)aString
+{
+    //转成了可变字符串
+    NSMutableString *str = [NSMutableString stringWithString:aString];
+    //先转换为带声调的拼音
+    CFStringTransform((CFMutableStringRef)str,NULL, kCFStringTransformMandarinLatin,NO);
+    //再转换为不带声调的拼音
+    CFStringTransform((CFMutableStringRef)str,NULL, kCFStringTransformStripDiacritics,NO);
+    
+    /*多音字处理*/
+    if ([[(NSString *)aString substringToIndex:1] compare:@"长"] == NSOrderedSame)
+    {
+        [str replaceCharactersInRange:NSMakeRange(0, 5) withString:@"chang"];
+    }
+    if ([[(NSString *)aString substringToIndex:1] compare:@"沈"] == NSOrderedSame)
+    {
+        [str replaceCharactersInRange:NSMakeRange(0, 4) withString:@"shen"];
+    }
+    if ([[(NSString *)aString substringToIndex:1] compare:@"厦"] == NSOrderedSame)
+    {
+        [str replaceCharactersInRange:NSMakeRange(0, 3) withString:@"xia"];
+    }
+    if ([[(NSString *)aString substringToIndex:1] compare:@"地"] == NSOrderedSame)
+    {
+        [str replaceCharactersInRange:NSMakeRange(0, 3) withString:@"di"];
+    }
+    if ([[(NSString *)aString substringToIndex:1] compare:@"重"] == NSOrderedSame)
+    {
+        [str replaceCharactersInRange:NSMakeRange(0, 5) withString:@"chong"];
+    }
+    
+    //转化为大写拼音
+    NSString *kPinYin = [str capitalizedString];
+    
+    //获取并返回首字母
+    return [kPinYin substringToIndex:1];
+}
+
 @end

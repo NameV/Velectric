@@ -28,8 +28,8 @@
 @property (nonatomic, strong)UIButton * btn;
 @property (nonatomic, strong)UIButton * btn2;
 @property (nonatomic, strong)UILabel * selectLab;
-@property (nonatomic, strong)UITableView * tableView2;
-@property (nonatomic, strong)UITableView * tableView;
+@property (nonatomic, strong)UITableView * tableView2;//按字母排序
+@property (nonatomic, strong)UITableView * tableView;//推荐品牌
 @property (nonatomic, strong)UIButton * backBtn;
 @property (nonatomic, strong)UIButton * sureBtn;
 @property (nonatomic, strong)NSArray * seactionArray;
