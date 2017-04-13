@@ -369,6 +369,7 @@ static int brandMoreBtnTag = 20170317;//品牌查看更多按钮tag，防止更�
             _brandsView.frame = CGRectMake(0, _brandsView.top, _brandsView.width, 80);
         }
     }else{
+        _brandsView.frame = CGRectMake(0, _brandsView.top, _brandsView.width, 80);
         self.moreBrandBtn.hidden = YES;
     }
     

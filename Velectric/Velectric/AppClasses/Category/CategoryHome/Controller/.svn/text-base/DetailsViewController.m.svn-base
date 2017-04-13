@@ -968,6 +968,7 @@
     }];
 }
 
+//弃用
 - (UIView*)addHeaderView{
     
     NSString *picturUrl;
@@ -1227,6 +1228,9 @@
     }
     
     UIView * view=[[UIView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-280)];
+    
+    //
+    
     SDCycleScrollView *cycleScrollView = [SDCycleScrollView cycleScrollViewWithFrame:CGRectMake(0, 0, view.frame.size.width, view.frame.size.height) delegate:self placeholderImage:nil];
     cycleScrollView.autoScroll = NO;
     cycleScrollView.infiniteLoop = NO;
@@ -1234,6 +1238,7 @@
     
     cycleScrollView.pageControlStyle = SDCycleScrollViewPageContolStyleNone;
     [view addSubview:cycleScrollView];
+    /*
     UIImageView * imageView=[[UIImageView alloc]initWithImage:[UIImage imageNamed:@"circleBackground"]];
     imageView.frame=CGRectMake(cycleScrollView.frame.size.width-70, cycleScrollView.frame.size.height-70, 50, 50);
     [cycleScrollView addSubview:imageView];
@@ -1243,6 +1248,23 @@
     _indexPage.textColor=[UIColor whiteColor];
     //   _indexPage.text=[NSString stringWithFormat:@"%i/%i",cycleScrollView.indexPage+1,(int)_images.count];
     [imageView addSubview:_indexPage];
+     */
+    if (_dataArray.count) {
+        UIView *pageView = [[UIView alloc]initWithFrame:CGRectMake(cycleScrollView.frame.size.width-50, cycleScrollView.frame.size.height-50, 40, 40)];
+        pageView.backgroundColor = [UIColor grayColor];
+        [cycleScrollView addSubview:pageView];
+        pageView.clipsToBounds = YES;
+        pageView.layer.cornerRadius = 20;
+        pageView.alpha = 0.9;
+        
+        _indexPage=[[UILabel alloc]initWithFrame:CGRectMake(0,0, pageView.frame.size.width, pageView.frame.size.height)];
+        _indexPage.textAlignment = NSTextAlignmentCenter;
+        _indexPage.font=[UIFont systemFontOfSize:20];
+        _indexPage.textColor=[UIColor whiteColor];
+        _indexPage.text=[NSString stringWithFormat:@"0/%i",(int)_images.count];
+        [pageView addSubview:_indexPage];
+    }
+    
     return view;
 
 }
@@ -1286,6 +1308,11 @@
 }
 - (void)indexOnPageControl:(NSInteger)index{
      _indexPage.text=[NSString stringWithFormat:@"%i/%i",(int)index+1,(int)_images.count];
+}
+
+/** 图片滚动回调 */
+- (void)cycleScrollView:(SDCycleScrollView *)cycleScrollView didScrollToIndex:(NSInteger)index {
+    _indexPage.text=[NSString stringWithFormat:@"%i/%i",(int)index+1,(int)_images.count];
 }
 
 #pragma mark - produtSubViewCanel

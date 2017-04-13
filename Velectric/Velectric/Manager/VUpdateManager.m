@@ -65,7 +65,7 @@
     BOOL mustUpdate = NO;
     
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"];
-    if ([version isEqualToString:model.version]) {
+    if (![version isEqualToString:model.version]) {
         newVersion = YES;
     }
     
@@ -139,11 +139,14 @@
                                                    
                                                    NSInteger state = [responseObject[@"auditState"] integerValue];
                                                    [self changeViewControllerWithState:state];
+                                                   //检查更新
+                                                   [[VUpdateManager shareManager] checkVersion];
                                                }
                                            } failure:^(NSError *error) {
                                                [VJDProgressHUD dismissHUD];
                                                [self pushLoginController];//请求失败，跳转登录界面
-                                               
+                                               //检查更新
+                                               [[VUpdateManager shareManager] checkVersion];
                                            }];
         
     }else{
@@ -151,6 +154,8 @@
         VelectricTabbarController * tabbar = [[VelectricTabbarController alloc]init];
         [UIApplication sharedApplication].keyWindow.rootViewController =tabbar;
         
+        //检查更新
+        [[VUpdateManager shareManager] checkVersion];
     }
     
     

@@ -416,8 +416,7 @@
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     
-    //检查更新
-    [[VUpdateManager shareManager] checkVersion];
+    
 }
 
 
