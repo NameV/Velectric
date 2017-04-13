@@ -62,7 +62,8 @@
         label.textColor = COLOR_666666;
         label.textAlignment = NSTextAlignmentLeft;
         
-        UITextField * textField = [[UITextField alloc]initWithFrame:CGRectMake(10, i*50, SCREEN_WIDTH - 20, 50)];
+        //如果不加星号CGRectMake(10, i*50, SCREEN_WIDTH - 20, 50)
+        UITextField * textField = [[UITextField alloc]initWithFrame:CGRectMake(30, i*50, SCREEN_WIDTH - 20, 50)];
         textField.tag = i+1;
         textField.font = Font_1_F14;
         textField.leftView = label;
@@ -70,6 +71,10 @@
         textField.enabled = NO;
         textField.leftViewMode = UITextFieldViewModeAlways;
         [self.view addSubview:textField];
+        
+        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"hongxing"]];
+        imageView.frame = CGRectMake(10, 20 + 50*i, 10, 10);
+        [self.view addSubview:imageView];
         
         UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake(10, 49.5 + i*50, SCREEN_WIDTH - 20, 0.5)];
         lineView.backgroundColor = COLOR_DDDDDD;
@@ -103,6 +108,9 @@
     UITextField * mobileTextF = [self.view viewWithTag:5];
     
     nameTextF.text = memberInfoModel.contactName;
+    if ([nameTextF.text isEmptyString]) {
+        nameTextF.text = memberInfoModel.mobile;
+    }
     companyTextF.text = memberInfoModel.realName;
     regionTextF.text = [NSString stringWithFormat:@"%@ %@ %@",memberInfoModel.provinceName,memberInfoModel.cityName,memberInfoModel.areaName];
     addressTextF.text = memberInfoModel.address;
