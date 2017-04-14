@@ -63,11 +63,11 @@
     //配置以上参数后调用此方法初始化SDK！
     [MobClick startWithConfigure:UMConfigInstance];
     
-    //首次安装
-    if (!FIRST_INSTALL) {
-        //创建引导页
-        [self creatGuideView];
-    }
+//    //首次安装
+//    if (!FIRST_INSTALL) {
+//        //创建引导页
+//        [self creatGuideView];
+//    }
     
     //检测网络状态
     [self AFNetWorking];

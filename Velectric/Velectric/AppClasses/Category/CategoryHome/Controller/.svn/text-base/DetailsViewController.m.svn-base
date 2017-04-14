@@ -1214,12 +1214,6 @@
         [picUrlArray addObject:picturUrl];
     }
     
-    //************TODO
-    if (picUrlArray.count) {
-        [picUrlArray addObject:picUrlArray[0]];
-    }
-    //************
-    
     //看数组里面是否有图片，没有图片显示默认图片
     if (picUrlArray.count > 0) {
         _images = [picUrlArray copy];

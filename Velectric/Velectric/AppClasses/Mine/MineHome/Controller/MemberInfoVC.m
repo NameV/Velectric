@@ -8,9 +8,18 @@
 
 #import "MemberInfoVC.h"
 #import "MemberInfoModel.h"
+#import "BuyScoreView.h"
 
+@interface MemberInfoVC ()<BuybackRootViewDelegate>
 
-@interface MemberInfoVC ()
+@property (nonatomic,strong)UIView * bgView;
+@property (nonatomic,strong)UIView * listView;
+@property (nonatomic,strong)UITextField * scopeView;//经营范围
+/* 经营范围id */
+@property (nonatomic, copy) NSString *scopeID;
+
+/* 右箭头 */
+@property (nonatomic, strong) UIImageView *rightIamge;
 
 @end
 
@@ -42,18 +51,17 @@
             weakSelf.memberInfoModel = model;
         }
     } failure:^(NSError *error) {
-        [VJDProgressHUD showErrorHUD:error.domain];
     }];
 }
 
 #pragma mark - 创建UI
 - (void)creatUI
 {
-    UIView * whiteView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 5 * 50)];
+    UIView * whiteView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 6 * 50)];
     whiteView.backgroundColor = [UIColor whiteColor];
     [self.view addSubview:whiteView];
     
-    NSArray * titleArray = @[@"用户名",@"厂商名称",@"所在地区",@"详细地址",@"手机号",];
+    NSArray * titleArray = @[@"用户名",@"厂商名称",@"所在地区",@"详细地址",@"手机号",@"经营范围"];
     for (int i=0; i<titleArray.count; i++)
     {
         UILabel * label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 80, 50)];
@@ -63,7 +71,7 @@
         label.textAlignment = NSTextAlignmentLeft;
         
         //如果不加星号CGRectMake(10, i*50, SCREEN_WIDTH - 20, 50)
-        UITextField * textField = [[UITextField alloc]initWithFrame:CGRectMake(30, i*50, SCREEN_WIDTH - 20, 50)];
+        UITextField * textField = [[UITextField alloc]initWithFrame:CGRectMake(10, i*50, SCREEN_WIDTH - 20, 50)];
         textField.tag = i+1;
         textField.font = Font_1_F14;
         textField.leftView = label;
@@ -72,9 +80,27 @@
         textField.leftViewMode = UITextFieldViewModeAlways;
         [self.view addSubview:textField];
         
-        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"hongxing"]];
-        imageView.frame = CGRectMake(10, 20 + 50*i, 10, 10);
-        [self.view addSubview:imageView];
+        //经营范围button
+        if (i == 5) {
+            UIButton *button = [UIButton buttonWithType:UIButtonTypeSystem];
+            button.backgroundColor = [UIColor clearColor];
+            button.frame = CGRectMake(40, 0, SCREEN_WIDTH-40, 50);
+            [textField addSubview:button];
+            self.scopeView = textField;
+            textField.textColor = [UIColor blackColor];
+            textField.enabled = YES;
+            [button addTarget:self action:@selector(chooseScope:) forControlEvents:UIControlEventTouchUpInside];
+            textField.text = @"请选择经营范围";
+            
+            UIImageView *imageView = [[UIImageView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-40, 20, 10, 10)];
+            imageView.image = [UIImage imageNamed:@"youjiantou"];
+            self.rightIamge = imageView;
+            [textField addSubview:imageView];
+        }
+        
+//        UIImageView *imageView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"hongxing"]];
+//        imageView.frame = CGRectMake(10, 20 + 50*i, 10, 10);
+//        [self.view addSubview:imageView];
         
         UIView * lineView = [[UIView alloc]initWithFrame:CGRectMake(10, 49.5 + i*50, SCREEN_WIDTH - 20, 0.5)];
         lineView.backgroundColor = COLOR_DDDDDD;
@@ -96,6 +122,40 @@
     [self.view addSubview:saveBtn];
 }
 
+#pragma mark - 选择经营范围
+-(void)chooseScope:(UIButton *)btn
+{
+    UIView * bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    bgView.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.7];
+    self.bgView = bgView;
+    [self.view addSubview:bgView];
+    
+    BuyScoreView * listView = [[BuyScoreView alloc]initWithFrame:CGRectMake(SCREEN_WIDTH, 0, SCREEN_WIDTH, self.view.frame.size.height)];
+    self.listView = listView;
+    listView.delegate = self;
+    [bgView addSubview:listView];
+    
+    VJDWeakSelf;
+    listView.buyScreeningBlcok = ^(NSString *managerange, NSString * myId){
+        
+        if (managerange && managerange.length != 0) {
+            weakSelf.scopeID = myId;//经营范围id
+            weakSelf.scopeView.text = managerange;
+            weakSelf.memberInfoModel.categoryName = managerange;
+        }
+       
+        [weakSelf.bgView removeFromSuperview];
+        
+    };
+    
+    [UIView beginAnimations:nil context:nil];
+    [UIView setAnimationDuration:0.3];
+    CGPoint point = listView.center;
+    point.x -=SCREEN_WIDTH-SCREEN_WIDTH*0.1;
+    [listView setCenter:point];
+    [UIView commitAnimations];
+}
+
 #pragma mark - model 赋值
 -(void)setMemberInfoModel:(MemberInfoModel *)memberInfoModel
 {
@@ -106,6 +166,7 @@
     UITextField * regionTextF = [self.view viewWithTag:3];
     UITextField * addressTextF = [self.view viewWithTag:4];
     UITextField * mobileTextF = [self.view viewWithTag:5];
+    UITextField * scopeTextF = [self.view viewWithTag:6];//经营范围
     
     nameTextF.text = memberInfoModel.contactName;
     if ([nameTextF.text isEmptyString]) {
@@ -115,6 +176,8 @@
     regionTextF.text = [NSString stringWithFormat:@"%@ %@ %@",memberInfoModel.provinceName,memberInfoModel.cityName,memberInfoModel.areaName];
     addressTextF.text = memberInfoModel.address;
     mobileTextF.text = memberInfoModel.mobile;
+    scopeTextF.text = memberInfoModel.categoryName;
+
 }
 
 #pragma mark - 保存
@@ -122,7 +185,11 @@
 {
     UITextField * addressTextF = [self.view viewWithTag:4];
     if ([addressTextF.text stringValidateSpaceAndNULL]) {
-        [VJDProgressHUD showTextHUD:addressTextF.placeholder];
+        [VJDProgressHUD showTextHUD:@"请填写详细地址"];
+        return;
+    }
+    if ([self.scopeView.text isEmptyString]) {
+        [VJDProgressHUD showTextHUD:@"请选择经营范围"];
         return;
     }
     NSDictionary * parameterDic = @{@"id":_memberInfoModel.Id,
@@ -132,12 +199,14 @@
                                     @"regionId":_memberInfoModel.regionId,
                                     @"auditState":@"2",
                                     @"address":addressTextF.text,
+                                    @"categoryIds" : self.scopeID ? self.scopeID : @""
                                     };
     VJDWeakSelf;
     [VJDProgressHUD showProgressHUD:nil];
     [SYNetworkingManager GetOrPostWithHttpType:2 WithURLString:GetGegisterUpdataURL parameters:parameterDic success:^(NSDictionary *responseObject) {
         NSString * code = [responseObject objectForKey:@"code"];
         if ([code isEqualToString:@"RS200"]) {
+            [GET_USER_INFO setPerfectStatus:@"1"];
             [VJDProgressHUD showSuccessHUD:[responseObject objectForKey:@"msg"]];
             weakSelf.memberInfoModel.address = addressTextF.text;
             if (weakSelf.changeMemberInfoBlock) {

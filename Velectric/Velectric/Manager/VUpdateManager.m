@@ -12,6 +12,13 @@
 #import "BSAlertView.h"
 #import "VUpdateModel.h"
 
+@interface VUpdateManager ()
+
+//引导页
+@property (strong,nonatomic) UIScrollView * guideView;
+
+@end
+
 @implementation VUpdateManager
 
 //获取对象单例
@@ -123,43 +130,51 @@
  */
 - (void)checkUserNameState {
     
-    //未登录，请求用户状态
-    if (![UserDefaults boolForKey:DEFINE_STRING_LOGIN]){
+    
+    //首次安装
+    if (!FIRST_INSTALL) {
         
-        NSString *requestUrl = [NSString stringWithFormat:@"%@?body={params:{memberId:%@}}",GetAuditStateURL,GET_USER_INFO.memberId ? GET_USER_INFO.memberId : @""];
-        requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-        [VJDProgressHUD showProgressHUD:nil];
-        [SYNetworkingManager GetOrPostNoBodyWithHttpType:1
-                                           WithURLString:requestUrl
-                                              parameters:nil
-                                                 success:^(NSDictionary *responseObject) {
-                                               
-                                               [VJDProgressHUD dismissHUD];
-                                               if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
-                                                   
-                                                   NSInteger state = [responseObject[@"auditState"] integerValue];
-                                                   [self changeViewControllerWithState:state];
-                                                   //检查更新
-                                                   [[VUpdateManager shareManager] checkVersion];
-                                               }
-                                           } failure:^(NSError *error) {
-                                               [VJDProgressHUD dismissHUD];
-                                               [self pushLoginController];//请求失败，跳转登录界面
-                                               //检查更新
-                                               [[VUpdateManager shareManager] checkVersion];
-                                           }];
+        [self pushLoginController];//首次安装进入登录
+        [self creatGuideView];//创建引导页
         
     }else{
-        //已经登录，直接进入主页
-        VelectricTabbarController * tabbar = [[VelectricTabbarController alloc]init];
-        [UIApplication sharedApplication].keyWindow.rootViewController =tabbar;
-        
-        //检查更新
-        [[VUpdateManager shareManager] checkVersion];
+        //未登录，请求用户状态
+        if (![UserDefaults boolForKey:DEFINE_STRING_LOGIN]){
+            
+            
+            
+            NSString *requestUrl = [NSString stringWithFormat:@"%@?body={params:{memberId:%@}}",GetAuditStateURL,GET_USER_INFO.memberId ? GET_USER_INFO.memberId : @""];
+            requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+            [VJDProgressHUD showProgressHUD:nil];
+            [SYNetworkingManager GetOrPostNoBodyWithHttpType:1
+                                               WithURLString:requestUrl
+                                                  parameters:nil
+                                                     success:^(NSDictionary *responseObject) {
+                                                         
+                                                         [VJDProgressHUD dismissHUD];
+                                                         if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
+                                                             
+                                                             NSInteger state = [responseObject[@"auditState"] integerValue];
+                                                             [self changeViewControllerWithState:state];
+                                                             //检查更新
+                                                             [[VUpdateManager shareManager] checkVersion];
+                                                         }
+                                                     } failure:^(NSError *error) {
+                                                         [VJDProgressHUD dismissHUD];
+                                                         [self pushLoginController];//请求失败，跳转登录界面
+                                                         //检查更新
+                                                         [[VUpdateManager shareManager] checkVersion];
+                                                     }];
+            
+        }else{
+            //已经登录，直接进入主页
+            VelectricTabbarController * tabbar = [[VelectricTabbarController alloc]init];
+            [UIApplication sharedApplication].keyWindow.rootViewController =tabbar;
+            
+            //检查更新
+            [[VUpdateManager shareManager] checkVersion];
+        }
     }
-    
-    
-    
 }
 
 /**
@@ -198,6 +213,59 @@
     }
 }
 
+#pragma mark - 创建引导页
+-(void)creatGuideView
+{
+    NSArray *array = nil;
+    if (SCREEN_WIDTH == 480)
+        array = [[NSArray alloc] initWithObjects:@"guide1_1", @"guide1_2", @"guide1_3", nil];
+    else
+        array = [[NSArray alloc] initWithObjects:@"guide2_1", @"guide2_2", @"guide2_3", nil];
+    
+    _guideView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+    _guideView.contentSize = CGSizeMake(SCREEN_WIDTH * [array count], SCREEN_HEIGHT);
+    _guideView.showsHorizontalScrollIndicator = NO;
+    _guideView.pagingEnabled = YES;
+    _guideView.bounces = NO;
+    [[UIApplication sharedApplication].keyWindow addSubview:_guideView];
+    
+    for (int i = 0; i < [array count]; i++){
+        UIImageView *imageView = [[UIImageView alloc] initWithFrame:CGRectMake(SCREEN_WIDTH * i, 0, SCREEN_WIDTH, SCREEN_HEIGHT)];
+        imageView.image = [UIImage imageNamed:[array objectAtIndex:i]];
+        imageView.userInteractionEnabled = YES;
+        [_guideView addSubview:imageView];
+        
+        if (i==array.count-1) {
+            //立即体验
+            UIImage * image = [UIImage imageNamed:@"quickExperience"];
+            UIButton * button = [[UIButton alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - image.size.width)/2, SCREEN_HEIGHT - 50 - image.size.height, image.size.width, image.size.height)];
+            [button setImage:image forState:UIControlStateNormal];
+            [button addTarget:self action:@selector(removeGuideView) forControlEvents:UIControlEventTouchUpInside];
+            [imageView addSubview:button];
+        }else{
+            //跳过
+            UIImage * image = [UIImage imageNamed:@"jumpOver"];
+            UIButton * button = [[UIButton alloc]initWithFrame:CGRectMake(SCREEN_WIDTH - image.size.width - 30, SCREEN_HEIGHT - 30 - image.size.height, image.size.width, image.size.height)];
+            [button setImage:image forState:UIControlStateNormal];
+            [button addTarget:self action:@selector(removeGuideView) forControlEvents:UIControlEventTouchUpInside];
+            [imageView addSubview:button];
+        }
+    }
+}
+
+#pragma mark - 移除引导页
+- (void)removeGuideView
+{
+    [UIView animateWithDuration:2 animations:^{
+        _guideView.alpha = 0.0;
+    } completion:^(BOOL finished) {
+        [_guideView removeFromSuperview];
+        _guideView = nil;
+        
+        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"First_Install"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }];
+}
 
 /**
  *  跳转到主页

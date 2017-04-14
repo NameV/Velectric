@@ -613,8 +613,10 @@
     numberBtn.minValue =[cartModel.minQdl integerValue]; //设置最小起订量
     VJDWeakSelf;
     numberBtn.resultBlock = ^(NSString *num){
-//        cartModel.quantity = [num integerValue];
-//        [self.tableView reloadData]
+        if ([num integerValue] > 999999) {
+            [VJDProgressHUD showTextHUD:@"请输入小于999999的数量"];
+            return ;
+        }
         [weakSelf changeQuantityWithQuantity:[num integerValue] model:cartModel];
     };
     cell.numberView.userInteractionEnabled = YES;
