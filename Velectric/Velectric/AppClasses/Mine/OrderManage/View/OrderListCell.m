@@ -284,12 +284,13 @@
     _orderTimeLab.text = time;
     //设置商品
     [_goodsBgView removeAllSubviews];
-    int goodsCount = 0;
+    NSInteger goodsCount = 0;
     if (model.goodsList.count == 1) {
         
-        goodsCount = 1;
+        
         UIImageView * picView = [[UIImageView alloc]initWithFrame:CGRectMake(10, 10, 50, 50)];
         GoodsModel * goods = [model.goodsList firstObject];
+        goodsCount = goods.quantity;
         NSURL * url = [NSURL URLWithString:CreateRequestApiPictureUrl(goods.imageUrl)];
         [picView sd_setImageWithURL:url placeholderImage:[UIImage imageNamed:@"placeholder"]];
         [_goodsBgView addSubview:picView];

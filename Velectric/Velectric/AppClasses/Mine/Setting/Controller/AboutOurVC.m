@@ -36,16 +36,20 @@
 #pragma mark - 创建UI
 -(void)creatUI
 {
+    
+    UIScrollView *scrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height)];
+    [self.view addSubview:scrollView];
+    
     //白色背景
     UIView * bgView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, 100)];
     bgView.backgroundColor = COLOR_FFFFFF;
-    [self.view addSubview:bgView];
+    [scrollView addSubview:bgView];
     
     //logo
     UIImage * logo = [UIImage imageNamed:@"vjdlogo"];
     UIImageView * logoImage = [[UIImageView alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - logo.size.width)/2, 40, logo.size.width, logo.size.height)];
     logoImage.image = logo;
-    [self.view addSubview:logoImage];
+    [scrollView addSubview:logoImage];
     
     //版本信息
     UILabel * versionlab = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - 150)/2, logoImage.bottom + 10, 150, 20)];
@@ -54,18 +58,18 @@
     NSString *Version = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
     versionlab.text = [NSString stringWithFormat:@"版本信息：%@",Version];
     versionlab.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:versionlab];
+    [scrollView addSubview:versionlab];
     
     //灰色线条
     UIView * lineView1 = [[UIView alloc]initWithFrame:CGRectMake(0, versionlab.bottom + 40, SCREEN_WIDTH, 0.5)];
     lineView1.backgroundColor = COLOR_DDDDDD;
-    [self.view addSubview:lineView1];
+    [scrollView addSubview:lineView1];
     bgView.frame = CGRectMake(0, 0, SCREEN_WIDTH, lineView1.bottom);
     
     //灰色线条
     UIView * lineView2 = [[UIView alloc]initWithFrame:CGRectMake(30, lineView1.bottom + 37, SCREEN_WIDTH - 60, 0.5)];
     lineView2.backgroundColor = COLOR_DDDDDD;
-    [self.view addSubview:lineView2];
+    [scrollView addSubview:lineView2];
 
     //关注我们
     UILabel * attentionUSLab = [[UILabel alloc]initWithFrame:CGRectMake((SCREEN_WIDTH - 90)/2, lineView2.top - 10, 90, 20)];
@@ -74,14 +78,14 @@
     attentionUSLab.text = @"关注我们";
     attentionUSLab.backgroundColor = COLOR_F7F7F7;
     attentionUSLab.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:attentionUSLab];
+    [scrollView addSubview:attentionUSLab];
     
     //二维码
 //    UIImage * code = [UIImage imageNamed:@"twoCode"];
     UIImage * code = [UIImage imageNamed:@"AppStoreAdd"];
     UIImageView * twoCodeImage = [[UIImageView alloc]initWithFrame:CGRectMake((SCREEN_WIDTH-code.size.width)/2, attentionUSLab.bottom + 30, code.size.width, code.size.height)];
     twoCodeImage.image = code;
-    [self.view addSubview:twoCodeImage];
+    [scrollView addSubview:twoCodeImage];
     
     //说明
     UILabel * explainLab = [[UILabel alloc]initWithFrame:CGRectMake(0, twoCodeImage.bottom + 26, SCREEN_WIDTH, 20)];
@@ -89,16 +93,19 @@
     explainLab.textColor = COLOR_999999;
     explainLab.text = @"扫码二维码，您的朋友也可下载V机电客户端";
     explainLab.textAlignment = NSTextAlignmentCenter;
-    [self.view addSubview:explainLab];
+    [scrollView addSubview:explainLab];
     
     //版权
     UILabel * copyRightLab = [[UILabel alloc]initWithFrame:CGRectMake(0, SCREEN_HEIGHT - 64 - 60, SCREEN_WIDTH, 30)];
+    if (SCREEN_WIDTH == 320) {
+        copyRightLab.frame = CGRectMake(0, explainLab.bottom + 10, SCREEN_WIDTH, 30);
+    }
     copyRightLab.font = Font_1_F12;
     copyRightLab.textColor = COLOR_999999;
     copyRightLab.text = @"Copyright©2016\nV机电版权所有";
     copyRightLab.textAlignment = NSTextAlignmentCenter;
     copyRightLab.numberOfLines = 0;
-    [self.view addSubview:copyRightLab];
+    [scrollView addSubview:copyRightLab];
 }
 
 - (void)didReceiveMemoryWarning {

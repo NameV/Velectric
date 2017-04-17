@@ -9,7 +9,9 @@
 #import "BuyScoreView.h"
 #import "MemberCell.h"
 
-@implementation BuyScoreView
+@implementation BuyScoreView{
+    NSInteger _currentIndex;//当前选中的分类index
+}
 
 - (id)initWithFrame:(CGRect)frame{
     self = [super initWithFrame:frame];
@@ -155,10 +157,12 @@
         self.isSelect = !self.isSelect;
         if (self.isSelect) {
             [btn setImage:[UIImage imageNamed:@"yixuan"] forState:UIControlStateNormal];
+            self.tableArray = [NSMutableArray arrayWithArray:dataArray1];
         }else{
             [btn setImage:[UIImage imageNamed:@"weixuan"] forState:UIControlStateNormal];
+            [self.tableArray removeAllObjects];
         }
-        self.tableArray = [NSMutableArray arrayWithArray:dataArray1];
+        
         [self.tableView1 reloadData];
         ELog(@"全选");
         if (self.delegate && [self.delegate respondsToSelector:@selector(allThingSelect)]) {
@@ -216,10 +220,17 @@
 {
     
     if (tableView==self.tableView2) {
+        if (_currentIndex == indexPath.row) {
+            return;
+        }
+        //切换左面的分类，右面的数组清空
+        self.isSelect = NO;
+        [self.tableArray removeAllObjects];
         NSDictionary * dic = dataArray[indexPath.row];
         [self categoryTwoNetworkingCategoryId:dic[@"id"]];
         [self.tableView1 reloadData];
         self.name = dic[@"name"];
+        _currentIndex = indexPath.row;
     }
     
     if (tableView== self.tableView1) {
