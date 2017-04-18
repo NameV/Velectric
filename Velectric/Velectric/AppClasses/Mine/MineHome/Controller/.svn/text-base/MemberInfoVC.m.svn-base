@@ -176,8 +176,10 @@
     regionTextF.text = [NSString stringWithFormat:@"%@ %@ %@",memberInfoModel.provinceName,memberInfoModel.cityName,memberInfoModel.areaName];
     addressTextF.text = memberInfoModel.address;
     mobileTextF.text = memberInfoModel.mobile;
-    scopeTextF.text = memberInfoModel.categoryName;
-
+    
+    if (memberInfoModel.categoryName.length) {
+        scopeTextF.text = memberInfoModel.categoryName;
+    }
 }
 
 #pragma mark - 保存

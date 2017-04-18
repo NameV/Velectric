@@ -11,6 +11,7 @@
 
 @implementation BuyScoreView{
     NSInteger _currentIndex;//当前选中的分类index
+    UIButton *_quanBtn;//全选按钮
 }
 
 - (id)initWithFrame:(CGRect)frame{
@@ -112,6 +113,7 @@
     [quanBtn setImageEdgeInsets:UIEdgeInsetsMake(0, -100, 0,-50)];
     [quanBtn setTitleEdgeInsets:UIEdgeInsetsMake(0, -90, 0, -50)];
     [quanBtn setImage:[UIImage imageNamed:@"weixuan"] forState:UIControlStateNormal];
+    _quanBtn = quanBtn;
 
     quanBtn.tag = 1001;
     quanBtn.backgroundColor = RGBColor(247, 247, 247);
@@ -225,6 +227,7 @@
         }
         //切换左面的分类，右面的数组清空
         self.isSelect = NO;
+        [_quanBtn setImage:[UIImage imageNamed:@"weixuan"] forState:UIControlStateNormal];
         [self.tableArray removeAllObjects];
         NSDictionary * dic = dataArray[indexPath.row];
         [self categoryTwoNetworkingCategoryId:dic[@"id"]];
