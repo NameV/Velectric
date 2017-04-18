@@ -207,25 +207,25 @@
     }
     
     NSString * pageNumStr = [NSString stringWithFormat:@"%d",self.pageNum];
-    VJDWeakSelf;
+    
     NSDictionary * parameters = @{@"loginName":GET_USER_INFO.loginName,     //登录名
-                                  @"brandNames":self.brandsList,          //品牌名
+                                  @"brandNames":self.brandsList ? self.brandsList : @"",          //品牌名
                                   @"brandId":@"",//_brandsModel.Id,               //品牌id
-                                  @"pageNum":pageNumStr,
+                                  @"pageNum":pageNumStr ? pageNumStr : @"",
                                   @"pageSize":@"20",
-                                  @"sort":self.sort,                        //排序时传值 传’price
-                                  @"sortDirection":self.sortDirection,
-                                  @"goodsName":self.goodsName,                 //商品名称
-                                  @"manufacturerName":self.manufacturerName,          //厂商名
-                                  @"manufacturerId":self.manufacturerId,            //厂商id
+                                  @"sort":self.sort ? self.sort : @"",                        //排序时传值 传’price
+                                  @"sortDirection":self.sortDirection ? self.sortDirection : @"",
+                                  @"goodsName":self.goodsName ? self.goodsName : @"",                 //商品名称
+                                  @"manufacturerName":self.manufacturerName ? self.manufacturerName : @"",          //厂商名
+                                  @"manufacturerId":self.manufacturerId ? self.manufacturerId : @"",            //厂商id
                                   @"categoryName":@"",              //分类名称
                                   @"categoryIds":self.categoryIds ? self.categoryIds : @"",               //分类id  数组
                                   @"keyWords":@"",
                                   @"searchWithinResult":@"",
-                                  @"optionIds":self.properyId,
-                                  @"optionNames" : self.properyNameStr,
-                                  @"minPrice"   :   self.minPrice,
-                                  @"maxPrice"   :   self.maxPrice
+                                  @"optionIds":self.properyId ? self.properyId :@"",
+                                  @"optionNames" : self.properyNameStr ? self.properyNameStr : @"",
+                                  @"minPrice"   :   self.minPrice ? self.minPrice : @"",
+                                  @"maxPrice"   :   self.maxPrice ? self.maxPrice : @""
                                   };
     [SYNetworkingManager GetOrPostNoBodyWithHttpType:1 WithURLString:GetSearchProductPaginationResultURL parameters:parameters success:^(NSDictionary *responseObject) {
         [_tableView headerEndRefreshing];
@@ -275,16 +275,46 @@
 //厂商的网络请求
 -(void)requestChangshang
 {
+    
+    if (!self.goodsName) {
+        self.goodsName = @"";
+    }
+    if (!self.brandId) {
+        self.brandId = @"";
+    }if (!self.manufacturerName) {
+        self.manufacturerName = @"";
+    }if (!self.sort) {
+        self.sort = @"";
+    }if (!self.sortDirection) {
+        self.sortDirection = @"";
+    }if (!self.manufacturerId) {
+        self.manufacturerId = @"";
+    }if (!self.brandNames) {
+        self.brandNames = @[];
+    }
+
     if (!self.properyNameStr) {
         self.properyNameStr = @"";
     }
     
+    if (!self.maxPrice) {
+        self.maxPrice = @"";
+    }
+    
+    if (!self.minPrice) {
+        self.minPrice = @"";
+    }
+    
+    if (!self.properyId) {
+        self.properyId = @"";
+    }
+    
     NSString * requestUrl = nil;
     if (self.brandNameStr) {
-        requestUrl= [NSString stringWithFormat:@"%@?manufacturerName=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&optionIds=%@&categoryName=%@&categoryIds=%@&optionNames=%@&loginName=%@",GetSearchProductPaginationResultURL,self.brandsModel.name,(long)self.pageNum
+        requestUrl= [NSString stringWithFormat:@"%@?manufacturerName=%@&pageNum=%ld&pageSize=20&minPrice=%@&maxPrice=%@&optionIds=%@&categoryName=%@&categoryIds=%@&optionNames=%@&loginName=%@&subsiteId=1",GetSearchProductPaginationResultURL,self.brandsModel.name,(long)self.pageNum
                      ,self.minPrice,self.maxPrice,self.properyId,self.categoryNameStr,self.categoryIds ? self.categoryIds : @"",self.properyNameStr,GET_USER_INFO.loginName];
     }else{
-        requestUrl= [NSString stringWithFormat:@"%@?manufacturerName=%@&pageNum=%ld&pageSize=20&optionNames=%@&optionIds=%@&minPrice=%@&maxPrice=%@&loginName=%@",GetSearchProductPaginationResultURL,self.brandsModel.name,(long)self.pageNum,self.properyNameStr,self.properyId,self.minPrice,self.maxPrice,GET_USER_INFO.loginName
+        requestUrl= [NSString stringWithFormat:@"%@?manufacturerName=%@&pageNum=%ld&pageSize=20&optionNames=%@&optionIds=%@&minPrice=%@&maxPrice=%@&loginName=%@&subsiteId=1",GetSearchProductPaginationResultURL,self.brandsModel.name,(long)self.pageNum,self.properyNameStr,self.properyId,self.minPrice,self.maxPrice,GET_USER_INFO.loginName
                      ];
     }
     requestUrl = [requestUrl stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
