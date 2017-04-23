@@ -143,8 +143,15 @@
                 viewCon.tabBarItem.badgeValue = nil;
             }else {
                 viewCon.tabBarItem.badgeValue = carNumStr;
+                NSString* phoneVersion = [[UIDevice currentDevice] systemVersion];
+                NSArray *array = [phoneVersion componentsSeparatedByString:@"."];
+                if (array.count > 0) {
+                    NSString *str = [array firstObject];
+                    if ([str intValue] >= 10) {
+                        viewCon.tabBarItem.badgeColor = V_ORANGE_COLOR;
+                    }
+                }
             }
-            viewCon.tabBarItem.badgeColor = V_ORANGE_COLOR;
         }
         //*********************************
         

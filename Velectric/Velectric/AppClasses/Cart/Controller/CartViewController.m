@@ -133,8 +133,17 @@
             self.tabBarItem.badgeValue = nil;
         }else {
             self.tabBarItem.badgeValue = carNumStr;
+            NSString* phoneVersion = [[UIDevice currentDevice] systemVersion];
+            NSArray *array = [phoneVersion componentsSeparatedByString:@"."];
+            if (array.count > 0) {
+                NSString *str = [array firstObject];
+                if ([str intValue] >= 10) {
+                    self.tabBarItem.badgeColor = V_ORANGE_COLOR;
+                }
+            }
         }
-        self.tabBarItem.badgeColor = V_ORANGE_COLOR;
+        
+        
         //*********************************
         
         [_tableView reloadData];

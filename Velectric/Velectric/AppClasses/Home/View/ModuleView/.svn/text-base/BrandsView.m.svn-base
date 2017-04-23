@@ -73,7 +73,7 @@ static CGFloat originX = 10;
     }
     HomeCategoryModel * model = [_categoryList objectAtIndex:_clickIndex];
     NSDictionary * parameters = @{@"categoryId":[NSNumber numberWithInteger:model.myId],
-                                  @"pageSize":@"24",};
+                                  @"pageSize":@"20",};
     [VJDProgressHUD showProgressHUD:nil];
     [SYNetworkingManager GetOrPostNoBodyWithHttpType:2 WithURLString:GetListByCategoryURL parameters:parameters success:^(NSDictionary *responseObject) {
         [VJDProgressHUD showSuccessHUD:nil];
@@ -208,7 +208,7 @@ static CGFloat originX = 10;
     BrandsCollectionCell * cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"BrandsCollectionCell" forIndexPath:indexPath];
     BrandsModel * model = [_brandsList objectAtIndex:indexPath.row];
     NSURL * picUrl = [NSURL URLWithString:CreateRequestApiPictureUrl(model.logoOriginUrl)];
-    [cell.photoView sd_setImageWithURL:picUrl placeholderImage:[UIImage imageNamed:@"brand"]];
+    [cell.photoView sd_setImageWithURL:picUrl placeholderImage:[UIImage imageNamed:@"placeholder"]];
     return cell;
 }
 
