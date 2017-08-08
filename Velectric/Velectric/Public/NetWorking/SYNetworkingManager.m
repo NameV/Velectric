@@ -21,7 +21,6 @@
                   success:(SuccessBlock)successBlock
                   failure:(FailureBlock)failureBlock
 {
-   
     [self httpRequestWithType:httpType WithURLString:urlString parameters:parameters success:successBlock failure:failureBlock];
 }
 

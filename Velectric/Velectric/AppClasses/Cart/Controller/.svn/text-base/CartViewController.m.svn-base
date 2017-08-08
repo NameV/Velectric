@@ -608,6 +608,7 @@
                                            [VJDProgressHUD dismissHUD];
                                            if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
                                                cartModel.quantity = quantity;
+                                               cartModel.totalAmount = cartModel.quantity * [cartModel.excutePrice floatValue];
                                                [self.tableView reloadData];
                                                [SCCartTool getCartQuality];//同步购物车角标
                                            }
@@ -937,18 +938,21 @@
         for (CartModel * cartModel in cartListModel.cartList) {
             if (!cartModel.selected) {//如果有一个没有被选中，则置为1
                 _flagBottom = @"1";
+                [self.bottomBtn setImage:[UIImage imageNamed:@"weixuan"] forState:UIControlStateNormal];
+                self.isSelect = NO;
+                
                 break;
             }else{
                 _flagBottom =nil;
+                [self.bottomBtn setImage:[UIImage imageNamed:@"yixuan"] forState:UIControlStateNormal];
+                self.isSelect = YES;
             }
         }
-        if (!_flagBottom) {//为零说明全部选中
-            [self.bottomBtn setImage:[UIImage imageNamed:@"yixuan"] forState:UIControlStateNormal];
-            self.isSelect = YES;
-        }else{
-            [self.bottomBtn setImage:[UIImage imageNamed:@"weixuan"] forState:UIControlStateNormal];
-            self.isSelect = NO;
-        }
+//        if (!_flagBottom) {//为零说明全部选中
+//            
+//        }else{
+//            
+//        }
     }
     if (dataAr.count==0) {
         self.isSelect = NO;

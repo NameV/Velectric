@@ -121,7 +121,7 @@ static NSString *_totalCount;
 */
 
 + (void)getCartQuality  {
-    NSDictionary * parameters = @{@"loginName":GET_USER_INFO.loginName,
+    NSDictionary * parameters = @{@"loginName":GET_USER_INFO.loginName ? GET_USER_INFO.loginName :@"",
                                   };
     [SYNetworkingManager GetOrPostWithHttpType:2 WithURLString:GetGetCartURL parameters:parameters success:^(NSDictionary *responseObject) {
         ELog(@"成功");

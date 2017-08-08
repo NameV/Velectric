@@ -2898,7 +2898,7 @@
 				TargetAttributes = {
 					4DC5514F1E02A79C006A27E6 = {
 						CreatedOnToolsVersion = 8.1;
-						DevelopmentTeam = Z8U79ZP3EU;
+						DevelopmentTeam = 47QTE2EWRE;
 						ProvisioningStyle = Automatic;
 					};
 					4DC551681E02A79C006A27E6 = {
@@ -3478,7 +3478,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Xuanrui (China)Electronic Commerce Co., Ltd. (Z8U79ZP3EU)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = Z8U79ZP3EU;
+				DEVELOPMENT_TEAM = 47QTE2EWRE;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -3567,7 +3567,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Xuanrui (China)Electronic Commerce Co., Ltd. (Z8U79ZP3EU)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
-				DEVELOPMENT_TEAM = Z8U79ZP3EU;
+				DEVELOPMENT_TEAM = 47QTE2EWRE;
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

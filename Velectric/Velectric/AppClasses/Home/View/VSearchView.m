@@ -80,7 +80,7 @@
 - (void)getAllHistoryRecord {
     
     NSDictionary *paramDic = @{
-                               @"memberId" : GET_USER_INFO.memberId
+                               @"memberId" : GET_USER_INFO.memberId ? GET_USER_INFO.memberId : @""
                                };
     
     [VJDProgressHUD showProgressHUD:nil];

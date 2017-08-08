@@ -117,8 +117,8 @@
 
     
     NSDictionary *paramDic = @{
-                               @"memberId" : GET_USER_INFO.memberId,
-                               @"searchContent" : self.searchField.text
+                               @"memberId" : GET_USER_INFO.memberId ? GET_USER_INFO.memberId : @"",
+                               @"searchContent" : self.searchField.text ? self.searchField.text : @""
                                };
     
     [VJDProgressHUD showProgressHUD:nil];

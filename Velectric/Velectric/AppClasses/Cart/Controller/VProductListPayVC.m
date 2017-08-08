@@ -675,6 +675,7 @@
                                            [VJDProgressHUD dismissHUD];
                                            if ([responseObject[@"code"] isEqualToString:@"RS200"]) {
                                                cartModel.quantity = quantity;
+                                               cartModel.totalAmount = cartModel.quantity * [cartModel.excutePrice floatValue];
                                                [self.tableView reloadData];
                                                [SCCartTool getCartQuality];//购物车角标
                                            }

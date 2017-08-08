@@ -76,6 +76,12 @@
                 [model setValuesForKeysWithDictionary:dic];
                 [weakSelf.payTypeList addObject:model];
             }
+            if (weakSelf.payTypeList.count == 3) {
+                PayTypeModel *model = [[PayTypeModel alloc]init];
+                model.Id = @4;
+                model.descript = @"微信支付";
+                [weakSelf.payTypeList addObject:model];
+            }
             //创建UI
             [weakSelf creatUI];
         }else{

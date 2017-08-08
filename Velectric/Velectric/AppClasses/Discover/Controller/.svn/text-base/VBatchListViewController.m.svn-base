@@ -151,6 +151,7 @@
     cell.model = self.datas[indexPath.section];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     _currentIndexPath = indexPath;
+    cell.editBtn.tag = indexPath.section;
     [cell.editBtn addTarget:self action:@selector(editBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     [cell.deleteBtn addTarget:self action:@selector(deleteBtnAction:) forControlEvents:UIControlEventTouchUpInside];
 
@@ -190,7 +191,7 @@
 
 - (void)editBtnAction:(UIButton *)btn {
     VBatchShopViewController *vc = [[VBatchShopViewController alloc]initWithProductType:Product_update];
-    vc.ident = [self.datas[_currentIndexPath.section] ident];
+    vc.ident = [self.datas[btn.tag] ident];
     [self.navigationController pushViewController:vc animated:YES];
 }
 

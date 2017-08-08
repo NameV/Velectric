@@ -33,24 +33,6 @@ static CGFloat const contentFont = 15.f;                     //内容字号
              };
 }
 
-- (CGFloat)cellHeight {
-    if (!_cellHeight) {
-        
-        CGFloat contentW = [UIScreen mainScreen].bounds.size.width - 2 * kpadding; // 屏幕宽度减去左右间距
-        CGFloat contentH = [self.context boundingRectWithSize:CGSizeMake(contentW, MAXFLOAT)
-                                                      options:NSStringDrawingUsesLineFragmentOrigin
-                                                   attributes:@{NSFontAttributeName : [UIFont systemFontOfSize:contentFont]}
-                                                      context:nil].size.height;
-        /*
-            contentH：内容高度
-            kpadding * 3 间隙高度
-            timeHeight：时间高度
-            separatHeight：空隙高度
-            20：底部删除编辑按钮高度
-         */
-        _cellHeight = contentH + kpadding * 3 + timeHeight + separatHeight + 20;
-    }
-    return _cellHeight;
-}
+
 
 @end

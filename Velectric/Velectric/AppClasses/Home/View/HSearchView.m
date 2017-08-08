@@ -177,25 +177,19 @@
 
 -(UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    HsearchModel * model = _dataArray[indexPath.row];
+    publicCell * cell;
+    HsearchModel * model;
+    
+    if (_dataArray.count) {
+        model = _dataArray[indexPath.row];
+    }
+    
     static NSString * identifier = @"ID";
-    publicCell * cell = [tableView dequeueReusableCellWithIdentifier:identifier];
+    cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (!cell) {
         cell = [[[NSBundle mainBundle]loadNibNamed:@"publicCell" owner:self options:nil]lastObject];
     }
-    /*
-    UILabel * numberLable = [[UILabel alloc]initWithFrame:CGRectMake(SCREEN_WIDTH-120, 0, 70, 40)];
-    numberLable.font = [UIFont systemFontOfSize:12];
-    numberLable.textColor = [UIColor grayColor];
-    [cell.contentView addSubview:numberLable];
-    numberLable.text = @"";
-    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-    UILabel * searchtextLable = [[UILabel alloc]initWithFrame:CGRectMake(10, 0, SCREEN_WIDTH-120, 44)];
-    searchtextLable.font = [UIFont systemFontOfSize:13];
-    searchtextLable.text =@"";
-    [cell.contentView addSubview:searchtextLable];
-    cell.textLabel.frame = CGRectMake(0, 0, SCREEN_WIDTH-60, 44);
-    */
+    
     
     if (tableView==self.tableView1) {
         
@@ -209,7 +203,7 @@
                 [mutString replaceCharactersInRange:[mutString rangeOfString:@"color='red'"] withString:@"color='#f2b602'"];
             }
             NSAttributedString *attributedString = [[NSAttributedString alloc] initWithData:[mutString dataUsingEncoding:NSUnicodeStringEncoding] options:@{ NSDocumentTypeDocumentAttribute: NSHTMLTextDocumentType } documentAttributes:nil error:nil];
-
+            
             cell.searchLable.attributedText = attributedString;
             cell.categoryLble.text = [NSString stringWithFormat:@"约1个商品"];
             return cell;
@@ -227,29 +221,30 @@
             NSString * labText = [NSString stringWithFormat:@"品牌中搜索%@",model.brandName];
             NSMutableAttributedString * attributedString1= [[NSMutableAttributedString alloc]initWithString:labText];
             [attributedString1 addAttribute:NSForegroundColorAttributeName value:RGBColor(242, 182, 42) range:[labText rangeOfString:self.searchStr]];
-             cell.searchLable.attributedText =attributedString1;
+            cell.searchLable.attributedText =attributedString1;
             cell.categoryLble.text = [NSString stringWithFormat:@"约%ld个商品",model.count];
-
+            
         }else if (![@""isEqualToString:model.productName]){
             NSString * labText = [NSString stringWithFormat:@"商品中%@",model.productName];
             NSMutableAttributedString * attributedString1= [[NSMutableAttributedString alloc]initWithString:labText];
             [attributedString1 addAttribute:NSForegroundColorAttributeName value:RGBColor(242, 182, 42) range:[labText rangeOfString:self.searchStr]];
-             cell.searchLable.attributedText =attributedString1;
+            cell.searchLable.attributedText =attributedString1;
             cell.categoryLble.text = [NSString stringWithFormat:@"约%ld个商品",model.count];
-
+            
         }else if (![@""isEqualToString:model.manufacturerName]){
             NSString * labText = [NSString stringWithFormat:@"厂商中搜索%@",model.manufacturerName];
             NSMutableAttributedString * attributedString1= [[NSMutableAttributedString alloc]initWithString:labText];
             [attributedString1 addAttribute:NSForegroundColorAttributeName value:RGBColor(242, 182, 42) range:[labText rangeOfString:self.searchStr]];
-             cell.searchLable.attributedText =attributedString1;
+            cell.searchLable.attributedText =attributedString1;
             cell.categoryLble.text = [NSString stringWithFormat:@"约%ld个商品",model.count];
-
+            
         }
         
-
+        
     }else{
         cell.textLabel.text=@"搜索";
     }
+    
     return cell;
 }
 
@@ -341,6 +336,9 @@
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+    if (!_dataArray.count) {
+        return;
+    }
     HsearchModel * model = _dataArray[indexPath.row];
     if (self.delegate&&[self.delegate respondsToSelector:@selector(pushNextViewController:)]) {
         [self.delegate pushNextViewController:model];
